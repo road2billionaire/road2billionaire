@@ -1,14 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>Login | Road2Billionaire</title>
-
-  <link rel="stylesheet" href="style.css">
-
-  <style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">  <title>Login | Road2Billionaire</title>  <link rel="stylesheet" href="style.css">  <style>
     body {
       margin: 0;
       font-family: Arial, sans-serif;
@@ -98,6 +91,15 @@
       text-decoration: none;
     }
 
+    .message {
+      display: none;
+      margin-top: 18px;
+      padding: 12px;
+      border-radius: 8px;
+      text-align: center;
+      font-size: 14px;
+    }
+
     .demo-note {
       margin-top: 20px;
       padding: 12px;
@@ -107,89 +109,98 @@
       color: #666;
       text-align: center;
     }
-  </style>
-</head>
+  </style></head><body>  <div class="login-container"><div class="login-box">
 
-<body>
-
-  <div class="login-container">
-
-    <div class="login-box">
-
-      <div class="brand">
-        ROAD2BILLIONAIRE
-      </div>
-
-      <p class="subtitle">
-        Login to your account
-      </p>
-
-      <form onsubmit="loginUser(event)">
-
-        <label for="email">
-          Email Address
-        </label>
-
-        <input
-          type="email"
-          id="email"
-          placeholder="Enter your email"
-          required
-        >
-
-        <label for="password">
-          Password
-        </label>
-
-        <input
-          type="password"
-          id="password"
-          placeholder="Enter your password"
-          required
-        >
-
-        <button type="submit" class="login-btn">
-          Login
-        </button>
-
-      </form>
-
-      <div class="register">
-        Don't have an account?
-        <a href="#" onclick="showRegister(event)">
-          Register
-        </a>
-      </div>
-
-      <a href="index.html" class="back">
-        ← Back to Home
-      </a>
-
-      <div class="demo-note">
-        🔒 Secure login system बाद में backend के साथ connect किया जाएगा।
-      </div>
-
-    </div>
-
+  <div class="brand">
+    ROAD2BILLIONAIRE
   </div>
 
-  <script>
+  <p class="subtitle">
+    Login to your account
+  </p>
+
+  <form onsubmit="loginUser(event)">
+
+    <label for="email">
+      Email Address
+    </label>
+
+    <input
+      type="email"
+      id="email"
+      placeholder="Enter your email"
+      required
+    >
+
+    <label for="password">
+      Password
+    </label>
+
+    <input
+      type="password"
+      id="password"
+      placeholder="Enter your password"
+      required
+    >
+
+    <button type="submit" class="login-btn">
+      Login
+    </button>
+
+  </form>
+
+  <div id="message" class="message"></div>
+
+  <div class="register">
+    Don't have an account?
+    <a href="Register.html">
+      Register
+    </a>
+  </div>
+
+  <a href="index.html" class="back">
+    ← Back to Home
+  </a>
+
+  <div class="demo-note">
+    🔒 Demo login — real secure authentication backend के साथ बाद में connect किया जाएगा।
+  </div>
+
+</div>
+
+  </div>  <script>
+
     function loginUser(event) {
+
       event.preventDefault();
 
-      alert(
-        "Login system अभी setup नहीं हुआ है। Backend connect होने के बाद real login काम करेगा।"
-      );
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value;
+
+      const message = document.getElementById("message");
+
+      if (!email || !password) {
+        message.style.display = "block";
+        message.innerHTML = "Please enter email and password.";
+        return;
+      }
+
+      /*
+        अभी demo login है।
+        Real authentication backend/database
+        बाद में connect किया जाएगा।
+      */
+
+      localStorage.setItem("loggedIn", "true");
+      localStorage.setItem("userEmail", email);
+
+      message.style.display = "block";
+      message.innerHTML = "✅ Login successful! Opening Dashboard...";
+
+      setTimeout(function() {
+        window.location.href = "Dashboard.html";
+      }, 800);
     }
 
-    function showRegister(event) {
-      event.preventDefault();
-
-      alert(
-        "Registration page अगला step में बनाया जाएगा।"
-      );
-    }
-  </script>
-
-</body>
+  </script></body>
 </html>
