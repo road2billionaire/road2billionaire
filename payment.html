@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Payment | Road2Billionaire</title>
+
+<style>
+
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#000;
+  color:#fff;
+}
+
+.topbar{
+  background:#111;
+  padding:18px 20px;
+  border-bottom:1px solid #ffd700;
+
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.brand{
+  color:#ffd700;
+  font-size:21px;
+  font-weight:bold;
+}
+
+.back{
+  color:#ffd700;
+  text-decoration:none;
+}
+
+.container{
+  max-width:600px;
+  margin:auto;
+  padding:35px 18px;
+}
+
+.card{
+  background:#111;
+  border:1px solid #333;
+  border-radius:20px;
+  padding:25px;
+}
+
+h1{
+  text-align:center;
+  color:#ffd700;
+}
+
+.product{
+  background:#191919;
+  padding:18px;
+  border-radius:12px;
+  margin:20px 0;
+}
+
+.product h2{
+  color:#ffd700;
+  margin-top:0;
+}
+
+.price{
+  color:#ffd700;
+  font-size:28px;
+  font-weight:bold;
+  margin-top:15px;
+}
+
+label{
+  display:block;
+  margin-top:18px;
+  margin-bottom:7px;
+  color:#ddd;
+}
+
+input{
+  width:100%;
+  padding:13px;
+  border-radius:8px;
+  border:1px solid #444;
+  background:#0b0b0b;
+  color:white;
+  font-size:15px;
+}
+
+.pay-btn{
+  width:100%;
+  margin-top:25px;
+  padding:16px;
+  border:0;
+  border-radius:10px;
+  background:#ffd700;
+  color:#000;
+  font-size:18px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.pay-btn:hover{
+  background:#fff;
+}
+
+.note{
+  margin-top:20px;
+  padding:14px;
+  background:#191919;
+  border-radius:10px;
+  color:#aaa;
+  font-size:13px;
+  line-height:1.6;
+  text-align:center;
+}
+
+.success{
+  display:none;
+  text-align:center;
+  color:#7CFC00;
+  margin-top:20px;
+  line-height:1.6;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="topbar">
+
+  <div class="brand">
+    Road2Billionaire
+  </div>
+
+  <a href="ebook.html" class="back">
+    ← Back
+  </a>
+
+</div>
+
+
+<div class="container">
+
+  <div class="card">
+
+    <h1>💳 Payment</h1>
+
+    <div id="productBox" class="product">
+
+      Loading eBook...
+
+    </div>
+
+
+    <label>
+      Name
+    </label>
+
+    <input
+      type="text"
+      id="name"
+      placeholder="Enter your name"
+    >
+
+
+    <label>
+      Email
+    </label>
+
+    <input
+      type="email"
+      id="email"
+      placeholder="Enter your email"
+    >
+
+
+    <button
+      class="pay-btn"
+      onclick="processPayment()"
+    >
+      💳 Proceed to Payment
+    </button>
+
+
+    <div
+      id="success"
+      class="success"
+    >
+      ✅ Payment process started successfully!<br><br>
+
+      Real payment gateway will be connected next.
+    </div>
+
+
+    <div class="note">
+
+      🔒 This is currently a demo payment page.<br>
+      No real money is being charged.
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<script>
+
+function loadProduct(){
+
+  const params =
+    new URLSearchParams(
+      window.location.search
+    );
+
+  const id =
+    params.get("id");
+
+
+  let books = JSON.parse(
+    localStorage.getItem("ebooksData") || "[]"
+  );
+
+
+  let book = books.find(function(item){
+
+    return String(item.id) === String(id);
+
+  });
+
+
+  if(!book && books.length > 0){
+
+    book = books[0];
+
+  }
+
+
+  if(!book){
+
+    document.getElementById(
+      "productBox"
+    ).innerHTML = `
+      <h2>eBook Not Found</h2>
+      <p>Please go back and select an eBook.</p>
+    `;
+
+    return;
+
+  }
+
+
+  document.getElementById(
+    "productBox"
+  ).innerHTML = `
+
+    <h2>
+      ${book.title}
+    </h2>
+
+    <p>
+      ${book.description}
+    </p>
+
+    <div class="price">
+      ₹${book.price}
+    </div>
+
+  `;
+
+}
+
+
+function processPayment(){
+
+  const name =
+    document.getElementById("name").value.trim();
+
+  const email =
+    document.getElementById("email").value.trim();
+
+
+  if(!name || !email){
+
+    alert(
+      "Please enter your name and email."
+    );
+
+    return;
+
+  }
+
+
+  document.getElementById(
+    "success"
+  ).style.display = "block";
+
+}
+
+
+loadProduct();
+
+</script>
+
+</body>
+
+</html>
