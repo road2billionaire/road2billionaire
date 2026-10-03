@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Create Account | Road2Billionaire</title>
+
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+    }
+
+    .register-container {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .register-box {
+      width: 100%;
+      max-width: 450px;
+      background: #fff;
+      padding: 30px;
+      border-radius: 18px;
+      box-shadow: 0 10px 35px rgba(0, 0, 0, 0.10);
+      box-sizing: border-box;
+    }
+
+    .brand {
+      text-align: center;
+      font-size: 28px;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #666;
+      margin-bottom: 30px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 7px;
+      font-weight: bold;
+    }
+
+    input {
+      width: 100%;
+      padding: 13px;
+      margin-bottom: 18px;
+      border: 1px solid #ddd;
+      border-radius: 9px;
+      box-sizing: border-box;
+      font-size: 16px;
+      outline: none;
+    }
+
+    input:focus {
+      border-color: #111;
+    }
+
+    .register-btn {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 9px;
+      background: #111;
+      color: #fff;
+      font-size: 17px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .register-btn:hover {
+      opacity: 0.85;
+    }
+
+    .login {
+      text-align: center;
+      margin-top: 22px;
+      color: #555;
+    }
+
+    .login a {
+      color: #111;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    .back {
+      display: block;
+      text-align: center;
+      margin-top: 20px;
+      color: #555;
+      text-decoration: none;
+    }
+
+    .terms {
+      margin-top: 15px;
+      font-size: 13px;
+      color: #666;
+      text-align: center;
+      line-height: 1.5;
+    }
+
+    .notice {
+      margin-top: 20px;
+      padding: 12px;
+      background: #f3f3f3;
+      border-radius: 8px;
+      font-size: 13px;
+      color: #666;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="register-container">
+
+    <div class="register-box">
+
+      <div class="brand">
+        ROAD2BILLIONAIRE
+      </div>
+
+      <p class="subtitle">
+        Create your account
+      </p>
+
+      <form onsubmit="registerUser(event)">
+
+        <label for="name">
+          Full Name
+        </label>
+
+        <input
+          type="text"
+          id="name"
+          placeholder="Enter your full name"
+          required
+        >
+
+        <label for="email">
+          Email Address
+        </label>
+
+        <input
+          type="email"
+          id="email"
+          placeholder="Enter your email"
+          required
+        >
+
+        <label for="password">
+          Password
+        </label>
+
+        <input
+          type="password"
+          id="password"
+          placeholder="Create a password"
+          minlength="6"
+          required
+        >
+
+        <label for="confirmPassword">
+          Confirm Password
+        </label>
+
+        <input
+          type="password"
+          id="confirmPassword"
+          placeholder="Confirm your password"
+          minlength="6"
+          required
+        >
+
+        <button type="submit" class="register-btn">
+          Create Account
+        </button>
+
+      </form>
+
+      <div class="terms">
+        Account बनाकर आप हमारी website के
+        terms और policies से सहमत होते हैं।
+      </div>
+
+      <div class="login">
+        Already have an account?
+        <a href="login.html">
+          Login
+        </a>
+      </div>
+
+      <a href="index.html" class="back">
+        ← Back to Home
+      </a>
+
+      <div class="notice">
+        🔒 Real account registration बाद में secure backend और database
+        के साथ connect किया जाएगा।
+      </div>
+
+    </div>
+
+  </div>
+
+  <script>
+    function registerUser(event) {
+      event.preventDefault();
+
+      const password =
+        document.getElementById("password").value;
+
+      const confirmPassword =
+        document.getElementById("confirmPassword").value;
+
+      if (password !== confirmPassword) {
+        alert("Password और Confirm Password समान नहीं हैं।");
+        return;
+      }
+
+      alert(
+        "Registration system अभी backend से connected नहीं है।"
+      );
+    }
+  </script>
+
+</body>
+</html>
