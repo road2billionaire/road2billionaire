@@ -1,308 +1,299 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Add eBook | Road2Billionaire</title>
+<meta charset="UTF-8">
 
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
 
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background:
-        radial-gradient(circle at top, #292000 0%, #0b0b0b 45%, #000 100%);
-      color: white;
-      min-height: 100vh;
-    }
+<title>Add eBook | Road2Billionaire</title>
 
-    .topbar {
-      background: #111;
-      border-bottom: 1px solid rgba(255, 215, 0, 0.3);
-      padding: 18px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
+<style>
 
-    .brand {
-      color: #ffd700;
-      font-size: 21px;
-      font-weight: bold;
-    }
+*{
+  box-sizing:border-box;
+}
 
-    .back {
-      color: #ffd700;
-      text-decoration: none;
-      font-size: 14px;
-    }
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#000;
+  color:white;
+}
 
-    .container {
-      max-width: 700px;
-      margin: auto;
-      padding: 30px 18px 50px;
-    }
+.topbar{
+  background:#111;
+  padding:18px 20px;
+  border-bottom:1px solid #ffd700;
 
-    .box {
-      background: #111;
-      border: 1px solid rgba(255, 215, 0, 0.25);
-      border-radius: 20px;
-      padding: 25px;
-      box-shadow: 0 0 30px rgba(255, 215, 0, 0.08);
-    }
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
 
-    h1 {
-      color: #ffd700;
-      text-align: center;
-      margin-top: 0;
-    }
+.brand{
+  color:#ffd700;
+  font-size:21px;
+  font-weight:bold;
+}
 
-    .subtitle {
-      color: #888;
-      text-align: center;
-      margin-bottom: 28px;
-      font-size: 14px;
-    }
+.back{
+  color:#ffd700;
+  text-decoration:none;
+}
 
-    label {
-      display: block;
-      margin-top: 16px;
-      margin-bottom: 7px;
-      color: #ddd;
-      font-size: 14px;
-      font-weight: bold;
-    }
+.container{
+  max-width:700px;
+  margin:auto;
+  padding:30px 18px 50px;
+}
 
-    input,
-    textarea,
-    select {
-      width: 100%;
-      padding: 14px;
-      background: #1d1d1d;
-      border: 1px solid #444;
-      border-radius: 10px;
-      color: white;
-      outline: none;
-      font-size: 15px;
-    }
+h1{
+  text-align:center;
+  color:#ffd700;
+  margin-bottom:30px;
+}
 
-    textarea {
-      min-height: 120px;
-      resize: vertical;
-    }
+.form-card{
+  background:#111;
+  border:1px solid #333;
+  border-radius:18px;
+  padding:25px;
+}
 
-    input:focus,
-    textarea:focus,
-    select:focus {
-      border-color: #ffd700;
-    }
+label{
+  display:block;
+  color:#ddd;
+  margin-top:18px;
+  margin-bottom:7px;
+}
 
-    .row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-    }
+input,
+textarea{
+  width:100%;
+  padding:13px;
+  background:#080808;
+  border:1px solid #444;
+  border-radius:8px;
+  color:white;
+  font-size:15px;
+}
 
-    .btn {
-      width: 100%;
-      margin-top: 25px;
-      padding: 15px;
-      border: none;
-      border-radius: 11px;
-      background: linear-gradient(135deg, #ffd700, #ffb700);
-      color: #000;
-      font-size: 17px;
-      font-weight: bold;
-      cursor: pointer;
-    }
+textarea{
+  min-height:110px;
+  resize:vertical;
+}
 
-    .success {
-      display: none;
-      margin-top: 18px;
-      padding: 14px;
-      border-radius: 10px;
-      background: #123d20;
-      color: #6dff91;
-      text-align: center;
-    }
+.submit{
+  width:100%;
+  margin-top:25px;
+  padding:15px;
+  background:#ffd700;
+  color:#000;
+  border:0;
+  border-radius:9px;
+  font-size:16px;
+  font-weight:bold;
+  cursor:pointer;
+}
 
-    @media (max-width: 550px) {
-      .row {
-        grid-template-columns: 1fr;
-      }
-    }
-  </style>
+</style>
+
 </head>
 
 <body>
 
-  <div class="topbar">
 
-    <div class="brand">
-      Road2Billionaire
-    </div>
+<div class="topbar">
 
-    <a href="admin.html" class="back">
-      ← Admin Panel
-    </a>
-
+  <div class="brand">
+    Road2Billionaire
   </div>
 
+  <a href="admin.html" class="back">
+    ← Admin Panel
+  </a>
 
-  <div class="container">
-
-    <div class="box">
-
-      <h1>📚 Add New eBook</h1>
-
-      <div class="subtitle">
-        Add your eBook details to the admin system.
-      </div>
+</div>
 
 
-      <form onsubmit="addEbook(event)">
+<div class="container">
 
-        <label>eBook Title</label>
-
-        <input
-          type="text"
-          id="title"
-          placeholder="Example: Money Management"
-          required
-        >
+<h1>➕ Add New eBook</h1>
 
 
-        <label>Description</label>
+<div class="form-card">
 
-        <textarea
-          id="description"
-          placeholder="Enter eBook description"
-          required
-        ></textarea>
+<form onsubmit="addEbook(event)">
 
 
-        <label>Topics / What You Will Learn</label>
+<label>
+eBook Title
+</label>
 
-        <textarea
-          id="topics"
-          placeholder="Example: Budgeting, Saving, Investing..."
-          required
-        ></textarea>
-
-
-        <div class="row">
-
-          <div>
-            <label>Price (₹)</label>
-
-            <input
-              type="number"
-              id="price"
-              placeholder="99"
-              min="0"
-              required
-            >
-          </div>
+<input
+  type="text"
+  id="title"
+  placeholder="Enter eBook title"
+  required
+>
 
 
-          <div>
-            <label>Old Price (₹)</label>
+<label>
+Description
+</label>
 
-            <input
-              type="number"
-              id="oldPrice"
-              placeholder="199"
-              min="0"
-            >
-          </div>
-
-        </div>
+<textarea
+  id="description"
+  placeholder="Enter eBook description"
+  required
+></textarea>
 
 
-        <label>eBook PDF / File Link</label>
+<label>
+Topics / What You Will Learn
+</label>
 
-        <input
-          type="text"
-          id="pdfLink"
-          placeholder="Enter PDF link later"
-        >
-
-
-        <button type="submit" class="btn">
-          ➕ Add eBook
-        </button>
-
-      </form>
+<textarea
+  id="topics"
+  placeholder="Example: Money Management, Saving, Investment..."
+  required
+></textarea>
 
 
-      <div id="success" class="success">
-        ✅ eBook details saved successfully!
-      </div>
+<label>
+Price (₹)
+</label>
 
-    </div>
-
-  </div>
-
-
-  <script>
-
-    function addEbook(event) {
-
-      event.preventDefault();
-
-      const ebook = {
-
-        title:
-          document.getElementById("title").value.trim(),
-
-        description:
-          document.getElementById("description").value.trim(),
-
-        topics:
-          document.getElementById("topics").value.trim(),
-
-        price:
-          document.getElementById("price").value,
-
-        oldPrice:
-          document.getElementById("oldPrice").value,
-
-        pdfLink:
-          document.getElementById("pdfLink").value.trim()
-
-      };
+<input
+  type="number"
+  id="price"
+  placeholder="99"
+  required
+>
 
 
-      /*
-        Demo storage only.
-        Later this will be replaced by
-        a real database/backend.
-      */
+<label>
+Old Price (₹)
+</label>
 
-      localStorage.setItem(
-        "ebookData",
-        JSON.stringify(ebook)
-      );
-
-
-      document.getElementById(
-        "success"
-      ).style.display = "block";
+<input
+  type="number"
+  id="oldPrice"
+  placeholder="199"
+>
 
 
-      setTimeout(function() {
+<label>
+eBook PDF / File Link
+</label>
 
-        window.location.href = "admin.html";
+<input
+  type="text"
+  id="fileLink"
+  placeholder="Paste PDF link here"
+>
 
-      }, 2000);
 
-    }
+<button
+  type="submit"
+  class="submit"
+>
+  💾 Add eBook
+</button>
 
-  </script>
+
+</form>
+
+</div>
+
+</div>
+
+
+<script>
+
+function addEbook(event){
+
+  event.preventDefault();
+
+
+  const ebook = {
+
+    id: Date.now(),
+
+    title:
+      document.getElementById("title")
+      .value.trim(),
+
+    description:
+      document.getElementById("description")
+      .value.trim(),
+
+    topics:
+      document.getElementById("topics")
+      .value.trim(),
+
+    price:
+      document.getElementById("price")
+      .value.trim(),
+
+    oldPrice:
+      document.getElementById("oldPrice")
+      .value.trim(),
+
+    fileLink:
+      document.getElementById("fileLink")
+      .value.trim()
+
+  };
+
+
+  /*
+    पुराने eBooks निकालें
+  */
+
+  let ebooks = JSON.parse(
+    localStorage.getItem("ebooksData")
+  ) || [];
+
+
+  /*
+    नई eBook list में जोड़ें
+  */
+
+  ebooks.push(ebook);
+
+
+  /*
+    सभी eBooks save करें
+  */
+
+  localStorage.setItem(
+    "ebooksData",
+    JSON.stringify(ebooks)
+  );
+
+
+  /*
+    पुराने single ebookData को हटाएँ
+  */
+
+  localStorage.removeItem("ebookData");
+
+
+  alert(
+    "✅ eBook Added Successfully!"
+  );
+
+
+  window.location.href =
+    "ebook.html";
+
+}
+
+</script>
+
 
 </body>
 </html>
