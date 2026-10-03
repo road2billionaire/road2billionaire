@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Admin Panel | Road2Billionaire</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background:
+        radial-gradient(circle at top, #292000 0%, #0b0b0b 45%, #000 100%);
+      color: white;
+    }
+
+    .topbar {
+      background: #111;
+      border-bottom: 1px solid rgba(255, 215, 0, 0.3);
+      padding: 18px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .brand {
+      color: #ffd700;
+      font-size: 21px;
+      font-weight: bold;
+    }
+
+    .admin-label {
+      color: #aaa;
+      font-size: 13px;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: auto;
+      padding: 25px 18px 50px;
+    }
+
+    .welcome {
+      margin-bottom: 25px;
+    }
+
+    .welcome h1 {
+      margin: 0;
+      color: #ffd700;
+      font-size: 28px;
+    }
+
+    .welcome p {
+      color: #aaa;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+      margin-bottom: 30px;
+    }
+
+    .stat-card {
+      background: #111;
+      border: 1px solid rgba(255, 215, 0, 0.25);
+      border-radius: 17px;
+      padding: 22px;
+      text-align: center;
+    }
+
+    .stat-icon {
+      font-size: 30px;
+    }
+
+    .stat-card h3 {
+      color: #aaa;
+      font-size: 14px;
+      margin: 10px 0 5px;
+    }
+
+    .stat-card strong {
+      color: #ffd700;
+      font-size: 25px;
+    }
+
+    .section {
+      background: #111;
+      border: 1px solid #292929;
+      border-radius: 18px;
+      padding: 22px;
+      margin-bottom: 20px;
+    }
+
+    .section h2 {
+      color: #ffd700;
+      margin-top: 0;
+      font-size: 21px;
+    }
+
+    .admin-buttons {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .admin-btn {
+      background: #1b1b1b;
+      border: 1px solid #333;
+      color: white;
+      padding: 16px;
+      border-radius: 11px;
+      font-size: 15px;
+      cursor: pointer;
+      text-align: left;
+    }
+
+    .admin-btn:hover {
+      border-color: #ffd700;
+      color: #ffd700;
+    }
+
+    .logout {
+      background: #ffd700;
+      color: #000;
+      border: none;
+      padding: 9px 15px;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .note {
+      color: #888;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 600px) {
+
+      .stats {
+        grid-template-columns: 1fr;
+      }
+
+      .admin-buttons {
+        grid-template-columns: 1fr;
+      }
+
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="topbar">
+
+    <div>
+      <div class="brand">
+        Road2Billionaire
+      </div>
+
+      <div class="admin-label">
+        Admin Panel
+      </div>
+    </div>
+
+    <button class="logout" onclick="adminLogout()">
+      Logout
+    </button>
+
+  </div>
+
+
+  <div class="container">
+
+    <div class="welcome">
+
+      <h1>
+        Admin Dashboard
+      </h1>
+
+      <p>
+        Manage your website, users, eBooks and orders.
+      </p>
+
+    </div>
+
+
+    <!-- STATISTICS -->
+
+    <div class="stats">
+
+      <div class="stat-card">
+
+        <div class="stat-icon">👥</div>
+
+        <h3>Total Users</h3>
+
+        <strong>0</strong>
+
+      </div>
+
+
+      <div class="stat-card">
+
+        <div class="stat-icon">🧾</div>
+
+        <h3>Total Orders</h3>
+
+        <strong>0</strong>
+
+      </div>
+
+
+      <div class="stat-card">
+
+        <div class="stat-icon">💰</div>
+
+        <h3>Total Revenue</h3>
+
+        <strong>₹0</strong>
+
+      </div>
+
+    </div>
+
+
+    <!-- EBOOK MANAGEMENT -->
+
+    <div class="section">
+
+      <h2>
+        📚 eBook Management
+      </h2>
+
+      <div class="admin-buttons">
+
+        <button class="admin-btn">
+          ➕ Add New eBook
+        </button>
+
+        <button class="admin-btn">
+          ✏️ Edit eBook
+        </button>
+
+        <button class="admin-btn">
+          🗑️ Delete eBook
+        </button>
+
+        <button class="admin-btn">
+          📖 View All eBooks
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <!-- USER MANAGEMENT -->
+
+    <div class="section">
+
+      <h2>
+        👥 User Management
+      </h2>
+
+      <div class="admin-buttons">
+
+        <button class="admin-btn">
+          👤 View Users
+        </button>
+
+        <button class="admin-btn">
+          🔍 Search User
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <!-- ORDER MANAGEMENT -->
+
+    <div class="section">
+
+      <h2>
+        🧾 Order Management
+      </h2>
+
+      <div class="admin-buttons">
+
+        <button class="admin-btn">
+          📋 View Orders
+        </button>
+
+        <button class="admin-btn">
+          💳 Payment Records
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <div class="section">
+
+      <h2>
+        ⚙️ System
+      </h2>
+
+      <p class="note">
+        Admin features shown here are currently front-end only.
+        Real user management, orders, payments and secure admin
+        authentication will be connected with a backend later.
+      </p>
+
+    </div>
+
+  </div>
+
+
+  <script>
+
+    function adminLogout() {
+
+      window.location.href = "index.html";
+
+    }
+
+  </script>
+
+</body>
+</html>
