@@ -4,14 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>eBook Management | Road2Billionaire</title>
+<title>Add eBook | Road2Billionaire</title>
 
 <style>
-
-*{
-  box-sizing:border-box;
-}
-
 body{
   margin:0;
   font-family:Arial,sans-serif;
@@ -19,28 +14,8 @@ body{
   color:white;
 }
 
-.topbar{
-  background:#111;
-  padding:18px;
-  border-bottom:1px solid #ffd700;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
-
-.brand{
-  color:#ffd700;
-  font-size:21px;
-  font-weight:bold;
-}
-
-.back{
-  color:#ffd700;
-  text-decoration:none;
-}
-
 .container{
-  max-width:800px;
+  max-width:700px;
   margin:auto;
   padding:30px 18px;
 }
@@ -48,511 +23,118 @@ body{
 h1{
   text-align:center;
   color:#ffd700;
-  margin-bottom:25px;
 }
 
-.card{
+.box{
   background:#111;
+  padding:25px;
+  border-radius:15px;
   border:1px solid #333;
-  border-radius:18px;
-  padding:25px;
-  margin-bottom:20px;
-}
-
-.card h2{
-  color:#ffd700;
-  margin-top:0;
-}
-
-p{
-  color:#bbb;
-  line-height:1.6;
-}
-
-.price{
-  color:#ffd700;
-  font-size:28px;
-  font-weight:bold;
-  margin:20px 0;
-}
-
-.old-price{
-  color:#777;
-  text-decoration:line-through;
-  font-size:16px;
-  margin-left:8px;
-}
-
-button,
-a{
-  border:0;
-  border-radius:8px;
-  padding:12px 17px;
-  margin:5px;
-  font-weight:bold;
-  cursor:pointer;
-  text-decoration:none;
-  display:inline-block;
-}
-
-.add{
-  background:#ffd700;
-  color:#000;
-}
-
-.edit{
-  background:#2563eb;
-  color:white;
-}
-
-.delete{
-  background:#dc2626;
-  color:white;
-}
-
-.view{
-  background:#16a34a;
-  color:white;
-}
-
-.form{
-  display:none;
-  background:#151515;
-  border:1px solid #444;
-  border-radius:18px;
-  padding:25px;
-  margin-top:20px;
-}
-
-.form h2{
-  color:#ffd700;
-  margin-top:0;
 }
 
 label{
   display:block;
-  color:#ddd;
   margin-top:15px;
-  margin-bottom:7px;
+  margin-bottom:6px;
 }
 
-input,
-textarea{
+input,textarea{
   width:100%;
   padding:13px;
-  border-radius:8px;
-  border:1px solid #444;
-  background:#080808;
+  background:#000;
   color:white;
-  font-size:15px;
+  border:1px solid #444;
+  border-radius:8px;
+  box-sizing:border-box;
 }
 
 textarea{
-  min-height:110px;
-  resize:vertical;
+  min-height:100px;
 }
 
-.update{
+button{
+  width:100%;
+  margin-top:25px;
+  padding:15px;
   background:#ffd700;
   color:#000;
-  width:100%;
-  margin:20px 0 0;
+  border:0;
+  border-radius:8px;
+  font-weight:bold;
+  font-size:16px;
 }
-
-.cancel{
-  background:#333;
-  color:white;
-  width:100%;
-  margin:10px 0 0;
-}
-
-.empty{
-  text-align:center;
-  padding:40px 20px;
-  background:#111;
-  border-radius:18px;
-  border:1px solid #333;
-}
-
 </style>
 </head>
 
 <body>
 
-<div class="topbar">
-
-  <div class="brand">
-    Road2Billionaire
-  </div>
-
-  <a href="admin.html" class="back">
-    ← Admin Panel
-  </a>
-
-</div>
-
-
 <div class="container">
 
-<h1>📚 eBook Management</h1>
+<h1>➕ Add New eBook</h1>
 
-<div id="ebookBox"></div>
+<div class="box">
 
+<form id="ebookForm">
 
-<!-- EDIT FORM -->
+<label>eBook Title</label>
+<input type="text" id="title" required>
 
-<div id="editForm" class="form">
+<label>Description</label>
+<textarea id="description" required></textarea>
 
-  <h2>✏️ Edit eBook</h2>
+<label>Topics</label>
+<textarea id="topics" required></textarea>
 
-  <label>eBook Title</label>
+<label>Price (₹)</label>
+<input type="number" id="price" required>
 
-  <input
-    type="text"
-    id="editTitle"
-  >
+<label>Old Price (₹)</label>
+<input type="number" id="oldPrice">
 
+<label>PDF / File Link</label>
+<input type="text" id="fileLink">
 
-  <label>Description</label>
+<button type="submit">
+💾 Add eBook
+</button>
 
-  <textarea
-    id="editDescription"
-  ></textarea>
-
-
-  <label>Topics / What You Will Learn</label>
-
-  <textarea
-    id="editTopics"
-  ></textarea>
-
-
-  <label>Price (₹)</label>
-
-  <input
-    type="number"
-    id="editPrice"
-  >
-
-
-  <label>Old Price (₹)</label>
-
-  <input
-    type="number"
-    id="editOldPrice"
-  >
-
-
-  <label>PDF / File Link</label>
-
-  <input
-    type="text"
-    id="editFileLink"
-    placeholder="Paste PDF link here"
-  >
-
-
-  <button
-    class="update"
-    onclick="updateEbook()"
-  >
-    💾 Update eBook
-  </button>
-
-
-  <button
-    class="cancel"
-    onclick="cancelEdit()"
-  >
-    ❌ Cancel
-  </button>
+</form>
 
 </div>
-
 </div>
-
 
 <script>
 
-
-function showEbook(){
-
-  const data =
-    localStorage.getItem("ebookData");
-
-  const box =
-    document.getElementById("ebookBox");
-
-
-  if(!data){
-
-    box.innerHTML = `
-
-      <div class="empty">
-
-        <h2 style="color:#ffd700;">
-          No eBook Added
-        </h2>
-
-        <p>
-          Please add an eBook first.
-        </p>
-
-        <a
-          href="add-ebook.html"
-          class="add"
-        >
-          ➕ Add New eBook
-        </a>
-
-      </div>
-
-    `;
-
-    return;
-  }
-
-
-  const ebook =
-    JSON.parse(data);
-
-
-  box.innerHTML = `
-
-    <div class="card">
-
-      <h2>
-        ${ebook.title}
-      </h2>
-
-      <p>
-        ${ebook.description}
-      </p>
-
-      <p>
-        <strong>Topics:</strong><br>
-        ${ebook.topics}
-      </p>
-
-      <div class="price">
-
-        ₹${ebook.price}
-
-        ${
-          ebook.oldPrice
-          ? `<span class="old-price">
-              ₹${ebook.oldPrice}
-             </span>`
-          : ""
-        }
-
-      </div>
-
-
-      <button
-        class="edit"
-        onclick="openEdit()"
-      >
-        ✏️ Edit
-      </button>
-
-
-      <button
-        class="delete"
-        onclick="deleteEbook()"
-      >
-        🗑️ Delete
-      </button>
-
-
-      <a
-        href="Product.html"
-        class="view"
-      >
-        👁️ View Product
-      </a>
-
-
-      <a
-        href="add-ebook.html"
-        class="add"
-      >
-        ➕ Add New
-      </a>
-
-    </div>
-
-  `;
-
-}
-
-
-function openEdit(){
-
-  const data =
-    localStorage.getItem("ebookData");
-
-
-  if(!data){
-
-    alert("No eBook found!");
-
-    return;
-  }
-
-
-  const ebook =
-    JSON.parse(data);
-
-
-  document.getElementById("editTitle").value =
-    ebook.title || "";
-
-
-  document.getElementById("editDescription").value =
-    ebook.description || "";
-
-
-  document.getElementById("editTopics").value =
-    ebook.topics || "";
-
-
-  document.getElementById("editPrice").value =
-    ebook.price || "";
-
-
-  document.getElementById("editOldPrice").value =
-    ebook.oldPrice || "";
-
-
-  document.getElementById("editFileLink").value =
-    ebook.fileLink || "";
-
-
-  document.getElementById("editForm").style.display =
-    "block";
-
-
-  document.getElementById("editForm")
-    .scrollIntoView({
-      behavior:"smooth"
-    });
-
-}
-
-
-function updateEbook(){
-
-  const oldData =
-    localStorage.getItem("ebookData");
-
-
-  if(!oldData){
-
-    alert("No eBook found!");
-
-    return;
-  }
-
-
-  const oldEbook =
-    JSON.parse(oldData);
-
-
-  const updatedEbook = {
-
-    title:
-      document.getElementById("editTitle").value.trim(),
-
-    description:
-      document.getElementById("editDescription").value.trim(),
-
-    topics:
-      document.getElementById("editTopics").value.trim(),
-
-    price:
-      document.getElementById("editPrice").value.trim(),
-
-    oldPrice:
-      document.getElementById("editOldPrice").value.trim(),
-
-    fileLink:
-      document.getElementById("editFileLink").value.trim()
-
+document.getElementById("ebookForm").addEventListener("submit", function(event){
+
+  event.preventDefault();
+
+  let newBook = {
+    id: Date.now(),
+    title: document.getElementById("title").value,
+    description: document.getElementById("description").value,
+    topics: document.getElementById("topics").value,
+    price: document.getElementById("price").value,
+    oldPrice: document.getElementById("oldPrice").value,
+    fileLink: document.getElementById("fileLink").value
   };
 
+  let books = JSON.parse(
+    localStorage.getItem("ebooksData") || "[]"
+  );
 
-  if(
-    !updatedEbook.title ||
-    !updatedEbook.description ||
-    !updatedEbook.price
-  ){
-
-    alert(
-      "Please fill Title, Description and Price."
-    );
-
-    return;
-  }
-
+  books.push(newBook);
 
   localStorage.setItem(
-    "ebookData",
-    JSON.stringify(updatedEbook)
+    "ebooksData",
+    JSON.stringify(books)
   );
 
+  alert("✅ eBook Added Successfully!");
 
-  alert(
-    "✅ eBook Updated Successfully!"
-  );
+  window.location.href = "ebook.html";
 
-
-  document.getElementById("editForm").style.display =
-    "none";
-
-
-  showEbook();
-
-}
-
-
-function cancelEdit(){
-
-  document.getElementById("editForm").style.display =
-    "none";
-
-}
-
-
-function deleteEbook(){
-
-  const confirmDelete =
-    confirm(
-      "⚠️ Are you sure you want to delete this eBook?"
-    );
-
-
-  if(!confirmDelete){
-
-    return;
-
-  }
-
-
-  localStorage.removeItem("ebookData");
-
-
-  alert(
-    "🗑️ eBook Deleted Successfully!"
-  );
-
-
-  showEbook();
-
-}
-
-
-showEbook();
+});
 
 </script>
 
