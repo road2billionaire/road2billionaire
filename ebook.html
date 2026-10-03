@@ -104,7 +104,7 @@
       font-weight: bold;
     }
 
-    .edit {
+    .add {
       background: #222;
       color: white;
       border: 1px solid #555;
@@ -123,131 +123,10 @@
     }
 
     .debug {
+      text-align: center;
       margin-top: 20px;
-      padding: 12px;
-      background: #111;
-      border: 1px solid #333;
-      border-radius: 8px;
-      color: #888;
-      font-size: 12px;
-      word-break: break-all;
+      color: #777;
+      font-size: 13px;
     }
   </style>
-</head>
-
-<body>
-
-  <div class="topbar">
-    <div class="logo">Road2Billionaire</div>
-
-    <a href="javascript:goBack()" class="back">
-      ← Back
-    </a>
-  </div>
-
-  <div class="container">
-
-    <h1>📚 eBooks</h1>
-
-    <div id="bookList" class="book-list"></div>
-
-    <div id="debug" class="debug"></div>
-
-  </div>
-
-<script>
-
-function goBack() {
-
-  const params = new URLSearchParams(
-    window.location.search
-  );
-
-  const from = params.get("from");
-
-  if (from === "dashboard") {
-    window.location.href = "Dashboard.html";
-  } else {
-    window.location.href = "admin.html";
-  }
-
-}
-
-
-function loadBooks() {
-
-  const bookList =
-    document.getElementById("bookList");
-
-  const debug =
-    document.getElementById("debug");
-
-  let ebooks = [];
-
-  try {
-
-    const saved =
-      localStorage.getItem("ebooksData");
-
-    if (saved) {
-
-      ebooks = JSON.parse(saved);
-
-    }
-
-  } catch (error) {
-
-    console.error(error);
-
-    bookList.innerHTML = `
-      <div class="empty">
-        <h2>⚠️ eBook Data Error</h2>
-        <p>eBook data read नहीं हो पा रहा है।</p>
-      </div>
-    `;
-
-    return;
-  }
-
-
-  debug.innerHTML =
-    "Saved eBooks: " + ebooks.length;
-
-
-  if (!Array.isArray(ebooks) || ebooks.length === 0) {
-
-    bookList.innerHTML = `
-      <div class="empty">
-        <h2>📚 No eBooks Found</h2>
-
-        <p>
-          अभी कोई eBook उपलब्ध नहीं है।
-        </p>
-
-        <a href="add-ebook.html" class="btn view">
-          ➕ Add eBook
-        </a>
-      </div>
-    `;
-
-    return;
-  }
-
-
-  const params =
-    new URLSearchParams(
-      window.location.search
-    );
-
-  const from =
-    params.get("from");
-
-
-  bookList.innerHTML = ebooks.map(function(book) {
-
-    return `
-
-      <div class="book-card">
-
-        <h2>
-          ${book.title || "Unt
+</
