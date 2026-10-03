@@ -200,7 +200,7 @@ body{
     </p>
 
     <a
-      href="ebook.html"
+      href="ebook.html?from=dashboard"
       class="btn browse"
     >
       📚 Browse All eBooks
@@ -242,114 +242,4 @@ function loadUser(){
   }
   else{
 
-    document.getElementById(
-      "userEmail"
-    ).textContent =
-      email || "";
-
-  }
-
-}
-
-
-function loadPurchasedBooks(){
-
-  const box =
-    document.getElementById("myBooks");
-
-
-  let purchases = JSON.parse(
-    localStorage.getItem("purchasedBooks") || "[]"
-  );
-
-
-  if(purchases.length === 0){
-
-    box.innerHTML = `
-
-      <div class="empty">
-
-        <h2>
-          No Purchased eBooks Yet
-        </h2>
-
-        <p>
-          आपकी खरीदी हुई eBooks यहाँ दिखाई देंगी।
-        </p>
-
-        <a
-          href="ebook.html"
-          class="btn browse"
-        >
-          🛒 Browse eBooks
-        </a>
-
-      </div>
-
-    `;
-
-    return;
-
-  }
-
-
-  box.innerHTML = "";
-
-
-  purchases.forEach(function(book){
-
-    box.innerHTML += `
-
-      <div class="card">
-
-        <h2>
-          📖 ${book.title}
-        </h2>
-
-        <p>
-          Purchase Date:
-          ${book.purchaseDate}
-        </p>
-
-        <div class="price">
-          ₹${book.price}
-        </div>
-
-        <a
-          href="ebook-details.html?id=${book.bookId}"
-          class="btn view"
-        >
-          📖 View eBook
-        </a>
-
-      </div>
-
-    `;
-
-  });
-
-}
-
-
-function logoutUser(){
-
-  localStorage.removeItem("loggedIn");
-
-  localStorage.removeItem("userEmail");
-
-  window.location.href =
-    "login.html";
-
-}
-
-
-loadUser();
-
-loadPurchasedBooks();
-
-
-</script>
-
-</body>
-
-</html>
+    document.getElement
