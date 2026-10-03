@@ -24,7 +24,6 @@ body{
   background:#111;
   padding:18px 20px;
   border-bottom:1px solid #ffd700;
-
   display:flex;
   justify-content:space-between;
   align-items:center;
@@ -69,6 +68,15 @@ h1{
   padding:22px;
 }
 
+.book-image{
+  width:100%;
+  height:220px;
+  object-fit:cover;
+  border-radius:12px;
+  margin-bottom:15px;
+  background:#222;
+}
+
 .book-card h2{
   color:#ffd700;
   margin-top:0;
@@ -103,6 +111,19 @@ h1{
   font-weight:bold;
 }
 
+.empty{
+  grid-column:1/-1;
+  text-align:center;
+  background:#111;
+  border:1px solid #333;
+  border-radius:16px;
+  padding:35px 20px;
+}
+
+.empty h2{
+  color:#ffd700;
+}
+
 .add{
   display:block;
   text-align:center;
@@ -134,45 +155,9 @@ h1{
 
 <h1>📚 eBooks</h1>
 
-
 <div class="book-list" id="bookList">
 
-
-<!-- DEFAULT EBOOK -->
-
-<div class="book-card">
-
-  <h2>
-    Money Management
-  </h2>
-
-  <p>
-    Learn the basics of money management,
-    saving, budgeting and financial planning.
-  </p>
-
-  <p>
-    <strong>Topics:</strong><br>
-    Money Management, Saving, Budgeting,
-    Investment Basics
-  </p>
-
-  <div class="price">
-    ₹99
-    <span class="old-price">
-      ₹199
-    </span>
-  </div>
-
-  <a
-    href="Product.html"
-    class="view"
-  >
-    📖 View eBook
-  </a>
-
-</div>
-
+<!-- BOOKS WILL LOAD HERE -->
 
 </div>
 
@@ -192,9 +177,9 @@ h1{
 
 (function(){
 
-  /*
-    Back button
-  */
+  /* =========================
+     BACK BUTTON
+  ========================= */
 
   const params =
     new URLSearchParams(
@@ -203,7 +188,6 @@ h1{
 
   const from =
     params.get("from");
-
 
   const backButton =
     document.getElementById("backButton");
@@ -222,12 +206,15 @@ h1{
   }
 
 
-  /*
-    Saved eBooks load करें
-  */
+  /* =========================
+     BOOK LIST
+  ========================= */
 
   const list =
     document.getElementById("bookList");
+
+
+  let ebooks = [];
 
 
   try{
@@ -236,78 +223,141 @@ h1{
       localStorage.getItem("ebooksData");
 
 
-    if(!saved){
-      return;
+    if(saved){
+
+      ebooks =
+        JSON.parse(saved);
+
     }
-
-
-    const ebooks =
-      JSON.parse(saved);
-
-
-    if(!Array.isArray(ebooks)){
-      return;
-    }
-
-
-    ebooks.forEach(function(book){
-
-      const card =
-        document.createElement("div");
-
-      card.className =
-        "book-card";
-
-
-      card.innerHTML = `
-
-        <h2>
-          ${book.title || "eBook"}
-        </h2>
-
-        <p>
-          ${book.description || ""}
-        </p>
-
-        <p>
-          <strong>Topics:</strong><br>
-          ${book.topics || ""}
-        </p>
-
-        <div class="price">
-          ₹${book.price || "0"}
-
-          ${
-            book.oldPrice
-            ? `
-              <span class="old-price">
-                ₹${book.oldPrice}
-              </span>
-            `
-            : ""
-          }
-
-        </div>
-
-        <a
-          href="ebook-details.html?id=${encodeURIComponent(book.id)}&from=${encodeURIComponent(from || "admin")}"
-          class="view"
-        >
-          📖 View eBook
-        </a>
-
-      `;
-
-
-      list.appendChild(card);
-
-    });
 
   }catch(error){
 
-    console.log(error);
+    console.log(
+      "Book loading error:",
+      error
+    );
+
+    ebooks = [];
 
   }
+
+
+  /* =========================
+     NO BOOKS
+  ========================= */
+
+  if(
+    !Array.isArray(ebooks) ||
+    ebooks.length === 0
+  ){
+
+    list.innerHTML = `
+
+      <div class="empty">
+
+        <h2>
+          📚 No eBooks Available
+        </h2>
+
+        <p>
+          अभी कोई eBook add नहीं की गई है।
+        </p>
+
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+
+  /* =========================
+     DISPLAY BOOKS
+  ========================= */
+
+  ebooks.forEach(function(book){
+
+    const card =
+      document.createElement("div");
+
+    card.className =
+      "book-card";
+
+
+    const image =
+      book.image || "";
+
+
+    card.innerHTML = `
+
+      ${
+        image
+        ? `
+          <img
+            src="${image}"
+            class="book-image"
+            alt="${book.title || "eBook"}"
+            onerror="this.style.display='none'"
+          >
+        `
+        : ""
+      }
+
+
+      <h2>
+        ${book.title || "eBook"}
+      </h2>
+
+
+      <p>
+        ${book.description || ""}
+      </p>
+
+
+      <p>
+
+        <strong>
+          Topics:
+        </strong>
+
+        <br>
+
+        ${book.topics || "Not specified"}
+
+      </p>
+
+
+      <div class="price">
+
+        ₹${book.price || "0"}
+
+        ${
+          book.oldPrice
+          ? `
+            <span class="old-price">
+              ₹${book.oldPrice}
+            </span>
+          `
+          : ""
+        }
+
+      </div>
+
+
+      <a
+        href="ebook-details.html?id=${encodeURIComponent(book.id)}&from=${encodeURIComponent(from || "admin")}"
+        class="view"
+      >
+        📖 View eBook
+      </a>
+
+    `;
+
+
+    list.appendChild(card);
+
+  });
 
 })();
 
