@@ -1,125 +1,253 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<meta charset="UTF-8">
+  <title>eBooks | Road2Billionaire</title>
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
 
-<title>All eBooks | Road2Billionaire</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #0b0b0b;
+      color: white;
+    }
 
-<style>
+    .topbar {
+      background: #111;
+      padding: 18px 20px;
+      border-bottom: 1px solid #333;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
 
-*{
-  box-sizing:border-box;
+    .logo {
+      font-size: 20px;
+      font-weight: bold;
+      color: #d4af37;
+    }
+
+    .back {
+      color: white;
+      text-decoration: none;
+      background: #222;
+      padding: 9px 14px;
+      border-radius: 8px;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: auto;
+      padding: 25px 18px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #d4af37;
+      margin-bottom: 25px;
+    }
+
+    .book-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+    }
+
+    .book-card {
+      background: #151515;
+      border: 1px solid #333;
+      border-radius: 14px;
+      padding: 20px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.4);
+    }
+
+    .book-card h2 {
+      color: #d4af37;
+      margin-top: 0;
+    }
+
+    .book-card p {
+      color: #ccc;
+      line-height: 1.6;
+    }
+
+    .price {
+      font-size: 22px;
+      font-weight: bold;
+      color: #00d084;
+      margin: 15px 0;
+    }
+
+    .old-price {
+      color: #777;
+      text-decoration: line-through;
+      font-size: 14px;
+      margin-left: 8px;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 11px 16px;
+      border-radius: 8px;
+      text-decoration: none;
+      margin-top: 8px;
+      margin-right: 5px;
+    }
+
+    .view {
+      background: #d4af37;
+      color: #000;
+      font-weight: bold;
+    }
+
+    .edit {
+      background: #222;
+      color: white;
+      border: 1px solid #555;
+    }
+
+    .empty {
+      text-align: center;
+      background: #151515;
+      padding: 35px 20px;
+      border-radius: 14px;
+      border: 1px solid #333;
+    }
+
+    .empty h2 {
+      color: #d4af37;
+    }
+
+    .debug {
+      margin-top: 20px;
+      padding: 12px;
+      background: #111;
+      border: 1px solid #333;
+      border-radius: 8px;
+      color: #888;
+      font-size: 12px;
+      word-break: break-all;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="topbar">
+    <div class="logo">Road2Billionaire</div>
+
+    <a href="javascript:goBack()" class="back">
+      ← Back
+    </a>
+  </div>
+
+  <div class="container">
+
+    <h1>📚 eBooks</h1>
+
+    <div id="bookList" class="book-list"></div>
+
+    <div id="debug" class="debug"></div>
+
+  </div>
+
+<script>
+
+function goBack() {
+
+  const params = new URLSearchParams(
+    window.location.search
+  );
+
+  const from = params.get("from");
+
+  if (from === "dashboard") {
+    window.location.href = "Dashboard.html";
+  } else {
+    window.location.href = "admin.html";
+  }
+
 }
 
-body{
-  margin:0;
-  font-family:Arial,sans-serif;
-  background:#000;
-  color:#fff;
-}
 
-.topbar{
-  background:#111;
-  padding:18px 20px;
-  border-bottom:1px solid #ffd700;
+function loadBooks() {
 
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
+  const bookList =
+    document.getElementById("bookList");
 
-.brand{
-  color:#ffd700;
-  font-size:21px;
-  font-weight:bold;
-}
+  const debug =
+    document.getElementById("debug");
 
-.back{
-  color:#ffd700;
-  text-decoration:none;
-  font-weight:bold;
-}
+  let ebooks = [];
 
-.container{
-  max-width:900px;
-  margin:auto;
-  padding:30px 18px 60px;
-}
+  try {
 
-h1{
-  color:#ffd700;
-  text-align:center;
-  margin-bottom:30px;
-}
+    const saved =
+      localStorage.getItem("ebooksData");
 
-.card{
-  background:#111;
-  border:1px solid #333;
-  border-radius:18px;
-  padding:22px;
-  margin-bottom:20px;
-}
+    if (saved) {
 
-.card h2{
-  color:#ffd700;
-  margin-top:0;
-}
+      ebooks = JSON.parse(saved);
 
-.card p{
-  color:#bbb;
-  line-height:1.6;
-}
+    }
 
-.price{
-  color:#ffd700;
-  font-size:24px;
-  font-weight:bold;
-  margin:15px 0;
-}
+  } catch (error) {
 
-.old-price{
-  color:#777;
-  text-decoration:line-through;
-  margin-left:8px;
-  font-size:16px;
-}
+    console.error(error);
 
-.btn{
-  display:inline-block;
-  padding:10px 15px;
-  border-radius:8px;
-  text-decoration:none;
-  font-weight:bold;
-  margin:5px 5px 5px 0;
-  border:none;
-  cursor:pointer;
-}
+    bookList.innerHTML = `
+      <div class="empty">
+        <h2>⚠️ eBook Data Error</h2>
+        <p>eBook data read नहीं हो पा रहा है।</p>
+      </div>
+    `;
 
-.view{
-  background:#16a34a;
-  color:#fff;
-}
+    return;
+  }
 
-.edit{
-  background:#2563eb;
-  color:#fff;
-}
 
-.delete{
-  background:#dc2626;
-  color:#fff;
-}
+  debug.innerHTML =
+    "Saved eBooks: " + ebooks.length;
 
-.empty{
-  text-align:center;
-  background:#111;
-  border:1px solid #333;
-  border-radius:18px;
-  padding:35px 20px;
-}
 
-.empty h
+  if (!Array.isArray(ebooks) || ebooks.length === 0) {
+
+    bookList.innerHTML = `
+      <div class="empty">
+        <h2>📚 No eBooks Found</h2>
+
+        <p>
+          अभी कोई eBook उपलब्ध नहीं है।
+        </p>
+
+        <a href="add-ebook.html" class="btn view">
+          ➕ Add eBook
+        </a>
+      </div>
+    `;
+
+    return;
+  }
+
+
+  const params =
+    new URLSearchParams(
+      window.location.search
+    );
+
+  const from =
+    params.get("from");
+
+
+  bookList.innerHTML = ebooks.map(function(book) {
+
+    return `
+
+      <div class="book-card">
+
+        <h2>
+          ${book.title || "Unt
