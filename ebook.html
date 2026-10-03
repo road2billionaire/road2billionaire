@@ -5,10 +5,9 @@
 
 <meta charset="UTF-8">
 
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>eBook Management | Road2Billionaire</title>
+<title>All eBooks | Road2Billionaire</title>
 
 <style>
 
@@ -20,7 +19,7 @@ body{
   margin:0;
   font-family:Arial,sans-serif;
   background:#000;
-  color:white;
+  color:#fff;
 }
 
 .topbar{
@@ -42,18 +41,19 @@ body{
 .back{
   color:#ffd700;
   text-decoration:none;
+  font-weight:bold;
 }
 
 .container{
   max-width:900px;
   margin:auto;
-  padding:30px 18px 50px;
+  padding:30px 18px 60px;
 }
 
 h1{
-  text-align:center;
   color:#ffd700;
-  margin-bottom:25px;
+  text-align:center;
+  margin-bottom:30px;
 }
 
 .card{
@@ -74,64 +74,52 @@ h1{
   line-height:1.6;
 }
 
-.topics{
-  background:#191919;
-  padding:12px;
-  border-radius:10px;
-}
-
 .price{
   color:#ffd700;
-  font-size:26px;
+  font-size:24px;
   font-weight:bold;
-  margin:18px 0;
+  margin:15px 0;
 }
 
 .old-price{
   color:#777;
   text-decoration:line-through;
-  font-size:15px;
   margin-left:8px;
+  font-size:16px;
 }
 
-button,
-a{
+.btn{
   display:inline-block;
-  border:0;
+  padding:10px 15px;
   border-radius:8px;
-  padding:11px 16px;
-  margin:5px 3px;
-  font-weight:bold;
   text-decoration:none;
+  font-weight:bold;
+  margin:5px 5px 5px 0;
+  border:none;
   cursor:pointer;
-}
-
-.add{
-  background:#ffd700;
-  color:#000;
-}
-
-.edit{
-  background:#2563eb;
-  color:white;
-}
-
-.delete{
-  background:#dc2626;
-  color:white;
 }
 
 .view{
   background:#16a34a;
-  color:white;
+  color:#fff;
+}
+
+.edit{
+  background:#2563eb;
+  color:#fff;
+}
+
+.delete{
+  background:#dc2626;
+  color:#fff;
 }
 
 .empty{
   text-align:center;
-  padding:40px 20px;
   background:#111;
   border:1px solid #333;
   border-radius:18px;
+  padding:35px 20px;
 }
 
 .empty h2{
@@ -151,8 +139,12 @@ a{
     Road2Billionaire
   </div>
 
-  <a href="admin.html" class="back">
-    ← Admin Panel
+  <a
+    href="#"
+    class="back"
+    id="backButton"
+  >
+    ← Back
   </a>
 
 </div>
@@ -160,9 +152,11 @@ a{
 
 <div class="container">
 
-<h1>📚 All eBooks</h1>
+  <h1>
+    📚 All eBooks
+  </h1>
 
-<div id="ebookList"></div>
+  <div id="booksList"></div>
 
 </div>
 
@@ -170,69 +164,100 @@ a{
 <script>
 
 
+/* BACK BUTTON */
+
+const params =
+  new URLSearchParams(
+    window.location.search
+  );
+
+const from =
+  params.get("from");
+
+
+const backButton =
+  document.getElementById(
+    "backButton"
+  );
+
+
+if(from === "dashboard"){
+
+  backButton.href =
+    "Dashboard.html";
+
+  backButton.textContent =
+    "← Dashboard";
+
+}
+else{
+
+  backButton.href =
+    "admin.html";
+
+  backButton.textContent =
+    "← Admin Panel";
+
+}
+
+
+/* LOAD BOOKS */
+
 function loadBooks(){
 
-  const list =
-    document.getElementById("ebookList");
+  const box =
+    document.getElementById(
+      "booksList"
+    );
 
 
-  let books = JSON.parse(
-    localStorage.getItem("ebooksData") || "[]"
-  );
-alert("Books found: " + books.length);
+  let books =
+    JSON.parse(
+      localStorage.getItem(
+        "ebooksData"
+      ) || "[]"
+    );
+
 
   if(books.length === 0){
 
-    list.innerHTML = `
+    box.innerHTML = `
 
       <div class="empty">
 
-        <h2>No eBook Added Yet</h2>
+        <h2>
+          No eBooks Available
+        </h2>
 
         <p>
-          Please add an eBook from Admin Panel.
+          अभी कोई eBook उपलब्ध नहीं है।
         </p>
-
-        <a
-          href="add-ebook.html"
-          class="add"
-        >
-          ➕ Add New eBook
-        </a>
 
       </div>
 
     `;
 
     return;
+
   }
 
 
-  list.innerHTML = "";
+  box.innerHTML = "";
 
 
-  books.forEach(function(book, index){
+  books.forEach(function(book){
 
-    list.innerHTML += `
+    box.innerHTML += `
 
       <div class="card">
 
         <h2>
-          ${book.title}
+          📖 ${book.title}
         </h2>
 
         <p>
-          ${book.description}
+          ${book.description || ""}
         </p>
-
-        <p class="topics">
-
-          <strong>Topics:</strong><br>
-
-          ${book.topics}
-
-        </p>
-
 
         <div class="price">
 
@@ -251,170 +276,5 @@ alert("Books found: " + books.length);
         </div>
 
 
-        <button
-          class="edit"
-          onclick="editBook(${index})"
-        >
-          ✏️ Edit
-        </button>
-
-
-        <button
-          class="delete"
-          onclick="deleteBook(${index})"
-        >
-          🗑️ Delete
-        </button>
-
-
-<a
-  href="ebook-details.html?id=${book.id}"
-  class="view"
->
-  👁️ View Details
-</a>
-
-      </div>
-
-    `;
-
-  });
-
-
-  list.innerHTML += `
-
-    <div style="text-align:center;margin-top:25px;">
-
-      <a
-        href="add-ebook.html"
-        class="add"
-      >
-        ➕ Add New eBook
-      </a>
-
-    </div>
-
-  `;
-
-}
-
-
-function editBook(index){
-
-  let books = JSON.parse(
-    localStorage.getItem("ebooksData") || "[]"
-  );
-
-
-  let book = books[index];
-
-
-  let title = prompt(
-    "eBook Title:",
-    book.title
-  );
-
-  if(title === null) return;
-
-
-  let description = prompt(
-    "Description:",
-    book.description
-  );
-
-  if(description === null) return;
-
-
-  let topics = prompt(
-    "Topics:",
-    book.topics
-  );
-
-  if(topics === null) return;
-
-
-  let price = prompt(
-    "Price:",
-    book.price
-  );
-
-  if(price === null) return;
-
-
-  let oldPrice = prompt(
-    "Old Price:",
-    book.oldPrice || ""
-  );
-
-  if(oldPrice === null) return;
-
-
-  book.title = title;
-  book.description = description;
-  book.topics = topics;
-  book.price = price;
-  book.oldPrice = oldPrice;
-
-
-  books[index] = book;
-
-
-  localStorage.setItem(
-    "ebooksData",
-    JSON.stringify(books)
-  );
-
-
-  alert(
-    "✅ eBook Updated Successfully!"
-  );
-
-
-  loadBooks();
-
-}
-
-
-function deleteBook(index){
-
-  let confirmDelete =
-    confirm(
-      "⚠️ Are you sure you want to delete this eBook?"
-    );
-
-
-  if(!confirmDelete) return;
-
-
-  let books = JSON.parse(
-    localStorage.getItem("ebooksData") || "[]"
-  );
-
-
-  books.splice(index, 1);
-
-
-  localStorage.setItem(
-    "ebooksData",
-    JSON.stringify(books)
-  );
-
-
-  alert(
-    "🗑️ eBook Deleted Successfully!"
-  );
-
-
-  loadBooks();
-
-}
-
-
-loadBooks();
-
-</script>
-
-
-</body>
-
-</html>
+        <a
+          href="ebook-details.html?id=${book.id}&from=${from || "admin
