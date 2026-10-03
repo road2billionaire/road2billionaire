@@ -4,7 +4,6 @@
 <head>
 
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>User Dashboard | Road2Billionaire</title>
@@ -147,7 +146,7 @@ body{
   <a
     href="#"
     class="logout"
-    onclick="logoutUser()"
+    onclick="logoutUser(); return false;"
   >
     Logout
   </a>
@@ -166,80 +165,4 @@ body{
 
     <p>
       Email:
-      <strong id="userEmail"></strong>
-    </p>
-
-    <p>
-      Welcome to your Road2Billionaire User Dashboard.
-    </p>
-
-  </div>
-
-
-  <h2 class="section-title">
-    📚 My eBooks
-  </h2>
-
-
-  <div id="myBooks"></div>
-
-
-  <h2 class="section-title">
-    🛍️ Browse eBooks
-  </h2>
-
-
-  <div class="card">
-
-    <h2>
-      Explore eBooks
-    </h2>
-
-    <p>
-      Browse our available eBooks and choose the one you want to purchase.
-    </p>
-
-    <a
-      href="ebook.html?from=dashboard"
-      class="btn browse"
-    >
-      📚 Browse All eBooks
-    </a>
-
-  </div>
-
-
-</div>
-
-
-<script>
-
-
-function loadUser(){
-
-  const user =
-    JSON.parse(
-      localStorage.getItem("roadUser") || "null"
-    );
-
-
-  const email =
-    localStorage.getItem("userEmail");
-
-
-  if(user){
-
-    document.getElementById(
-      "userName"
-    ).textContent =
-      user.name || "User";
-
-    document.getElementById(
-      "userEmail"
-    ).textContent =
-      user.email || email || "";
-
-  }
-  else{
-
-    document.getElement
+      <strong id="userEmail"></strong
