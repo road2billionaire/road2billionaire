@@ -5,10 +5,7 @@
 
 <meta charset="UTF-8">
 
-<meta
-  name="viewport"
-  content="width=device-width, initial-scale=1.0"
->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Add eBook | Road2Billionaire</title>
 
@@ -27,8 +24,8 @@ body{
 
 .topbar{
   background:#111;
-  padding:18px;
   border-bottom:1px solid #ffd700;
+  padding:16px 18px;
 
   display:flex;
   justify-content:space-between;
@@ -43,26 +40,28 @@ body{
 
 .back{
   color:#ffd700;
+  background:#222;
   text-decoration:none;
+  padding:9px 14px;
+  border-radius:7px;
 }
 
 .container{
   max-width:700px;
   margin:auto;
-  padding:30px 18px;
-}
-
-h1{
-  color:#ffd700;
-  text-align:center;
-  margin-bottom:25px;
+  padding:25px 18px;
 }
 
 .card{
   background:#111;
   border:1px solid #333;
-  border-radius:15px;
-  padding:22px;
+  border-radius:18px;
+  padding:25px;
+}
+
+h1{
+  color:#ffd700;
+  margin-top:0;
 }
 
 label{
@@ -70,6 +69,7 @@ label{
   margin-top:18px;
   margin-bottom:7px;
   color:#ddd;
+  font-weight:bold;
 }
 
 input,
@@ -78,7 +78,7 @@ textarea{
   padding:13px;
   border-radius:8px;
   border:1px solid #444;
-  background:#050505;
+  background:#222;
   color:#fff;
   font-size:15px;
 }
@@ -88,53 +88,74 @@ textarea{
   resize:vertical;
 }
 
-button{
+.upload-btn{
   width:100%;
-  margin-top:25px;
   padding:14px;
   border:0;
   border-radius:8px;
   background:#ffd700;
   color:#000;
-  font-size:16px;
   font-weight:bold;
+  font-size:16px;
   cursor:pointer;
+  margin-top:5px;
 }
 
-button:disabled{
-  opacity:.6;
+.upload-btn:disabled{
+  opacity:.5;
   cursor:not-allowed;
 }
 
-.message{
-  display:none;
-  margin-top:18px;
-  padding:12px;
-  border-radius:8px;
-  text-align:center;
-  font-weight:bold;
+.status{
+  margin-top:10px;
+  padding:10px;
+  border-radius:7px;
+  background:#181818;
+  color:#aaa;
+  font-size:14px;
+  word-break:break-word;
 }
 
 .success{
-  display:block;
-  background:#123d1c;
   color:#7dff91;
 }
 
 .error{
-  display:block;
-  background:#3d1212;
-  color:#ff8b8b;
+  color:#ff5555;
 }
 
-.note{
-  margin-top:15px;
-  padding:12px;
-  background:#181818;
-  border-radius:8px;
-  color:#aaa;
-  font-size:13px;
-  line-height:1.5;
+.preview{
+  width:100%;
+  max-height:220px;
+  object-fit:contain;
+  background:#222;
+  border-radius:10px;
+  margin-top:12px;
+  display:none;
+}
+
+.save-btn{
+  width:100%;
+  padding:15px;
+  margin-top:25px;
+  border:0;
+  border-radius:9px;
+  background:#16a34a;
+  color:#fff;
+  font-size:17px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.save-btn:disabled{
+  opacity:.5;
+  cursor:not-allowed;
+}
+
+.small{
+  color:#777;
+  font-size:12px;
+  margin-top:6px;
 }
 
 </style>
@@ -152,10 +173,10 @@ button:disabled{
   </div>
 
   <a
-    href="admin.html"
+    href="ebook.html"
     class="back"
   >
-    ← Admin
+    ← Back
   </a>
 
 </div>
@@ -163,28 +184,31 @@ button:disabled{
 
 <div class="container">
 
+<div class="card">
+
 <h1>
   📚 Add New eBook
 </h1>
 
 
-<div class="card">
+<form id="bookForm">
 
 
-<form id="ebookForm">
-
+<!-- BOOK TITLE -->
 
 <label>
-  eBook Title
+  Book Title
 </label>
 
 <input
   type="text"
   id="title"
-  placeholder="Money Management"
+  placeholder="Enter book title"
   required
 >
 
+
+<!-- DESCRIPTION -->
 
 <label>
   Description
@@ -192,21 +216,25 @@ button:disabled{
 
 <textarea
   id="description"
-  placeholder="Enter eBook description"
+  placeholder="Enter book description"
   required
 ></textarea>
 
+
+<!-- TOPICS -->
 
 <label>
-  Topics / What You Will Learn
+  Topics
 </label>
 
-<textarea
+<input
+  type="text"
   id="topics"
-  placeholder="Saving, Money Management, Investment"
-  required
-></textarea>
+  placeholder="Example: Business, Motivation, Success"
+>
 
+
+<!-- PRICE -->
 
 <label>
   Price (₹)
@@ -215,76 +243,108 @@ button:disabled{
 <input
   type="number"
   id="price"
-  placeholder="99"
+  placeholder="Enter price"
   min="0"
   required
 >
 
 
+<!-- OLD PRICE -->
+
 <label>
-  Old Price (₹) - Optional
+  Old Price (₹)
 </label>
 
 <input
   type="number"
   id="oldPrice"
-  placeholder="199"
+  placeholder="Optional"
   min="0"
 >
 
 
+<!-- BOOK IMAGE -->
+
 <label>
-  Book Image URL - Optional
+  🖼️ Book Image
 </label>
 
 <input
-  type="url"
-  id="image"
-  placeholder="https://example.com/book.jpg"
+  type="file"
+  id="imageFile"
+  accept="image/*"
+>
+
+<button
+  type="button"
+  class="upload-btn"
+  id="imageUploadBtn"
+>
+  🖼️ Upload Book Image
+</button>
+
+<div
+  class="status"
+  id="imageStatus"
+>
+  Image अभी upload नहीं हुई है।
+</div>
+
+<img
+  id="imagePreview"
+  class="preview"
+  alt="Book Preview"
 >
 
 
+<!-- PDF -->
+
 <label>
-  PDF / eBook Link
+  📖 eBook PDF
 </label>
 
 <input
-  type="url"
+  type="file"
+  id="pdfFile"
+  accept="application/pdf"
+>
+
+<button
+  type="button"
+  class="upload-btn"
+  id="pdfUploadBtn"
+>
+  📤 Upload PDF
+</button>
+
+<div
+  class="status"
+  id="pdfStatus"
+>
+  PDF अभी upload नहीं हुई है।
+</div>
+
+
+<!-- HIDDEN URL FIELDS -->
+
+<input
+  type="hidden"
+  id="imageUrl"
+>
+
+<input
+  type="hidden"
   id="pdfUrl"
-  placeholder="https://example.com/book.pdf"
-  required
 >
 
 
 <button
   type="submit"
+  class="save-btn"
   id="saveBtn"
 >
   💾 Save eBook
 </button>
-
-
-<div
-  id="message"
-  class="message"
-></div>
-
-
-<div class="note">
-
-  <b>Important:</b>
-
-  PDF Link में आपकी actual PDF की direct link होनी चाहिए.
-
-  <br><br>
-
-  Example:
-
-  <br>
-
-  https://example.com/book.pdf
-
-</div>
 
 
 </form>
@@ -298,13 +358,80 @@ button:disabled{
 
 
 /* =====================================
-   ADD EBOOK
+   CLOUDINARY SETTINGS
 ===================================== */
 
 
-const form =
+const CLOUD_NAME =
+  "z2kzpgl3";
+
+
+const UPLOAD_PRESET =
+  "road2billionaire";
+
+
+const UPLOAD_URL =
+  "https://api.cloudinary.com/v1_1/" +
+  CLOUD_NAME +
+  "/upload";
+
+
+/* =====================================
+   ELEMENTS
+===================================== */
+
+
+const imageFile =
   document.getElementById(
-    "ebookForm"
+    "imageFile"
+  );
+
+
+const pdfFile =
+  document.getElementById(
+    "pdfFile"
+  );
+
+
+const imageUploadBtn =
+  document.getElementById(
+    "imageUploadBtn"
+  );
+
+
+const pdfUploadBtn =
+  document.getElementById(
+    "pdfUploadBtn"
+  );
+
+
+const imageStatus =
+  document.getElementById(
+    "imageStatus"
+  );
+
+
+const pdfStatus =
+  document.getElementById(
+    "pdfStatus"
+  );
+
+
+const imageUrl =
+  document.getElementById(
+    "imageUrl"
+  );
+
+
+const pdfUrl =
+  document.getElementById(
+    "pdfUrl"
+  );
+
+
+const imagePreview =
+  document.getElementById(
+    "imagePreview"
   );
 
 
@@ -314,218 +441,367 @@ const saveBtn =
   );
 
 
-const message =
-  document.getElementById(
-    "message"
-  );
+/* =====================================
+   UPLOAD FUNCTION
+===================================== */
 
 
-function showMessage(
-  text,
+async function uploadToCloudinary(
+  file,
   type
 ){
 
-  message.textContent =
-    text;
+  const formData =
+    new FormData();
 
-  message.className =
-    "message " + type;
+
+  formData.append(
+    "file",
+    file
+  );
+
+
+  formData.append(
+    "upload_preset",
+    UPLOAD_PRESET
+  );
+
+
+  /*
+    PDFs should be uploaded as raw
+    files so their original format
+    is preserved.
+  */
+
+  if(type === "pdf"){
+
+    formData.append(
+      "resource_type",
+      "raw"
+    );
+
+  }
+
+
+  const response =
+    await fetch(
+      UPLOAD_URL,
+      {
+        method:"POST",
+        body:formData
+      }
+    );
+
+
+  const data =
+    await response.json();
+
+
+  if(!response.ok){
+
+    throw new Error(
+      data.error?.message ||
+      "Upload failed"
+    );
+
+  }
+
+
+  return data.secure_url;
 
 }
 
 
-
 /* =====================================
-   FORM SUBMIT
+   IMAGE UPLOAD
 ===================================== */
 
 
-form.addEventListener(
-  "submit",
-  function(event){
+imageUploadBtn.addEventListener(
+  "click",
+  async function(){
 
-    event.preventDefault();
+    const file =
+      imageFile.files[0];
+
+
+    if(!file){
+
+      alert(
+        "पहले Book Image select करें।"
+      );
+
+      return;
+
+    }
+
+
+    imageUploadBtn.disabled =
+      true;
+
+
+    imageStatus.innerHTML =
+      "⏳ Image uploading...";
+
+
+    try{
+
+      const url =
+        await uploadToCloudinary(
+          file,
+          "image"
+        );
+
+
+      imageUrl.value =
+        url;
+
+
+      imagePreview.src =
+        url;
+
+
+      imagePreview.style.display =
+        "block";
+
+
+      imageStatus.innerHTML =
+        '<span class="success">✅ Image uploaded successfully.</span>';
+
+
+    }
+    catch(error){
+
+      console.error(error);
+
+
+      imageStatus.innerHTML =
+        '<span class="error">❌ Image upload failed: ' +
+        error.message +
+        '</span>';
+
+    }
+
+
+    imageUploadBtn.disabled =
+      false;
+
+  }
+);
+
+
+/* =====================================
+   PDF UPLOAD
+===================================== */
+
+
+pdfUploadBtn.addEventListener(
+  "click",
+  async function(){
+
+    const file =
+      pdfFile.files[0];
+
+
+    if(!file){
+
+      alert(
+        "पहले PDF select करें।"
+      );
+
+      return;
+
+    }
+
+
+    if(
+      file.type !==
+      "application/pdf"
+    ){
+
+      alert(
+        "कृपया सिर्फ PDF file select करें।"
+      );
+
+      return;
+
+    }
+
+
+    pdfUploadBtn.disabled =
+      true;
 
 
     saveBtn.disabled =
       true;
 
-    saveBtn.textContent =
-      "Saving...";
+
+    pdfStatus.innerHTML =
+      "⏳ PDF uploading...";
 
 
     try{
 
-
-      /* GET VALUES */
-
-
-      const title =
-        document
-        .getElementById("title")
-        .value
-        .trim();
-
-
-      const description =
-        document
-        .getElementById("description")
-        .value
-        .trim();
-
-
-      const topics =
-        document
-        .getElementById("topics")
-        .value
-        .trim();
-
-
-      const price =
-        Number(
-          document
-          .getElementById("price")
-          .value
+      const url =
+        await uploadToCloudinary(
+          file,
+          "pdf"
         );
 
 
+      pdfUrl.value =
+        url;
+
+
+      pdfStatus.innerHTML =
+        '<span class="success">✅ PDF uploaded successfully.</span><br>' +
+        '<span class="small">PDF website में save होने के लिए ready है.</span>';
+
+
+    }
+    catch(error){
+
+      console.error(error);
+
+
+      pdfStatus.innerHTML =
+        '<span class="error">❌ PDF upload failed: ' +
+        error.message +
+        '</span>';
+
+    }
+
+
+    pdfUploadBtn.disabled =
+      false;
+
+
+    saveBtn.disabled =
+      false;
+
+  }
+);
+
+
+/* =====================================
+   SAVE BOOK
+===================================== */
+
+
+document
+  .getElementById("bookForm")
+  .addEventListener(
+    "submit",
+    function(event){
+
+      event.preventDefault();
+
+
+      const title =
+        document.getElementById(
+          "title"
+        ).value.trim();
+
+
+      const description =
+        document.getElementById(
+          "description"
+        ).value.trim();
+
+
+      const topics =
+        document.getElementById(
+          "topics"
+        ).value.trim();
+
+
+      const price =
+        document.getElementById(
+          "price"
+        ).value.trim();
+
+
       const oldPrice =
-        Number(
-          document
-          .getElementById("oldPrice")
-          .value
-        ) || 0;
+        document.getElementById(
+          "oldPrice"
+        ).value.trim();
 
 
-      const image =
-        document
-        .getElementById("image")
-        .value
-        .trim();
+      const uploadedPDF =
+        pdfUrl.value.trim();
 
 
-      const pdfUrl =
-        document
-        .getElementById("pdfUrl")
-        .value
-        .trim();
-
-
-
-      /* VALIDATION */
+      const uploadedImage =
+        imageUrl.value.trim();
 
 
       if(!title){
 
-        throw new Error(
-          "eBook title डालें."
+        alert(
+          "Book title डालें।"
         );
+
+        return;
 
       }
 
 
-      if(!description){
+      if(!price){
 
-        throw new Error(
-          "Description डालें."
+        alert(
+          "Book price डालें।"
         );
+
+        return;
 
       }
 
 
-      if(!topics){
+      if(!uploadedPDF){
 
-        throw new Error(
-          "Topics डालें."
+        alert(
+          "पहले PDF upload करें।"
         );
 
-      }
-
-
-      if(
-        isNaN(price) ||
-        price < 0
-      ){
-
-        throw new Error(
-          "Valid price डालें."
-        );
+        return;
 
       }
-
-
-      if(!pdfUrl){
-
-        throw new Error(
-          "PDF / eBook link डालें."
-        );
-
-      }
-
-
-      /* CHECK URL */
-
-
-      try{
-
-        new URL(pdfUrl);
-
-      }catch(error){
-
-        throw new Error(
-          "PDF link सही URL नहीं है."
-        );
-
-      }
-
-
-
-      /* =================================
-         GET EXISTING BOOKS
-      ================================= */
 
 
       let ebooks = [];
 
 
-      const saved =
-        localStorage.getItem(
-          "ebooksData"
-        );
+      try{
+
+        const saved =
+          localStorage.getItem(
+            "ebooksData"
+          );
 
 
-      if(saved){
-
-        try{
+        if(saved){
 
           ebooks =
             JSON.parse(saved);
 
-        }catch(error){
-
-          ebooks = [];
-
         }
 
       }
-
-
-      if(
-        !Array.isArray(ebooks)
-      ){
+      catch(error){
 
         ebooks = [];
 
       }
 
 
+      if(!Array.isArray(ebooks)){
 
-      /* =================================
-         CREATE BOOK
-      ================================= */
+        ebooks = [];
+
+      }
 
 
-      const ebook = {
+      const newBook = {
 
         id:
           Date.now().toString(),
@@ -546,10 +822,10 @@ form.addEventListener(
           oldPrice,
 
         image:
-          image,
+          uploadedImage,
 
         pdfUrl:
-          pdfUrl,
+          uploadedPDF,
 
         createdAt:
           new Date().toISOString()
@@ -557,14 +833,8 @@ form.addEventListener(
       };
 
 
-
-      /* =================================
-         SAVE
-      ================================= */
-
-
       ebooks.push(
-        ebook
+        newBook
       );
 
 
@@ -574,61 +844,17 @@ form.addEventListener(
       );
 
 
-
-      /* SUCCESS */
-
-
-      showMessage(
-        "✅ eBook successfully added!",
-        "success"
+      alert(
+        "✅ eBook successfully saved!"
       );
 
 
-      form.reset();
-
-
-      saveBtn.disabled =
-        false;
-
-      saveBtn.textContent =
-        "💾 Save eBook";
-
-
-
-      /* GO TO EBOOK LIST */
-
-
-      setTimeout(
-        function(){
-
-          window.location.href =
-            "ebook.html";
-
-        },
-        1000
-      );
-
-
-    }catch(error){
-
-
-      showMessage(
-        "❌ " +
-        error.message,
-        "error"
-      );
-
-
-      saveBtn.disabled =
-        false;
-
-      saveBtn.textContent =
-        "💾 Save eBook";
+      window.location.href =
+        "ebook.html";
 
     }
+  );
 
-  }
-);
 
 </script>
 
