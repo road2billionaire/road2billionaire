@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>eBook Details | Road2Billionaire</title>
+
+<style>
+
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#000;
+  color:white;
+}
+
+.topbar{
+  background:#111;
+  padding:18px 20px;
+  border-bottom:1px solid #ffd700;
+
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.brand{
+  color:#ffd700;
+  font-size:21px;
+  font-weight:bold;
+}
+
+.back{
+  color:#ffd700;
+  text-decoration:none;
+}
+
+.container{
+  max-width:800px;
+  margin:auto;
+  padding:30px 18px 50px;
+}
+
+.card{
+  background:#111;
+  border:1px solid #333;
+  border-radius:20px;
+  padding:25px;
+}
+
+h1{
+  color:#ffd700;
+  margin-top:0;
+}
+
+.description{
+  color:#bbb;
+  line-height:1.7;
+}
+
+.topics{
+  background:#191919;
+  padding:18px;
+  border-radius:12px;
+  color:#ddd;
+  line-height:1.7;
+  margin-top:20px;
+}
+
+.price{
+  margin-top:25px;
+  color:#ffd700;
+  font-size:32px;
+  font-weight:bold;
+}
+
+.old-price{
+  color:#777;
+  font-size:17px;
+  text-decoration:line-through;
+  margin-left:10px;
+}
+
+.buy{
+  width:100%;
+  margin-top:25px;
+  padding:16px;
+  border:0;
+  border-radius:10px;
+  background:#ffd700;
+  color:#000;
+  font-size:17px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.message{
+  display:none;
+  margin-top:20px;
+  background:#14220f;
+  border:1px solid #3d7a2c;
+  color:#9cff7c;
+  padding:15px;
+  border-radius:10px;
+  text-align:center;
+}
+
+.empty{
+  text-align:center;
+  background:#111;
+  border-radius:18px;
+  padding:40px 20px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+
+<div class="topbar">
+
+  <div class="brand">
+    Road2Billionaire
+  </div>
+
+  <a href="index.html" class="back">
+    ← Home
+  </a>
+
+</div>
+
+
+<div class="container">
+
+<div id="ebookBox"></div>
+
+
+<div id="message" class="message">
+  ✅ Buy Now selected. Payment system will be connected next.
+</div>
+
+</div>
+
+
+<script>
+
+
+function loadEbook(){
+
+  const params =
+    new URLSearchParams(
+      window.location.search
+    );
+
+  const id =
+    params.get("id");
+
+
+  const books =
+    JSON.parse(
+      localStorage.getItem("ebooksData") || "[]"
+    );
+
+
+  let ebook;
+
+
+  if(id){
+
+    ebook =
+      books.find(
+        book => String(book.id) === String(id)
+      );
+
+  }
+
+
+  /*
+    अगर ID नहीं मिली तो पहली book दिखाएँ
+  */
+
+  if(!ebook && books.length > 0){
+
+    ebook = books[0];
+
+  }
+
+
+  const box =
+    document.getElementById("ebookBox");
+
+
+  if(!ebook){
+
+    box.innerHTML = `
+
+      <div class="empty">
+
+        <h2 style="color:#ffd700;">
+          eBook Not Found
+        </h2>
+
+        <p>
+          Please go back and select an eBook.
+        </p>
+
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+
+  box.innerHTML = `
+
+    <div class="card">
+
+      <h1>
+        ${ebook.title}
+      </h1>
+
+      <div class="description">
+
+        ${ebook.description}
+
+      </div>
+
+
+      <div class="topics">
+
+        <strong>📚 What You Will Learn</strong>
+
+        <br><br>
+
+        ${ebook.topics}
+
+      </div>
+
+
+      <div class="price">
+
+        ₹${ebook.price}
+
+        ${
+          ebook.oldPrice
+          ?
+          `<span class="old-price">
+            ₹${ebook.oldPrice}
+          </span>`
+          :
+          ""
+        }
+
+      </div>
+
+
+      <button
+        class="buy"
+        onclick="buyNow('${ebook.id}')"
+      >
+
+        🛒 Buy Now — ₹${ebook.price}
+
+      </button>
+
+    </div>
+
+  `;
+
+}
+
+
+function buyNow(id){
+
+  const loggedIn =
+    localStorage.getItem("loggedIn");
+
+
+  if(loggedIn !== "true"){
+
+    alert(
+      "Please login first to continue."
+    );
+
+    window.location.href =
+      "login.html";
+
+    return;
+
+  }
+
+
+  document.getElementById(
+    "message"
+  ).style.display = "block";
+
+
+  /*
+    Payment system next step
+  */
+
+}
+
+
+loadEbook();
+
+</script>
+
+
+</body>
+
+</html>
