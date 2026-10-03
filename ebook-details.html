@@ -122,17 +122,11 @@ p{
   text-align:center;
 }
 
-.success{
-  color:#7dff91;
-}
-
 </style>
 
 </head>
 
-
 <body>
-
 
 <div class="topbar">
 
@@ -168,24 +162,15 @@ p{
 
 <script>
 
-
 (function(){
-
-
-  /* ==============================
-     GET BOOK ID
-  ============================== */
-
 
   const params =
     new URLSearchParams(
       window.location.search
     );
 
-
   const id =
     params.get("id");
-
 
   const container =
     document.getElementById(
@@ -197,9 +182,7 @@ p{
 
     container.innerHTML = `
 
-      <h1>
-        ❌ eBook Not Found
-      </h1>
+      <h1>❌ eBook Not Found</h1>
 
       <p class="error">
         eBook ID नहीं मिला।
@@ -208,17 +191,12 @@ p{
     `;
 
     return;
-
   }
 
 
-  /* ==============================
-     LOAD EBOOKS
-  ============================== */
-
+  /* LOAD EBOOKS */
 
   let ebooks = [];
-
 
   try{
 
@@ -226,7 +204,6 @@ p{
       localStorage.getItem(
         "ebooksData"
       );
-
 
     if(saved){
 
@@ -237,8 +214,6 @@ p{
 
   }
   catch(error){
-
-    console.log(error);
 
     ebooks = [];
 
@@ -252,10 +227,7 @@ p{
   }
 
 
-  /* ==============================
-     FIND BOOK
-  ============================== */
-
+  /* FIND BOOK */
 
   const book =
     ebooks.find(function(item){
@@ -270,16 +242,14 @@ p{
 
     container.innerHTML = `
 
-      <h1>
-        ❌ eBook Not Found
-      </h1>
+      <h1>❌ eBook Not Found</h1>
 
       <p class="error">
         यह eBook इस browser में उपलब्ध नहीं है।
       </p>
 
       <a
-        href="ebook.html?from=dashboard"
+        href="ebook.html"
         class="btn buy"
       >
         📚 Back to eBooks
@@ -288,17 +258,12 @@ p{
     `;
 
     return;
-
   }
 
 
-  /* ==============================
-     CHECK PURCHASE
-  ============================== */
-
+  /* CHECK PURCHASE */
 
   let purchasedBooks = [];
-
 
   try{
 
@@ -307,7 +272,6 @@ p{
         "purchasedBooks"
       );
 
-
     if(purchased){
 
       purchasedBooks =
@@ -315,15 +279,15 @@ p{
 
     }
 
-
-    if(!Array.isArray(purchasedBooks)){
-
-      purchasedBooks = [];
-
-    }
-
   }
   catch(error){
+
+    purchasedBooks = [];
+
+  }
+
+
+  if(!Array.isArray(purchasedBooks)){
 
     purchasedBooks = [];
 
@@ -339,13 +303,9 @@ p{
     });
 
 
-  /* ==============================
-     IMAGE
-  ============================== */
-
+  /* IMAGE */
 
   let imageHTML = "";
-
 
   if(book.image){
 
@@ -363,31 +323,20 @@ p{
   }
 
 
-  /* ==============================
-     ACTION BUTTON
-  ============================== */
-
+  /* ACTION BUTTON */
 
   let actionButton = "";
 
 
   if(purchased){
 
-
-    /* IMPORTANT:
-       PDF FIELD = pdfUrl
-    */
-
-
     if(book.pdfUrl){
 
       actionButton = `
 
         <a
-          href="${book.pdfUrl}"
+          href="read.html?id=${encodeURIComponent(book.id)}"
           class="btn read"
-          target="_blank"
-          rel="noopener noreferrer"
         >
           📖 Read eBook
         </a>
@@ -407,10 +356,8 @@ p{
 
     }
 
-
   }
   else{
-
 
     actionButton = `
 
@@ -426,25 +373,19 @@ p{
   }
 
 
-  /* ==============================
-     DISPLAY BOOK
-  ============================== */
-
+  /* DISPLAY BOOK */
 
   container.innerHTML = `
 
     ${imageHTML}
 
-
     <h1>
       ${book.title || "eBook"}
     </h1>
 
-
     <p>
       ${book.description || ""}
     </p>
-
 
     <p>
 
@@ -457,7 +398,6 @@ p{
       ${book.topics || "Not specified"}
 
     </p>
-
 
     <div class="price">
 
@@ -475,16 +415,12 @@ p{
 
     </div>
 
-
     ${actionButton}
 
   `;
 
 
-  /* ==============================
-     BUY BUTTON
-  ============================== */
-
+  /* BUY BUTTON */
 
   const buyButton =
     document.getElementById(
@@ -505,18 +441,12 @@ p{
 
   }
 
-
 })();
 
 
-
-/* ==============================
-   BUY NOW
-============================== */
-
+/* BUY NOW */
 
 function buyNow(id){
-
 
   const loggedIn =
     localStorage.getItem(
@@ -530,13 +460,10 @@ function buyNow(id){
       "Please login first to continue."
     );
 
-
     window.location.href =
       "login.html";
 
-
     return;
-
   }
 
 
@@ -547,7 +474,6 @@ function buyNow(id){
 }
 
 </script>
-
 
 </body>
 
