@@ -1,1 +1,195 @@
-<!doctype html><html lang="hi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Login | Road2Billionaire</title><link rel="stylesheet" href="assets/style.css"></head><body><header class="nav"><a class="brand" href="index.html">ROAD2BILLIONAIRE</a></header><div class="form"><h2>Login</h2><label>Email</label><input class="input" type="email" placeholder="Your email"><label>Password</label><input class="input" type="password" placeholder="Password"><button class="btn" type="button" onclick="alert('Demo login: backend अभी connect नहीं है.')">Login</button><p class="muted">New user? Registration backend में जोड़ा जाएगा।</p></div></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Login | Road2Billionaire</title>
+
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+    }
+
+    .login-container {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .login-box {
+      width: 100%;
+      max-width: 420px;
+      background: white;
+      padding: 30px;
+      border-radius: 18px;
+      box-shadow: 0 10px 35px rgba(0,0,0,0.10);
+      box-sizing: border-box;
+    }
+
+    .brand {
+      text-align: center;
+      font-size: 28px;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #666;
+      margin-bottom: 30px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 7px;
+      font-weight: bold;
+    }
+
+    input {
+      width: 100%;
+      padding: 13px;
+      margin-bottom: 18px;
+      border: 1px solid #ddd;
+      border-radius: 9px;
+      box-sizing: border-box;
+      font-size: 16px;
+    }
+
+    .login-btn {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 9px;
+      background: #111;
+      color: white;
+      font-size: 17px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .login-btn:hover {
+      opacity: 0.85;
+    }
+
+    .register {
+      text-align: center;
+      margin-top: 22px;
+      color: #555;
+    }
+
+    .register a {
+      color: #111;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    .back {
+      display: block;
+      text-align: center;
+      margin-top: 20px;
+      color: #555;
+      text-decoration: none;
+    }
+
+    .demo-note {
+      margin-top: 20px;
+      padding: 12px;
+      background: #f3f3f3;
+      border-radius: 8px;
+      font-size: 13px;
+      color: #666;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="login-container">
+
+    <div class="login-box">
+
+      <div class="brand">
+        ROAD2BILLIONAIRE
+      </div>
+
+      <p class="subtitle">
+        Login to your account
+      </p>
+
+      <form onsubmit="loginUser(event)">
+
+        <label for="email">
+          Email Address
+        </label>
+
+        <input
+          type="email"
+          id="email"
+          placeholder="Enter your email"
+          required
+        >
+
+        <label for="password">
+          Password
+        </label>
+
+        <input
+          type="password"
+          id="password"
+          placeholder="Enter your password"
+          required
+        >
+
+        <button type="submit" class="login-btn">
+          Login
+        </button>
+
+      </form>
+
+      <div class="register">
+        Don't have an account?
+        <a href="#" onclick="showRegister(event)">
+          Register
+        </a>
+      </div>
+
+      <a href="index.html" class="back">
+        ← Back to Home
+      </a>
+
+      <div class="demo-note">
+        🔒 Secure login system बाद में backend के साथ connect किया जाएगा।
+      </div>
+
+    </div>
+
+  </div>
+
+  <script>
+    function loginUser(event) {
+      event.preventDefault();
+
+      alert(
+        "Login system अभी setup नहीं हुआ है। Backend connect होने के बाद real login काम करेगा।"
+      );
+    }
+
+    function showRegister(event) {
+      event.preventDefault();
+
+      alert(
+        "Registration page अगला step में बनाया जाएगा।"
+      );
+    }
+  </script>
+
+</body>
+</html>
