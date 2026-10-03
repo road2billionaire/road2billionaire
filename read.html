@@ -1,710 +1,261 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<meta charset="UTF-8">
+  <title>Read eBook - Road2Billionaire</title>
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-<title>Read eBook | Road2Billionaire</title>
+    body {
+      margin: 0;
+      background: #111;
+      color: white;
+      font-family: Arial, sans-serif;
+    }
 
-<style>
+    .topbar {
+      background: #000;
+      padding: 15px;
+      text-align: center;
+      font-size: 22px;
+      font-weight: bold;
+      color: #ffd700;
+      position: sticky;
+      top: 0;
+      z-index: 999;
+    }
 
-*{
-  box-sizing:border-box;
-}
+    #bookTitle {
+      text-align: center;
+      padding: 12px;
+      font-size: 18px;
+      background: #181818;
+    }
 
-html,
-body{
-  margin:0;
-  padding:0;
-  width:100%;
-  height:100%;
-  background:#111;
-  color:#fff;
-  font-family:Arial,sans-serif;
-  overflow:hidden;
-}
+    #loading {
+      text-align: center;
+      padding: 30px;
+      font-size: 18px;
+    }
 
-.topbar{
-  height:58px;
-  background:#111;
-  border-bottom:1px solid #ffd700;
-  padding:0 15px;
+    #error {
+      display: none;
+      text-align: center;
+      padding: 30px 20px;
+      color: #ff6b6b;
+      font-size: 17px;
+    }
 
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
+    .page {
+      display: block;
+      width: 100%;
+      max-width: 900px;
+      height: auto;
+      margin: 15px auto;
+      background: white;
+    }
 
-.logo{
-  color:#ffd700;
-  font-size:19px;
-  font-weight:bold;
-}
+    #viewer {
+      padding-bottom: 30px;
+    }
 
-.back{
-  color:#ffd700;
-  text-decoration:none;
-  background:#222;
-  padding:8px 13px;
-  border-radius:7px;
-  font-size:14px;
-}
+    .back {
+      display: block;
+      width: fit-content;
+      margin: 15px auto;
+      padding: 10px 18px;
+      background: #ffd700;
+      color: #000;
+      text-decoration: none;
+      border-radius: 6px;
+      font-weight: bold;
+    }
+  </style>
 
-.title{
-  height:52px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-
-  color:#ffd700;
-  background:#181818;
-
-  padding:5px 40px;
-
-  font-size:18px;
-  font-weight:bold;
-
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
-}
-
-.reader{
-  width:100%;
-  height:calc(100vh - 110px);
-  overflow:auto;
-  background:#333;
-  padding:15px 0;
-}
-
-#pdfContainer{
-  width:100%;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:15px;
-}
-
-.pdf-page{
-  display:block;
-  background:#fff;
-  box-shadow:0 2px 10px #000;
-  max-width:96%;
-  height:auto;
-}
-
-.message{
-  text-align:center;
-  padding:50px 20px;
-}
-
-.error{
-  color:#ff5555;
-}
-
-.loading{
-  color:#ffd700;
-}
-
-.notice{
-  color:#aaa;
-  font-size:13px;
-  margin-top:15px;
-}
-
-button{
-  padding:12px 20px;
-  border:0;
-  border-radius:8px;
-  background:#ffd700;
-  color:#000;
-  font-weight:bold;
-  cursor:pointer;
-}
-
-</style>
-
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 </head>
-
 
 <body>
 
-
-<div class="topbar">
-
-  <div class="logo">
-    Road2Billionaire
+  <div class="topbar">
+    📚 Road2Billionaire
   </div>
 
-  <a
-    href="Dashboard.html"
-    class="back"
-  >
-    ← Back
+  <div id="bookTitle">
+    Loading eBook...
+  </div>
+
+  <div id="loading">
+    📖 PDF load ho rahi hai...
+  </div>
+
+  <div id="error">
+    ❌ PDF open nahi ho paayi.<br><br>
+    Please PDF ko dobara upload karke try karein.
+  </div>
+
+  <div id="viewer"></div>
+
+  <a href="ebook.html" class="back">
+    ← Back to eBooks
   </a>
 
-</div>
+  <script>
 
+    pdfjsLib.GlobalWorkerOptions.workerSrc =
+      "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
 
-<div
-  class="title"
-  id="bookTitle"
->
-  📖 Loading eBook...
-</div>
+    const params = new URLSearchParams(window.location.search);
+    const bookId = params.get("id");
 
-
-<div
-  class="reader"
-  id="reader"
->
-
-  <div class="message loading">
-    Please wait...
-  </div>
-
-</div>
-
-
-<!-- PDF.JS -->
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-
-
-<script>
-
-(function(){
-
-
-  /* =========================
-     PDF.JS WORKER
-  ========================= */
-
-  pdfjsLib.GlobalWorkerOptions.workerSrc =
-    "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
-
-
-  /* =========================
-     GET BOOK ID
-  ========================= */
-
-  const params =
-    new URLSearchParams(
-      window.location.search
+    const books = JSON.parse(
+      localStorage.getItem("ebooksData") || "[]"
     );
 
-  const id =
-    params.get("id");
-
-
-  const title =
-    document.getElementById(
-      "bookTitle"
+    const purchases = JSON.parse(
+      localStorage.getItem("purchasedBooks") || "[]"
     );
 
-  const reader =
-    document.getElementById(
-      "reader"
+    const book = books.find(
+      b => String(b.id) === String(bookId)
     );
 
+    // Book check
+    if (!book) {
 
-  if(!id){
+      document.getElementById("loading").style.display = "none";
 
-    title.textContent =
-      "❌ eBook Not Found";
+      document.getElementById("error").style.display = "block";
 
-    reader.innerHTML = `
-
-      <div class="message">
-
-        <p class="error">
-          eBook ID नहीं मिला।
-        </p>
-
-      </div>
-
-    `;
-
-    return;
-
-  }
-
-
-  /* =========================
-     LOAD EBOOK DATA
-  ========================= */
-
-  let ebooks = [];
-
-  try{
-
-    const saved =
-      localStorage.getItem(
-        "ebooksData"
-      );
-
-    if(saved){
-
-      ebooks =
-        JSON.parse(saved);
+      document.getElementById("error").innerHTML =
+        "❌ eBook nahi mili.";
 
     }
 
-  }
-  catch(error){
+    // Purchase check
+    else if (!purchases.includes(String(bookId)) &&
+             !purchases.includes(bookId)) {
 
-    ebooks = [];
+      document.getElementById("loading").style.display = "none";
 
-  }
+      document.getElementById("error").style.display = "block";
 
-
-  if(!Array.isArray(ebooks)){
-
-    ebooks = [];
-
-  }
-
-
-  /* =========================
-     FIND BOOK
-  ========================= */
-
-  const book =
-    ebooks.find(function(item){
-
-      return String(item.id) ===
-             String(id);
-
-    });
-
-
-  if(!book){
-
-    title.textContent =
-      "❌ eBook Not Found";
-
-    reader.innerHTML = `
-
-      <div class="message">
-
-        <p class="error">
-          यह eBook इस browser में उपलब्ध नहीं है।
-        </p>
-
-      </div>
-
-    `;
-
-    return;
-
-  }
-
-
-  /* =========================
-     CHECK PURCHASE
-  ========================= */
-
-  let purchasedBooks = [];
-
-  try{
-
-    const savedPurchased =
-      localStorage.getItem(
-        "purchasedBooks"
-      );
-
-    if(savedPurchased){
-
-      purchasedBooks =
-        JSON.parse(savedPurchased);
+      document.getElementById("error").innerHTML =
+        "🔒 Ye eBook purchased nahi hai.<br><br>" +
+        "Pehle eBook purchase karein.";
 
     }
 
-  }
-  catch(error){
+    else {
 
-    purchasedBooks = [];
+      document.getElementById("bookTitle").innerText =
+        book.title || "eBook";
 
-  }
+      const pdfUrl = book.pdfUrl;
 
+      if (!pdfUrl) {
 
-  if(!Array.isArray(purchasedBooks)){
+        document.getElementById("loading").style.display = "none";
 
-    purchasedBooks = [];
+        document.getElementById("error").style.display = "block";
 
-  }
+        document.getElementById("error").innerHTML =
+          "❌ Is eBook ka PDF URL nahi mila.";
 
+      } else {
 
-  const purchased =
-    purchasedBooks.some(function(item){
+        console.log("PDF URL:", pdfUrl);
 
-      return String(item.bookId) ===
-             String(book.id);
-
-    });
-
-
-  /* =========================
-     PURCHASE CHECK
-  ========================= */
-
-  if(!purchased){
-
-    title.textContent =
-      "🔒 eBook Locked";
-
-    reader.innerHTML = `
-
-      <div class="message">
-
-        <h2>
-          🔒 eBook Locked
-        </h2>
-
-        <p>
-          पहले eBook खरीदें, उसके बाद इसे पढ़ सकते हैं।
-        </p>
-
-        <br>
-
-        <a
-          href="ebook-details.html?id=${encodeURIComponent(book.id)}"
-        >
-          <button>
-            🛒 Buy Now
-          </button>
-        </a>
-
-      </div>
-
-    `;
-
-    return;
-
-  }
-
-
-  /* =========================
-     CHECK PDF
-  ========================= */
-
-  if(!book.pdfUrl){
-
-    title.textContent =
-      "❌ PDF Not Available";
-
-    reader.innerHTML = `
-
-      <div class="message">
-
-        <p class="error">
-          इस eBook की PDF उपलब्ध नहीं है।
-        </p>
-
-      </div>
-
-    `;
-
-    return;
-
-  }
-
-
-  title.textContent =
-    "📖 " +
-    (book.title || "Read eBook");
-
-
-  /* =========================
-     GET PDF URL
-  ========================= */
-
-  let pdfUrl =
-    book.pdfUrl;
-
-
-  /*
-    Google Drive FILE URL
-  */
-
-  let driveMatch =
-    pdfUrl.match(
-      /\/file\/d\/([^/]+)/
-    );
-
-
-  /*
-    Google Drive UC URL
-  */
-
-  if(!driveMatch){
-
-    const downloadMatch =
-      pdfUrl.match(
-        /[?&]id=([^&]+)/
-      );
-
-    if(
-      pdfUrl.includes(
-        "drive.google.com"
-      )
-      &&
-      downloadMatch
-    ){
-
-      driveMatch = [
-        "",
-        downloadMatch[1]
-      ];
-
+        loadPDF(pdfUrl);
+      }
     }
 
-  }
 
+    async function loadPDF(url) {
 
-  /*
-    Convert Google Drive
-    to downloadable PDF URL
-  */
+      try {
 
-  if(driveMatch){
-
-    const fileId =
-      driveMatch[1];
-
-    pdfUrl =
-      "https://drive.google.com/uc?export=download&id=" +
-      fileId;
-
-  }
-
-
-  /* =========================
-     START PDF
-  ========================= */
-
-  loadPDF(pdfUrl);
-
-
-  async function loadPDF(url){
-
-    try{
-
-      reader.innerHTML = `
-
-        <div
-          class="message loading"
-          id="loading"
-        >
-          📖 PDF Loading...
-        </div>
-
-        <div id="pdfContainer"></div>
-
-      `;
-
-
-      const loadingTask =
-        pdfjsLib.getDocument({
-          url:url,
-          withCredentials:false
+        const loadingTask = pdfjsLib.getDocument({
+          url: url,
+          withCredentials: false
         });
 
+        const pdf = await loadingTask.promise;
 
-      const pdf =
-        await loadingTask.promise;
+        document.getElementById("loading").style.display = "none";
 
+        const viewer = document.getElementById("viewer");
 
-      const container =
-        document.getElementById(
-          "pdfContainer"
-        );
+        for (let pageNumber = 1; pageNumber <= pdf.numPages; pageNumber++) {
 
+          const page = await pdf.getPage(pageNumber);
 
-      const loading =
-        document.getElementById(
-          "loading"
-        );
-
-
-      if(loading){
-
-        loading.remove();
-
-      }
-
-
-      /*
-        Render every page
-      */
-
-      for(
-        let pageNumber = 1;
-        pageNumber <= pdf.numPages;
-        pageNumber++
-      ){
-
-        const page =
-          await pdf.getPage(
-            pageNumber
-          );
-
-
-        const viewport =
-          page.getViewport({
-            scale:1.4
+          const viewport = page.getViewport({
+            scale: 1.5
           });
 
+          const canvas = document.createElement("canvas");
 
-        const canvas =
-          document.createElement(
-            "canvas"
-          );
+          canvas.className = "page";
+
+          const context = canvas.getContext("2d");
+
+          canvas.width = viewport.width;
+          canvas.height = viewport.height;
+
+          viewer.appendChild(canvas);
+
+          await page.render({
+            canvasContext: context,
+            viewport: viewport
+          }).promise;
+        }
+
+      } catch (error) {
+
+        console.error("PDF ERROR:", error);
+
+        document.getElementById("loading").style.display = "none";
+
+        document.getElementById("error").style.display = "block";
+
+        document.getElementById("error").innerHTML =
+          "❌ PDF open nahi ho paayi.<br><br>" +
+          "Cloudinary PDF loading error.";
+      }
+    }
 
 
-        canvas.className =
-          "pdf-page";
+    // Right click disable
+    document.addEventListener("contextmenu", function(e) {
+      e.preventDefault();
+    });
 
 
-        const context =
-          canvas.getContext(
-            "2d"
-          );
+    // Text selection disable
+    document.addEventListener("selectstart", function(e) {
+      e.preventDefault();
+    });
 
 
-        canvas.width =
-          viewport.width;
+    // Keyboard shortcuts block
+    document.addEventListener("keydown", function(e) {
 
-
-        canvas.height =
-          viewport.height;
-
-
-        container.appendChild(
-          canvas
-        );
-
-
-        await page.render({
-          canvasContext:context,
-          viewport:viewport
-        }).promise;
-
+      if (
+        (e.ctrlKey || e.metaKey) &&
+        ["s", "p", "u", "c"].includes(e.key.toLowerCase())
+      ) {
+        e.preventDefault();
       }
 
-    }
-    catch(error){
+    });
 
-      console.error(error);
-
-
-      reader.innerHTML = `
-
-        <div class="message">
-
-          <h2>
-            ❌ PDF Open नहीं हो पाई
-          </h2>
-
-          <p class="error">
-            PDF link या Google Drive permission check करें।
-          </p>
-
-          <p class="notice">
-            Google Drive file को "Anyone with the link"
-            के लिए Viewer access देना जरूरी हो सकता है।
-          </p>
-
-        </div>
-
-      `;
-
-    }
-
-  }
-
-
-})();
-
-
-/* =========================
-   DISABLE RIGHT CLICK
-========================= */
-
-document.addEventListener(
-  "contextmenu",
-  function(event){
-
-    event.preventDefault();
-
-  }
-);
-
-
-/* =========================
-   DISABLE TEXT SELECTION
-========================= */
-
-document.addEventListener(
-  "selectstart",
-  function(event){
-
-    event.preventDefault();
-
-  }
-);
-
-
-/* =========================
-   DISABLE SOME SHORTCUTS
-========================= */
-
-document.addEventListener(
-  "keydown",
-  function(event){
-
-    if(
-      (event.ctrlKey || event.metaKey)
-      &&
-      (
-        event.key.toLowerCase() === "s" ||
-        event.key.toLowerCase() === "p" ||
-        event.key.toLowerCase() === "u"
-      )
-    ){
-
-      event.preventDefault();
-
-    }
-
-  }
-);
-
-
-/* =========================
-   BLOCK LONG PRESS MENU
-========================= */
-
-document.addEventListener(
-  "touchstart",
-  function(event){
-
-    if(event.touches.length > 1){
-
-      event.preventDefault();
-
-    }
-
-  },
-  {passive:false}
-);
-
-</script>
-
+  </script>
 
 </body>
-
 </html>
