@@ -1,0 +1,216 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">  <title>Dashboard | Road2Billionaire</title>  <link rel="stylesheet" href="style.css">  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      color: #111;
+    }
+
+    .dashboard {
+      max-width: 1000px;
+      margin: auto;
+      padding: 25px 18px;
+    }
+
+    .topbar {
+      background: #111;
+      color: white;
+      padding: 18px 20px;
+      border-radius: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      font-size: 22px;
+      font-weight: bold;
+    }
+
+    .logout {
+      background: #fff;
+      color: #111;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .welcome {
+      margin: 25px 0;
+    }
+
+    .welcome h1 {
+      margin-bottom: 8px;
+    }
+
+    .welcome p {
+      color: #666;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 18px;
+    }
+
+    .card {
+      background: white;
+      padding: 22px;
+      border-radius: 16px;
+      box-shadow: 0 6px 25px rgba(0,0,0,0.07);
+    }
+
+    .card h2 {
+      margin-top: 0;
+      font-size: 20px;
+    }
+
+    .card p {
+      color: #666;
+      line-height: 1.5;
+    }
+
+    .btn {
+      display: inline-block;
+      background: #111;
+      color: white;
+      text-decoration: none;
+      padding: 11px 18px;
+      border-radius: 8px;
+      font-weight: bold;
+      margin-top: 8px;
+    }
+
+    .ebook {
+      margin-top: 25px;
+      background: white;
+      padding: 25px;
+      border-radius: 16px;
+      box-shadow: 0 6px 25px rgba(0,0,0,0.07);
+    }
+
+    .ebook h2 {
+      margin-top: 0;
+    }
+
+    .status {
+      display: inline-block;
+      background: #eee;
+      padding: 7px 12px;
+      border-radius: 20px;
+      font-size: 13px;
+      margin: 8px 0;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 35px;
+      color: #777;
+      font-size: 14px;
+    }
+  </style></head><body>  <main class="dashboard"><header class="topbar">
+  <div class="brand">
+    Road2Billionaire
+  </div>
+
+  <button class="logout" onclick="logout()">
+    Logout
+  </button>
+</header>
+
+<section class="welcome">
+  <h1>Welcome to Your Dashboard 👋</h1>
+  <p>
+    Learn. Manage. Grow.
+  </p>
+</section>
+
+<section class="cards">
+
+  <div class="card">
+    <h2>👤 My Profile</h2>
+    <p>
+      View and manage your account information.
+    </p>
+
+    <a href="#" class="btn">
+      View Profile
+    </a>
+  </div>
+
+  <div class="card">
+    <h2>📚 My eBooks</h2>
+    <p>
+      Access your purchased eBooks from your account.
+    </p>
+
+    <a href="#" class="btn">
+      My eBooks
+    </a>
+  </div>
+
+  <div class="card">
+    <h2>🛒 Orders</h2>
+    <p>
+      Your order and payment history will appear here.
+    </p>
+
+    <a href="#" class="btn">
+      View Orders
+    </a>
+  </div>
+
+  <div class="card">
+    <h2>📖 Browse eBooks</h2>
+    <p>
+      Explore available learning resources.
+    </p>
+
+    <a href="Product.html" class="btn">
+      View eBook
+    </a>
+  </div>
+
+</section>
+
+<section class="ebook">
+
+  <h2>📚 Money Management eBook</h2>
+
+  <p>
+    Learn practical money management concepts, budgeting,
+    saving, financial goals and smart money habits.
+  </p>
+
+  <span class="status">
+    🔒 Purchase Required
+  </span>
+
+  <br>
+
+  <a href="Product.html" class="btn">
+    View Product — ₹99
+  </a>
+
+</section>
+
+<div class="footer">
+  © 2026 Road2Billionaire. All Rights Reserved.
+</div>
+
+  </main>  <script>
+    function logout() {
+      localStorage.removeItem("loggedIn");
+      localStorage.removeItem("userEmail");
+
+      window.location.href = "Login.html";
+    }
+  </script></body>
+</html>
