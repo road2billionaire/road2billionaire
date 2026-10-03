@@ -1,14 +1,201 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>eBooks | Road2Billionaire</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>eBook | Road2Billionaire</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #000;
+      color: white;
+    }
+
+    .topbar {
+      background: #111;
+      padding: 18px 20px;
+      border-bottom: 1px solid #ffd700;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .brand {
+      color: #ffd700;
+      font-size: 21px;
+      font-weight: bold;
+    }
+
+    .back {
+      color: #ffd700;
+      text-decoration: none;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: auto;
+      padding: 30px 18px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #ffd700;
+      margin-bottom: 30px;
+    }
+
+    .ebook-card {
+      background: #111;
+      border: 1px solid #333;
+      border-radius: 18px;
+      padding: 25px;
+    }
+
+    .ebook-card h2 {
+      color: #ffd700;
+    }
+
+    .ebook-card p {
+      color: #bbb;
+      line-height: 1.6;
+    }
+
+    .topics {
+      background: #191919;
+      padding: 15px;
+      border-radius: 10px;
+      color: #ddd !important;
+    }
+
+    .price {
+      color: #ffd700;
+      font-size: 28px;
+      font-weight: bold;
+      margin-top: 20px;
+    }
+
+    .old-price {
+      color: #777;
+      text-decoration: line-through;
+      font-size: 16px;
+      margin-left: 8px;
+    }
+
+    .btn {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 12px 20px;
+      border-radius: 9px;
+      text-decoration: none;
+      font-weight: bold;
+      background: #ffd700;
+      color: #000;
+    }
+
+    .empty {
+      text-align: center;
+      padding: 40px 20px;
+      background: #111;
+      border-radius: 18px;
+      color: #888;
+    }
+  </style>
 </head>
 
-<body style="background:#000;color:#ffd700;text-align:center;padding:50px;font-family:Arial;">
+<body>
 
-  <h1>📚 All eBooks</h1>
+  <div class="topbar">
+    <div class="brand">Road2Billionaire</div>
+    <a href="admin.html" class="back">← Admin Panel</a>
+  </div>
 
-  <p>eBooks Management Page</p>
+  <div class="container">
+
+    <h1>📚 eBook Management</h1>
+
+    <div id="ebookList"></div>
+
+  </div>
+
+  <script>
+
+    function loadEbook() {
+
+      const data = localStorage.getItem("ebookData");
+
+      const list = document.getElementById("ebookList");
+
+      if (!data) {
+
+        list.innerHTML = `
+          <div class="empty">
+
+            <h2 style="color:#ffd700;">
+              No eBook Added Yet
+            </h2>
+
+            <p>
+              Please add an eBook from the Admin Panel.
+            </p>
+
+            <a href="add-ebook.html" class="btn">
+              ➕ Add New eBook
+            </a>
+
+          </div>
+        `;
+
+        return;
+      }
+
+      const ebook = JSON.parse(data);
+
+      list.innerHTML = `
+
+        <div class="ebook-card">
+
+          <h2>${ebook.title}</h2>
+
+          <p>
+            ${ebook.description}
+          </p>
+
+          <p class="topics">
+            <strong>Topics:</strong><br>
+            ${ebook.topics}
+          </p>
+
+          <div class="price">
+
+            ₹${ebook.price}
+
+            ${
+              ebook.oldPrice
+              ? `<span class="old-price">₹${ebook.oldPrice}</span>`
+              : ""
+            }
+
+          </div>
+
+          <a href="Product.html" class="btn">
+            👁️ View Product
+          </a>
+
+        </div>
+
+      `;
+
+    }
+
+    loadEbook();
+
+  </script>
 
 </body>
 </html>
