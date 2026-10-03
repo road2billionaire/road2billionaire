@@ -1,12 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0"
+>
 
 <title>Add eBook | Road2Billionaire</title>
 
 <style>
+
 *{
   box-sizing:border-box;
 }
@@ -22,6 +29,7 @@ body{
   background:#111;
   padding:18px;
   border-bottom:1px solid #ffd700;
+
   display:flex;
   justify-content:space-between;
   align-items:center;
@@ -95,22 +103,26 @@ button{
 
 button:disabled{
   opacity:.6;
+  cursor:not-allowed;
 }
 
 .message{
+  display:none;
   margin-top:18px;
   padding:12px;
   border-radius:8px;
-  display:none;
   text-align:center;
+  font-weight:bold;
 }
 
 .success{
+  display:block;
   background:#123d1c;
   color:#7dff91;
 }
 
 .error{
+  display:block;
   background:#3d1212;
   color:#ff8b8b;
 }
@@ -124,10 +136,14 @@ button:disabled{
   font-size:13px;
   line-height:1.5;
 }
+
 </style>
+
 </head>
 
+
 <body>
+
 
 <div class="topbar">
 
@@ -135,21 +151,32 @@ button:disabled{
     Road2Billionaire
   </div>
 
-  <a href="admin.html" class="back">
+  <a
+    href="admin.html"
+    class="back"
+  >
     ← Admin
   </a>
 
 </div>
 
+
 <div class="container">
 
-<h1>📚 Add New eBook</h1>
+<h1>
+  📚 Add New eBook
+</h1>
+
 
 <div class="card">
 
+
 <form id="ebookForm">
 
-<label>eBook Title</label>
+
+<label>
+  eBook Title
+</label>
 
 <input
   type="text"
@@ -158,7 +185,10 @@ button:disabled{
   required
 >
 
-<label>Description</label>
+
+<label>
+  Description
+</label>
 
 <textarea
   id="description"
@@ -166,7 +196,10 @@ button:disabled{
   required
 ></textarea>
 
-<label>Topics / What You Will Learn</label>
+
+<label>
+  Topics / What You Will Learn
+</label>
 
 <textarea
   id="topics"
@@ -174,7 +207,10 @@ button:disabled{
   required
 ></textarea>
 
-<label>Price (₹)</label>
+
+<label>
+  Price (₹)
+</label>
 
 <input
   type="number"
@@ -184,7 +220,22 @@ button:disabled{
   required
 >
 
-<label>Book Image URL</label>
+
+<label>
+  Old Price (₹) - Optional
+</label>
+
+<input
+  type="number"
+  id="oldPrice"
+  placeholder="199"
+  min="0"
+>
+
+
+<label>
+  Book Image URL - Optional
+</label>
 
 <input
   type="url"
@@ -192,7 +243,10 @@ button:disabled{
   placeholder="https://example.com/book.jpg"
 >
 
-<label>PDF / eBook Link</label>
+
+<label>
+  PDF / eBook Link
+</label>
 
 <input
   type="url"
@@ -201,143 +255,384 @@ button:disabled{
   required
 >
 
-<button type="submit" id="saveBtn">
+
+<button
+  type="submit"
+  id="saveBtn"
+>
   💾 Save eBook
 </button>
 
-<div id="message" class="message"></div>
+
+<div
+  id="message"
+  class="message"
+></div>
+
 
 <div class="note">
-  <b>Important:</b> PDF URL में आपकी actual PDF की direct link होनी चाहिए.
-  Example: https://example.com/book.pdf
+
+  <b>Important:</b>
+
+  PDF Link में आपकी actual PDF की direct link होनी चाहिए.
+
+  <br><br>
+
+  Example:
+
+  <br>
+
+  https://example.com/book.pdf
+
 </div>
+
 
 </form>
 
 </div>
+
 </div>
+
 
 <script>
 
-/* ================================
-   SAVE EBOOK
-================================ */
 
-const form = document.getElementById("ebookForm");
-const saveBtn = document.getElementById("saveBtn");
-const message = document.getElementById("message");
+/* =====================================
+   ADD EBOOK
+===================================== */
 
-function showMessage(text, type){
 
-  message.textContent = text;
+const form =
+  document.getElementById(
+    "ebookForm"
+  );
 
-  message.className = "message " + type;
 
-  message.style.display = "block";
+const saveBtn =
+  document.getElementById(
+    "saveBtn"
+  );
+
+
+const message =
+  document.getElementById(
+    "message"
+  );
+
+
+function showMessage(
+  text,
+  type
+){
+
+  message.textContent =
+    text;
+
+  message.className =
+    "message " + type;
+
 }
 
 
-form.addEventListener("submit", function(e){
 
-  e.preventDefault();
-
-  saveBtn.disabled = true;
-  saveBtn.textContent = "Saving...";
-
-  try{
-
-    const title =
-      document.getElementById("title").value.trim();
-
-    const description =
-      document.getElementById("description").value.trim();
-
-    const topics =
-      document.getElementById("topics").value.trim();
-
-    const price =
-      Number(document.getElementById("price").value);
-
-    const image =
-      document.getElementById("image").value.trim();
-
-    const pdfUrl =
-      document.getElementById("pdfUrl").value.trim();
+/* =====================================
+   FORM SUBMIT
+===================================== */
 
 
-    if(!title || !description || !topics || !pdfUrl){
+form.addEventListener(
+  "submit",
+  function(event){
 
-      throw new Error("Please fill all required fields.");
+    event.preventDefault();
+
+
+    saveBtn.disabled =
+      true;
+
+    saveBtn.textContent =
+      "Saving...";
+
+
+    try{
+
+
+      /* GET VALUES */
+
+
+      const title =
+        document
+        .getElementById("title")
+        .value
+        .trim();
+
+
+      const description =
+        document
+        .getElementById("description")
+        .value
+        .trim();
+
+
+      const topics =
+        document
+        .getElementById("topics")
+        .value
+        .trim();
+
+
+      const price =
+        Number(
+          document
+          .getElementById("price")
+          .value
+        );
+
+
+      const oldPrice =
+        Number(
+          document
+          .getElementById("oldPrice")
+          .value
+        ) || 0;
+
+
+      const image =
+        document
+        .getElementById("image")
+        .value
+        .trim();
+
+
+      const pdfUrl =
+        document
+        .getElementById("pdfUrl")
+        .value
+        .trim();
+
+
+
+      /* VALIDATION */
+
+
+      if(!title){
+
+        throw new Error(
+          "eBook title डालें."
+        );
+
+      }
+
+
+      if(!description){
+
+        throw new Error(
+          "Description डालें."
+        );
+
+      }
+
+
+      if(!topics){
+
+        throw new Error(
+          "Topics डालें."
+        );
+
+      }
+
+
+      if(
+        isNaN(price) ||
+        price < 0
+      ){
+
+        throw new Error(
+          "Valid price डालें."
+        );
+
+      }
+
+
+      if(!pdfUrl){
+
+        throw new Error(
+          "PDF / eBook link डालें."
+        );
+
+      }
+
+
+      /* CHECK URL */
+
+
+      try{
+
+        new URL(pdfUrl);
+
+      }catch(error){
+
+        throw new Error(
+          "PDF link सही URL नहीं है."
+        );
+
+      }
+
+
+
+      /* =================================
+         GET EXISTING BOOKS
+      ================================= */
+
+
+      let ebooks = [];
+
+
+      const saved =
+        localStorage.getItem(
+          "ebooksData"
+        );
+
+
+      if(saved){
+
+        try{
+
+          ebooks =
+            JSON.parse(saved);
+
+        }catch(error){
+
+          ebooks = [];
+
+        }
+
+      }
+
+
+      if(
+        !Array.isArray(ebooks)
+      ){
+
+        ebooks = [];
+
+      }
+
+
+
+      /* =================================
+         CREATE BOOK
+      ================================= */
+
+
+      const ebook = {
+
+        id:
+          Date.now().toString(),
+
+        title:
+          title,
+
+        description:
+          description,
+
+        topics:
+          topics,
+
+        price:
+          price,
+
+        oldPrice:
+          oldPrice,
+
+        image:
+          image,
+
+        pdfUrl:
+          pdfUrl,
+
+        createdAt:
+          new Date().toISOString()
+
+      };
+
+
+
+      /* =================================
+         SAVE
+      ================================= */
+
+
+      ebooks.push(
+        ebook
+      );
+
+
+      localStorage.setItem(
+        "ebooksData",
+        JSON.stringify(ebooks)
+      );
+
+
+
+      /* SUCCESS */
+
+
+      showMessage(
+        "✅ eBook successfully added!",
+        "success"
+      );
+
+
+      form.reset();
+
+
+      saveBtn.disabled =
+        false;
+
+      saveBtn.textContent =
+        "💾 Save eBook";
+
+
+
+      /* GO TO EBOOK LIST */
+
+
+      setTimeout(
+        function(){
+
+          window.location.href =
+            "ebook.html";
+
+        },
+        1000
+      );
+
+
+    }catch(error){
+
+
+      showMessage(
+        "❌ " +
+        error.message,
+        "error"
+      );
+
+
+      saveBtn.disabled =
+        false;
+
+      saveBtn.textContent =
+        "💾 Save eBook";
 
     }
 
-
-    const ebooks =
-      JSON.parse(localStorage.getItem("ebooks") || "[]");
-
-
-    const ebook = {
-
-      id: Date.now().toString(),
-
-      title: title,
-
-      description: description,
-
-      topics: topics,
-
-      price: price,
-
-      image: image,
-
-      pdfUrl: pdfUrl,
-
-      createdAt: new Date().toISOString()
-
-    };
-
-
-    ebooks.push(ebook);
-
-
-    localStorage.setItem(
-      "ebooks",
-      JSON.stringify(ebooks)
-    );
-
-
-    showMessage(
-      "✅ eBook successfully added!",
-      "success"
-    );
-
-
-    form.reset();
-
-
-    setTimeout(function(){
-
-      window.location.href = "admin.html";
-
-    },1200);
-
-
-  }catch(error){
-
-    showMessage(
-      "❌ " + error.message,
-      "error"
-    );
-
   }
-
-
-  saveBtn.disabled = false;
-  saveBtn.textContent = "💾 Save eBook";
-
-});
+);
 
 </script>
 
+
 </body>
+
 </html>
