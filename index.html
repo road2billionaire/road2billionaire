@@ -4,87 +4,236 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Road2Billionaire | Home</title>
+  <title>Road2Billionaire | Learn. Manage. Grow.</title>
 
-  <link rel="stylesheet" href="style.css">
-</head>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-<body>
+    html {
+      scroll-behavior: smooth;
+    }
 
-  <header>
-    <div class="container">
-      <h2>ROAD2BILLIONAIRE</h2>
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #080808;
+      color: #ffffff;
+    }
 
-      <a href="login.html">
-        Login
-      </a>
-    </div>
-  </header>
+    /* HEADER */
+    .header {
+      background: #050505;
+      border-bottom: 1px solid #2d2d2d;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
 
-  <main>
+    .header-inner {
+      max-width: 1100px;
+      margin: auto;
+      padding: 18px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
 
-    <section class="hero">
-      <div class="container">
+    .logo {
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      color: #ffffff;
+    }
 
-        <h1>
-          Learn. Manage. Grow.
-        </h1>
+    .logo span {
+      color: #e5b94f;
+    }
 
-        <p>
-          Practical Hindi eBooks to help you learn,
-          manage your money and grow your knowledge.
-        </p>
+    .login-btn {
+      text-decoration: none;
+      color: #ffffff;
+      border: 1px solid #e5b94f;
+      padding: 9px 18px;
+      border-radius: 8px;
+      font-weight: 600;
+    }
 
-      </div>
-    </section>
+    /* HERO */
+    .hero {
+      padding: 80px 20px;
+      text-align: center;
+      background:
+        radial-gradient(circle at top, #3b1717 0%, #130909 35%, #080808 70%);
+    }
 
+    .hero-badge {
+      display: inline-block;
+      border: 1px solid #e5b94f;
+      color: #e5b94f;
+      padding: 7px 14px;
+      border-radius: 30px;
+      font-size: 13px;
+      margin-bottom: 20px;
+    }
 
-    <section class="ebooks">
-      <div class="container">
+    .hero h1 {
+      font-size: clamp(38px, 8vw, 68px);
+      margin: 0;
+      line-height: 1.05;
+    }
 
-        <h2>Featured eBook</h2>
+    .hero h1 span {
+      color: #e5b94f;
+    }
 
-        <div class="ebook-card">
+    .hero p {
+      max-width: 680px;
+      margin: 22px auto 0;
+      color: #d2d2d2;
+      font-size: 18px;
+      line-height: 1.7;
+    }
 
-          <div>
-            <h3>
-              Money Management eBook
-            </h3>
+    /* EBOOK SECTION */
+    .section {
+      max-width: 1100px;
+      margin: auto;
+      padding: 65px 20px;
+    }
 
-            <p>
-              पैसा कमाना ही नहीं, उसे सही तरीके से
-              Manage करना भी जरूरी है।
-            </p>
+    .section-title {
+      text-align: center;
+      margin-bottom: 35px;
+    }
 
-            <strong>
-              ₹99
-            </strong>
+    .section-title h2 {
+      font-size: 34px;
+      margin: 0 0 10px;
+    }
 
-            <br><br>
+    .section-title p {
+      color: #aaa;
+      margin: 0;
+    }
 
-            <a
-              href="product.html"
-              class="btn"
-            >
-              View Details
-            </a>
-          </div>
+    .ebook-card {
+      max-width: 850px;
+      margin: auto;
+      background: linear-gradient(145deg, #171717, #0d0d0d);
+      border: 1px solid #333;
+      border-radius: 20px;
+      padding: 35px;
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 35px;
+      align-items: center;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.45);
+    }
 
-        </div>
+    .ebook-cover {
+      min-height: 320px;
+      border-radius: 14px;
+      background:
+        linear-gradient(145deg, #351010, #090909);
+      border: 1px solid #a9822d;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 25px;
+    }
 
-      </div>
-    </section>
+    .ebook-cover h3 {
+      font-size: 28px;
+      margin: 0;
+      color: #ffffff;
+    }
 
-  </main>
+    .ebook-cover strong {
+      display: block;
+      margin-top: 15px;
+      color: #e5b94f;
+      font-size: 17px;
+    }
 
+    .ebook-info h3 {
+      font-size: 30px;
+      margin-top: 0;
+      margin-bottom: 15px;
+    }
 
-  <footer>
-    <div class="container">
-      <p>
-        © 2026 Road2Billionaire. All Rights Reserved.
-      </p>
-    </div>
-  </footer>
+    .ebook-info p {
+      color: #c8c8c8;
+      line-height: 1.7;
+    }
 
-</body>
-</html>
+    .price {
+      margin: 22px 0;
+    }
+
+    .current-price {
+      font-size: 34px;
+      font-weight: 800;
+      color: #e5b94f;
+    }
+
+    .old-price {
+      color: #777;
+      text-decoration: line-through;
+      margin-left: 8px;
+    }
+
+    .view-btn {
+      display: inline-block;
+      text-decoration: none;
+      background: linear-gradient(135deg, #e5b94f, #b88318);
+      color: #111;
+      padding: 14px 28px;
+      border-radius: 9px;
+      font-weight: 800;
+      transition: 0.2s;
+    }
+
+    .view-btn:hover {
+      transform: translateY(-2px);
+    }
+
+    /* FEATURES */
+    .features {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .feature {
+      background: #111;
+      border: 1px solid #292929;
+      border-radius: 14px;
+      padding: 25px;
+      text-align: center;
+    }
+
+    .feature h3 {
+      color: #e5b94f;
+      margin-top: 0;
+    }
+
+    .feature p {
+      color: #aaa;
+      line-height: 1.6;
+    }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid #252525;
+      background: #050505;
+      text-align: center;
+      padding: 28px 20px;
+      color: #888;
+      font-size: 14px;
+    }
+
+    /* MOBILE */
+   
