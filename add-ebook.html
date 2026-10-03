@@ -1,42 +1,192 @@
-<script>
+<!DOCTYPE html>
+<html lang="en">
 
-function addEbook(event) {
-  event.preventDefault();
+<head>
 
-  const ebook = {
-    id: Date.now(),
-    title: document.getElementById("title").value.trim(),
-    description: document.getElementById("description").value.trim(),
-    topics: document.getElementById("topics").value.trim(),
-    price: document.getElementById("price").value,
-    oldPrice: document.getElementById("oldPrice").value,
-    fileLink: document.getElementById("fileLink").value.trim()
-  };
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  let ebooks = [];
+<title>Add eBook | Road2Billionaire</title>
 
-  try {
-    const saved = localStorage.getItem("ebooksData");
+<style>
 
-    if (saved) {
-      ebooks = JSON.parse(saved);
-    }
-
-    if (!Array.isArray(ebooks)) {
-      ebooks = [];
-    }
-
-  } catch (error) {
-    ebooks = [];
-  }
-
-  ebooks.push(ebook);
-
-  localStorage.setItem("ebooksData", JSON.stringify(ebooks));
-
-  alert("✅ eBook successfully added!");
-
-  window.location.href = "ebook.html?v=" + Date.now();
+*{
+  box-sizing:border-box;
 }
 
-</script>
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#000;
+  color:white;
+}
+
+.topbar{
+  background:#111;
+  padding:18px 20px;
+  border-bottom:1px solid #ffd700;
+
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.brand{
+  color:#ffd700;
+  font-size:21px;
+  font-weight:bold;
+}
+
+.back{
+  color:#ffd700;
+  text-decoration:none;
+}
+
+.container{
+  max-width:700px;
+  margin:auto;
+  padding:30px 18px 50px;
+}
+
+h1{
+  text-align:center;
+  color:#ffd700;
+  margin-bottom:30px;
+}
+
+.form-card{
+  background:#111;
+  border:1px solid #333;
+  border-radius:18px;
+  padding:25px;
+}
+
+label{
+  display:block;
+  color:#ddd;
+  margin-top:18px;
+  margin-bottom:7px;
+}
+
+input,
+textarea{
+  width:100%;
+  padding:13px;
+  background:#080808;
+  border:1px solid #444;
+  border-radius:8px;
+  color:white;
+  font-size:15px;
+}
+
+textarea{
+  min-height:110px;
+  resize:vertical;
+}
+
+.submit{
+  width:100%;
+  margin-top:25px;
+  padding:15px;
+  background:#ffd700;
+  color:#000;
+  border:0;
+  border-radius:9px;
+  font-size:16px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="topbar">
+
+  <div class="brand">
+    Road2Billionaire
+  </div>
+
+  <a href="admin.html" class="back">
+    ← Admin Panel
+  </a>
+
+</div>
+
+<div class="container">
+
+<h1>➕ Add New eBook</h1>
+
+<div class="form-card">
+
+<form id="ebookForm">
+
+<label>eBook Title</label>
+
+<input
+  type="text"
+  id="title"
+  placeholder="Enter eBook title"
+  required
+>
+
+<label>Description</label>
+
+<textarea
+  id="description"
+  placeholder="Enter eBook description"
+  required
+></textarea>
+
+<label>Topics / What You Will Learn</label>
+
+<textarea
+  id="topics"
+  placeholder="Example: Money Management, Saving, Investment..."
+  required
+></textarea>
+
+<label>Price (₹)</label>
+
+<input
+  type="number"
+  id="price"
+  placeholder="99"
+  required
+>
+
+<label>Old Price (₹)</label>
+
+<input
+  type="number"
+  id="oldPrice"
+  placeholder="199"
+>
+
+<label>eBook PDF / File Link</label>
+
+<input
+  type="url"
+  id="fileLink"
+  value="https://drive.google.com/file/d/1eL2maqG0E5Rnon8fnJGGZp0vVvzKJh4s/view?usp=drivesdk"
+  placeholder="Paste PDF link here"
+>
+
+<button
+  type="submit"
+  class="submit"
+>
+  💾 Add eBook
+</button>
+
+</form>
+
+</div>
+
+</div>
+
+<script>
+
+document
