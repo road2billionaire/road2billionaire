@@ -1,103 +1,252 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">  <title>Register | Road2Billionaire</title>  <link rel="stylesheet" href="style.css">  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+    }
 
-  <title>Register | Road2Billionaire</title>
+    .register-container {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
 
-  <link rel="stylesheet" href="style.css">
-</head>
+    .register-box {
+      width: 100%;
+      max-width: 440px;
+      background: white;
+      padding: 30px;
+      border-radius: 18px;
+      box-shadow: 0 10px 35px rgba(0,0,0,0.10);
+      box-sizing: border-box;
+    }
 
-<body>
+    .brand {
+      text-align: center;
+      font-size: 28px;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
 
-  <header>
-    <h2>ROAD2BILLIONAIRE</h2>
-  </header>
+    .subtitle {
+      text-align: center;
+      color: #666;
+      margin-bottom: 30px;
+    }
 
-  <main style="max-width:500px;margin:50px auto;padding:20px;">
+    label {
+      display: block;
+      margin-bottom: 7px;
+      font-weight: bold;
+    }
 
-    <h1>Create Account</h1>
+    input {
+      width: 100%;
+      padding: 13px;
+      margin-bottom: 18px;
+      border: 1px solid #ddd;
+      border-radius: 9px;
+      box-sizing: border-box;
+      font-size: 16px;
+    }
 
-    <p>Create your Road2Billionaire account</p>
+    .register-btn {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 9px;
+      background: #111;
+      color: white;
+      font-size: 17px;
+      font-weight: bold;
+      cursor: pointer;
+    }
 
-    <form onsubmit="registerUser(event)">
+    .register-btn:hover {
+      opacity: 0.85;
+    }
 
-      <label>Full Name</label>
-      <br>
-      <input
-        type="text"
-        id="name"
-        placeholder="Enter your full name"
-        required
-        style="width:100%;padding:12px;margin:8px 0 18px;box-sizing:border-box;"
-      >
+    .login {
+      text-align: center;
+      margin-top: 22px;
+      color: #555;
+    }
 
-      <label>Email Address</label>
-      <br>
-      <input
-        type="email"
-        id="email"
-        placeholder="Enter your email"
-        required
-        style="width:100%;padding:12px;margin:8px 0 18px;box-sizing:border-box;"
-      >
+    .login a {
+      color: #111;
+      font-weight: bold;
+      text-decoration: none;
+    }
 
-      <label>Password</label>
-      <br>
-      <input
-        type="password"
-        id="password"
-        placeholder="Create a password"
-        minlength="6"
-        required
-        style="width:100%;padding:12px;margin:8px 0 18px;box-sizing:border-box;"
-      >
+    .back {
+      display: block;
+      text-align: center;
+      margin-top: 20px;
+      color: #555;
+      text-decoration: none;
+    }
 
-      <label>Confirm Password</label>
-      <br>
-      <input
-        type="password"
-        id="confirmPassword"
-        placeholder="Confirm your password"
-        minlength="6"
-        required
-        style="width:100%;padding:12px;margin:8px 0 18px;box-sizing:border-box;"
-      >
+    .message {
+      display: none;
+      margin-top: 18px;
+      padding: 12px;
+      border-radius: 8px;
+      text-align: center;
+      font-size: 14px;
+    }
 
-      <button type="submit">
-        Create Account
-      </button>
+    .note {
+      margin-top: 20px;
+      padding: 12px;
+      background: #f3f3f3;
+      border-radius: 8px;
+      font-size: 13px;
+      color: #666;
+      text-align: center;
+    }
+  </style></head><body>  <div class="register-container"><div class="register-box">
 
-    </form>
+  <div class="brand">
+    ROAD2BILLIONAIRE
+  </div>
 
-    <p>
-      Already have an account?
-      <a href="login.html">Login</a>
-    </p>
+  <p class="subtitle">
+    Create your account
+  </p>
 
-    <p>
-      <a href="index.html">← Back to Home</a>
-    </p>
+  <form onsubmit="registerUser(event)">
 
-  </main>
+    <label for="name">
+      Full Name
+    </label>
 
-  <script>
+    <input
+      type="text"
+      id="name"
+      placeholder="Enter your name"
+      required
+    >
+
+    <label for="email">
+      Email Address
+    </label>
+
+    <input
+      type="email"
+      id="email"
+      placeholder="Enter your email"
+      required
+    >
+
+    <label for="password">
+      Password
+    </label>
+
+    <input
+      type="password"
+      id="password"
+      placeholder="Create a password"
+      minlength="6"
+      required
+    >
+
+    <label for="confirmPassword">
+      Confirm Password
+    </label>
+
+    <input
+      type="password"
+      id="confirmPassword"
+      placeholder="Confirm your password"
+      minlength="6"
+      required
+    >
+
+    <button type="submit" class="register-btn">
+      Create Account
+    </button>
+
+  </form>
+
+  <div id="message" class="message"></div>
+
+  <div class="login">
+    Already have an account?
+    <a href="Login.html">
+      Login
+    </a>
+  </div>
+
+  <a href="index.html" class="back">
+    ← Back to Home
+  </a>
+
+  <div class="note">
+    🔒 Demo registration — secure database connection बाद में जोड़ा जाएगा।
+  </div>
+
+</div>
+
+  </div>  <script>
+
     function registerUser(event) {
+
       event.preventDefault();
 
-      const password = document.getElementById("password").value;
+      const name =
+        document.getElementById("name").value.trim();
+
+      const email =
+        document.getElementById("email").value.trim();
+
+      const password =
+        document.getElementById("password").value;
+
       const confirmPassword =
         document.getElementById("confirmPassword").value;
 
+      const message =
+        document.getElementById("message");
+
       if (password !== confirmPassword) {
-        alert("Password और Confirm Password समान नहीं हैं।");
+
+        message.style.display = "block";
+        message.innerHTML = "❌ Passwords do not match.";
+
         return;
       }
 
-      alert("Registration system अभी backend से connected नहीं है।");
-    }
-  </script>
+      /*
+        Demo account storage.
+        Real database/backend बाद में connect होगा.
+      */
 
-</body>
+      const user = {
+        name: name,
+        email: email,
+        password: password
+      };
+
+      localStorage.setItem(
+        "roadUser",
+        JSON.stringify(user)
+      );
+
+      message.style.display = "block";
+      message.innerHTML =
+        "✅ Account created successfully!";
+
+      setTimeout(function() {
+
+        window.location.href = "Login.html";
+
+      }, 1000);
+    }
+
+  </script></body>
 </html>
