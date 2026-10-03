@@ -5,8 +5,7 @@
 
 <meta charset="UTF-8">
 
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Payment | Road2Billionaire</title>
 
@@ -111,8 +110,12 @@ input{
   cursor:pointer;
 }
 
-.pay-btn:hover{
-  background:#fff;
+.success{
+  display:none;
+  text-align:center;
+  color:#7CFC00;
+  margin-top:20px;
+  line-height:1.7;
 }
 
 .note{
@@ -124,14 +127,6 @@ input{
   font-size:13px;
   line-height:1.6;
   text-align:center;
-}
-
-.success{
-  display:none;
-  text-align:center;
-  color:#7CFC00;
-  margin-top:20px;
-  line-height:1.6;
 }
 
 </style>
@@ -160,15 +155,11 @@ input{
     <h1>💳 Payment</h1>
 
     <div id="productBox" class="product">
-
       Loading eBook...
-
     </div>
 
 
-    <label>
-      Name
-    </label>
+    <label>Name</label>
 
     <input
       type="text"
@@ -177,9 +168,7 @@ input{
     >
 
 
-    <label>
-      Email
-    </label>
+    <label>Email</label>
 
     <input
       type="email"
@@ -192,7 +181,7 @@ input{
       class="pay-btn"
       onclick="processPayment()"
     >
-      💳 Proceed to Payment
+      💳 Complete Demo Payment
     </button>
 
 
@@ -200,15 +189,23 @@ input{
       id="success"
       class="success"
     >
-      ✅ Payment process started successfully!<br><br>
+      ✅ Payment Successful!<br><br>
 
-      Real payment gateway will be connected next.
+      Your eBook has been added to your account.
+      <br><br>
+
+      <a
+        href="Dashboard.html"
+        style="color:#ffd700;"
+      >
+        📚 Go to My Dashboard
+      </a>
     </div>
 
 
     <div class="note">
 
-      🔒 This is currently a demo payment page.<br>
+      🔒 Demo payment only.<br>
       No real money is being charged.
 
     </div>
@@ -219,6 +216,9 @@ input{
 
 
 <script>
+
+let selectedBook = null;
+
 
 function loadProduct(){
 
@@ -236,21 +236,21 @@ function loadProduct(){
   );
 
 
-  let book = books.find(function(item){
+  selectedBook = books.find(function(item){
 
     return String(item.id) === String(id);
 
   });
 
 
-  if(!book && books.length > 0){
+  if(!selectedBook && books.length > 0){
 
-    book = books[0];
+    selectedBook = books[0];
 
   }
 
 
-  if(!book){
+  if(!selectedBook){
 
     document.getElementById(
       "productBox"
@@ -269,15 +269,15 @@ function loadProduct(){
   ).innerHTML = `
 
     <h2>
-      ${book.title}
+      ${selectedBook.title}
     </h2>
 
     <p>
-      ${book.description}
+      ${selectedBook.description}
     </p>
 
     <div class="price">
-      ₹${book.price}
+      ₹${selectedBook.price}
     </div>
 
   `;
@@ -305,9 +305,67 @@ function processPayment(){
   }
 
 
+  if(!selectedBook){
+
+    alert(
+      "eBook information not found."
+    );
+
+    return;
+
+  }
+
+
+  let purchases = JSON.parse(
+    localStorage.getItem("purchasedBooks") || "[]"
+  );
+
+
+  const alreadyPurchased =
+    purchases.some(function(item){
+
+      return String(item.bookId) ===
+        String(selectedBook.id);
+
+    });
+
+
+  if(!alreadyPurchased){
+
+    purchases.push({
+
+      bookId: selectedBook.id,
+
+      title: selectedBook.title,
+
+      price: selectedBook.price,
+
+      email: email,
+
+      name: name,
+
+      purchaseDate:
+        new Date().toLocaleString()
+
+    });
+
+
+    localStorage.setItem(
+      "purchasedBooks",
+      JSON.stringify(purchases)
+    );
+
+  }
+
+
   document.getElementById(
     "success"
   ).style.display = "block";
+
+
+  document.querySelector(
+    ".pay-btn"
+  ).style.display = "none";
 
 }
 
