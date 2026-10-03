@@ -81,10 +81,8 @@ p{
   margin-left:8px;
 }
 
-.buy{
+.btn{
   display:inline-block;
-  background:#ffd700;
-  color:#000;
   padding:13px 22px;
   border-radius:8px;
   text-decoration:none;
@@ -92,6 +90,17 @@ p{
   border:0;
   cursor:pointer;
   font-size:16px;
+  margin-right:8px;
+}
+
+.buy{
+  background:#ffd700;
+  color:#000;
+}
+
+.read{
+  background:#16a34a;
+  color:#fff;
 }
 
 .error{
@@ -111,7 +120,10 @@ p{
     Road2Billionaire
   </div>
 
-  <a href="Dashboard.html?v=200001" class="back">
+  <a
+    href="Dashboard.html?v=200001"
+    class="back"
+  >
     ← Back
   </a>
 
@@ -120,9 +132,14 @@ p{
 
 <div class="container">
 
-  <div class="card" id="bookDetails">
+  <div
+    class="card"
+    id="bookDetails"
+  >
 
-    <h1>📖 Loading eBook...</h1>
+    <h1>
+      📖 Loading eBook...
+    </h1>
 
   </div>
 
@@ -141,17 +158,25 @@ p{
   const id =
     params.get("id");
 
+
   const container =
-    document.getElementById("bookDetails");
+    document.getElementById(
+      "bookDetails"
+    );
 
 
   if(!id){
 
     container.innerHTML = `
-      <h1>❌ eBook Not Found</h1>
+
+      <h1>
+        ❌ eBook Not Found
+      </h1>
+
       <p class="error">
         eBook ID नहीं मिला।
       </p>
+
     `;
 
     return;
@@ -165,7 +190,10 @@ p{
   try{
 
     const saved =
-      localStorage.getItem("ebooksData");
+      localStorage.getItem(
+        "ebooksData"
+      );
+
 
     if(saved){
 
@@ -200,7 +228,10 @@ p{
   if(!book){
 
     container.innerHTML = `
-      <h1>❌ eBook Not Found</h1>
+
+      <h1>
+        ❌ eBook Not Found
+      </h1>
 
       <p class="error">
         यह eBook इस browser में उपलब्ध नहीं है।
@@ -208,13 +239,92 @@ p{
 
       <a
         href="ebook.html?from=dashboard&v=200001"
-        class="buy"
+        class="btn buy"
       >
         📚 Back to eBooks
       </a>
+
     `;
 
     return;
+
+  }
+
+
+  /* CHECK PURCHASE */
+
+  let purchasedBooks = [];
+
+
+  try{
+
+    const purchased =
+      localStorage.getItem(
+        "purchasedBooks"
+      );
+
+
+    if(purchased){
+
+      purchasedBooks =
+        JSON.parse(purchased);
+
+    }
+
+
+    if(!Array.isArray(purchasedBooks)){
+
+      purchasedBooks = [];
+
+    }
+
+  }
+  catch(error){
+
+    purchasedBooks = [];
+
+  }
+
+
+  const purchased =
+    purchasedBooks.some(function(item){
+
+      return String(item.bookId) === String(book.id);
+
+    });
+
+
+  let actionButton = "";
+
+
+  if(purchased){
+
+    actionButton = `
+
+      <a
+        href="${book.fileLink || "#"}"
+        class="btn read"
+        target="_blank"
+        rel="noopener"
+      >
+        📖 Read eBook
+      </a>
+
+    `;
+
+  }
+  else{
+
+    actionButton = `
+
+      <button
+        class="btn buy"
+        onclick="buyNow('${String(book.id).replace(/'/g, "\\'")}')"
+      >
+        🛒 Buy Now
+      </button>
+
+    `;
 
   }
 
@@ -230,7 +340,10 @@ p{
     </p>
 
     <p>
-      <strong>Topics:</strong><br>
+      <strong>
+        Topics:
+      </strong>
+      <br>
       ${book.topics || "Not specified"}
     </p>
 
@@ -250,12 +363,7 @@ p{
 
     </div>
 
-    <button
-      class="buy"
-      onclick="buyNow('${String(book.id).replace(/'/g, "\\'")}')"
-    >
-      🛒 Buy Now
-    </button>
+    ${actionButton}
 
   `;
 
@@ -266,12 +374,16 @@ p{
 function buyNow(id){
 
   const loggedIn =
-    localStorage.getItem("loggedIn");
+    localStorage.getItem(
+      "loggedIn"
+    );
 
 
   if(loggedIn !== "true"){
 
-    alert("Please login first to continue.");
+    alert(
+      "Please login first to continue."
+    );
 
     window.location.href =
       "login.html";
