@@ -1,198 +1,216 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">  <title>Register | Road2Billionaire</title>  <link rel="stylesheet" href="style.css">  <style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Account | Road2Billionaire</title>
+
+  <style>
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background: #f5f5f5;
-    }
-
-    .register-container {
-      min-height: 100vh;
+      background: linear-gradient(135deg, #000000, #1a1a1a);
+      color: white;
       display: flex;
-      align-items: center;
       justify-content: center;
+      align-items: center;
+      min-height: 100vh;
       padding: 20px;
-    }
-
-    .register-box {
-      width: 100%;
-      max-width: 440px;
-      background: white;
-      padding: 30px;
-      border-radius: 18px;
-      box-shadow: 0 10px 35px rgba(0,0,0,0.10);
       box-sizing: border-box;
     }
 
-    .brand {
-      text-align: center;
-      font-size: 28px;
-      font-weight: bold;
-      margin-bottom: 8px;
+    .container {
+      width: 100%;
+      max-width: 420px;
+      background: #111;
+      padding: 30px;
+      border-radius: 18px;
+      box-sizing: border-box;
+      box-shadow: 0 0 25px rgba(255, 215, 0, 0.2);
     }
 
-    .subtitle {
+    h1 {
       text-align: center;
-      color: #666;
-      margin-bottom: 30px;
-    }
-
-    label {
-      display: block;
-      margin-bottom: 7px;
-      font-weight: bold;
+      color: #ffd700;
+      margin-bottom: 25px;
     }
 
     input {
       width: 100%;
-      padding: 13px;
-      margin-bottom: 18px;
-      border: 1px solid #ddd;
-      border-radius: 9px;
+      padding: 14px;
+      margin: 8px 0;
+      border: 1px solid #444;
+      border-radius: 10px;
+      background: #222;
+      color: white;
       box-sizing: border-box;
-      font-size: 16px;
+      font-size: 15px;
     }
 
-    .register-btn {
+    button {
       width: 100%;
       padding: 14px;
+      margin-top: 15px;
       border: none;
-      border-radius: 9px;
-      background: #111;
-      color: white;
-      font-size: 17px;
+      border-radius: 10px;
+      background: #ffd700;
+      color: #000;
       font-weight: bold;
+      font-size: 16px;
       cursor: pointer;
     }
 
-    .register-btn:hover {
-      opacity: 0.85;
-    }
-
-    .login {
-      text-align: center;
-      margin-top: 22px;
-      color: #555;
-    }
-
-    .login a {
-      color: #111;
-      font-weight: bold;
-      text-decoration: none;
-    }
-
-    .back {
-      display: block;
+    .links {
       text-align: center;
       margin-top: 20px;
-      color: #555;
+    }
+
+    .links a {
+      color: #ffd700;
       text-decoration: none;
     }
 
     .message {
       display: none;
-      margin-top: 18px;
-      padding: 12px;
-      border-radius: 8px;
-      text-align: center;
-      font-size: 14px;
     }
 
-    .note {
-      margin-top: 20px;
-      padding: 12px;
-      background: #f3f3f3;
-      border-radius: 8px;
-      font-size: 13px;
-      color: #666;
-      text-align: center;
+    /* SUCCESS POPUP */
+    .success-popup {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.78);
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
     }
-  </style></head><body>  <div class="register-container"><div class="register-box">
 
-  <div class="brand">
-    ROAD2BILLIONAIRE
+    .success-box {
+      width: 100%;
+      max-width: 430px;
+      background: white;
+      color: #111;
+      border-radius: 22px;
+      padding: 35px 25px;
+      text-align: center;
+      box-shadow: 0 0 45px rgba(255,255,255,0.25);
+      animation: popup 0.4s ease;
+    }
+
+    .success-icon {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 18px;
+      border-radius: 50%;
+      background: #16a34a;
+      color: white;
+      font-size: 52px;
+      line-height: 80px;
+      font-weight: bold;
+    }
+
+    .success-box h2 {
+      font-size: 25px;
+      margin: 10px 0;
+    }
+
+    .success-box p {
+      color: #555;
+      font-size: 16px;
+      margin: 8px 0;
+    }
+
+    @keyframes popup {
+      from {
+        transform: scale(0.7);
+        opacity: 0;
+      }
+
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <h1>Create Account</h1>
+
+    <form onsubmit="registerUser(event)">
+
+      <input
+        type="text"
+        id="name"
+        placeholder="Full Name"
+        required
+      >
+
+      <input
+        type="email"
+        id="email"
+        placeholder="Email Address"
+        required
+      >
+
+      <input
+        type="password"
+        id="password"
+        placeholder="Password"
+        required
+      >
+
+      <input
+        type="password"
+        id="confirmPassword"
+        placeholder="Confirm Password"
+        required
+      >
+
+      <button type="submit">
+        Create Account
+      </button>
+
+    </form>
+
+    <div id="message" class="message"></div>
+
+    <div class="links">
+      Already have an account?
+      <a href="login.html">Login</a>
+    </div>
+
+    <div class="links">
+      <a href="index.html">← Back to Home</a>
+    </div>
+
   </div>
 
-  <p class="subtitle">
-    Create your account
-  </p>
 
-  <form onsubmit="registerUser(event)">
+  <!-- SUCCESS POPUP -->
 
-    <label for="name">
-      Full Name
-    </label>
+  <div id="successPopup" class="success-popup">
 
-    <input
-      type="text"
-      id="name"
-      placeholder="Enter your name"
-      required
-    >
+    <div class="success-box">
 
-    <label for="email">
-      Email Address
-    </label>
+      <div class="success-icon">✓</div>
 
-    <input
-      type="email"
-      id="email"
-      placeholder="Enter your email"
-      required
-    >
+      <h2>Account Created Successfully!</h2>
 
-    <label for="password">
-      Password
-    </label>
+      <p>Your account has been created successfully.</p>
 
-    <input
-      type="password"
-      id="password"
-      placeholder="Create a password"
-      minlength="6"
-      required
-    >
+      <p>Redirecting to Login...</p>
 
-    <label for="confirmPassword">
-      Confirm Password
-    </label>
+    </div>
 
-    <input
-      type="password"
-      id="confirmPassword"
-      placeholder="Confirm your password"
-      minlength="6"
-      required
-    >
-
-    <button type="submit" class="register-btn">
-      Create Account
-    </button>
-
-  </form>
-
-  <div id="message" class="message"></div>
-
-  <div class="login">
-    Already have an account?
-    <a href="login.html">
-      Login
-    </a>
   </div>
 
-  <a href="index.html" class="back">
-    ← Back to Home
-  </a>
 
-  <div class="note">
-    🔒 Demo registration — secure database connection बाद में जोड़ा जाएगा।
-  </div>
-
-</div>
-
-  </div>  <script>
+  <script>
 
     function registerUser(event) {
 
@@ -210,43 +228,49 @@
       const confirmPassword =
         document.getElementById("confirmPassword").value;
 
-      const message =
-        document.getElementById("message");
 
       if (password !== confirmPassword) {
 
-        message.style.display = "block";
-        message.innerHTML = "❌ Passwords do not match.";
+        alert("❌ Passwords do not match.");
 
         return;
+
       }
 
-      /*
-        Demo account storage.
-        Real database/backend बाद में connect होगा.
-      */
 
       const user = {
+
         name: name,
         email: email,
         password: password
+
       };
+
 
       localStorage.setItem(
         "roadUser",
         JSON.stringify(user)
       );
 
-      message.style.display = "block";
-message.style.background = "#e8f5e9";
-message.style.color = "#1b5e20";
-message.innerHTML =
-  "✅ Account created successfully! Redirecting to Login...";
 
-setTimeout(function() {
-  window.location.replace("./login.html");
-}, 5000);
+      /* SHOW BIG SUCCESS POPUP */
+
+      document.getElementById(
+        "successPopup"
+      ).style.display = "flex";
+
+
+      /* REDIRECT AFTER 5 SECONDS */
+
+      setTimeout(function() {
+
+        window.location.replace("./login.html");
+
+      }, 5000);
+
     }
 
-  </script></body>
+  </script>
+
+</body>
 </html>
