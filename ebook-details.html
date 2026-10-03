@@ -4,7 +4,11 @@
 <head>
 
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0"
+>
 
 <title>eBook Details | Road2Billionaire</title>
 
@@ -58,6 +62,15 @@ body{
   padding:25px;
 }
 
+.book-image{
+  width:100%;
+  max-height:350px;
+  object-fit:contain;
+  border-radius:12px;
+  margin-bottom:20px;
+  background:#222;
+}
+
 h1{
   color:#ffd700;
 }
@@ -91,6 +104,7 @@ p{
   cursor:pointer;
   font-size:16px;
   margin-right:8px;
+  margin-top:8px;
 }
 
 .buy{
@@ -108,11 +122,17 @@ p{
   text-align:center;
 }
 
+.success{
+  color:#7dff91;
+}
+
 </style>
 
 </head>
 
+
 <body>
+
 
 <div class="topbar">
 
@@ -148,12 +168,20 @@ p{
 
 <script>
 
+
 (function(){
+
+
+  /* ==============================
+     GET BOOK ID
+  ============================== */
+
 
   const params =
     new URLSearchParams(
       window.location.search
     );
+
 
   const id =
     params.get("id");
@@ -184,6 +212,11 @@ p{
   }
 
 
+  /* ==============================
+     LOAD EBOOKS
+  ============================== */
+
+
   let ebooks = [];
 
 
@@ -205,6 +238,8 @@ p{
   }
   catch(error){
 
+    console.log(error);
+
     ebooks = [];
 
   }
@@ -217,10 +252,16 @@ p{
   }
 
 
+  /* ==============================
+     FIND BOOK
+  ============================== */
+
+
   const book =
     ebooks.find(function(item){
 
-      return String(item.id) === String(id);
+      return String(item.id) ===
+             String(id);
 
     });
 
@@ -238,7 +279,7 @@ p{
       </p>
 
       <a
-        href="ebook.html?from=dashboard&v=200001"
+        href="ebook.html?from=dashboard"
         class="btn buy"
       >
         📚 Back to eBooks
@@ -251,7 +292,10 @@ p{
   }
 
 
-  /* CHECK PURCHASE */
+  /* ==============================
+     CHECK PURCHASE
+  ============================== */
+
 
   let purchasedBooks = [];
 
@@ -289,9 +333,39 @@ p{
   const purchased =
     purchasedBooks.some(function(item){
 
-      return String(item.bookId) === String(book.id);
+      return String(item.bookId) ===
+             String(book.id);
 
     });
+
+
+  /* ==============================
+     IMAGE
+  ============================== */
+
+
+  let imageHTML = "";
+
+
+  if(book.image){
+
+    imageHTML = `
+
+      <img
+        src="${book.image}"
+        class="book-image"
+        alt="${book.title || "eBook"}"
+        onerror="this.style.display='none'"
+      >
+
+    `;
+
+  }
+
+
+  /* ==============================
+     ACTION BUTTON
+  ============================== */
 
 
   let actionButton = "";
@@ -299,27 +373,50 @@ p{
 
   if(purchased){
 
-    actionButton = `
 
-      <a
-        href="${book.fileLink || "#"}"
-        class="btn read"
-        target="_blank"
-        rel="noopener"
-      >
-        📖 Read eBook
-      </a>
+    /* IMPORTANT:
+       PDF FIELD = pdfUrl
+    */
 
-    `;
+
+    if(book.pdfUrl){
+
+      actionButton = `
+
+        <a
+          href="${book.pdfUrl}"
+          class="btn read"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          📖 Read eBook
+        </a>
+
+      `;
+
+    }
+    else{
+
+      actionButton = `
+
+        <p class="error">
+          ❌ PDF link उपलब्ध नहीं है।
+        </p>
+
+      `;
+
+    }
+
 
   }
   else{
+
 
     actionButton = `
 
       <button
         class="btn buy"
-        onclick="buyNow('${String(book.id).replace(/'/g, "\\'")}')"
+        id="buyButton"
       >
         🛒 Buy Now
       </button>
@@ -329,23 +426,38 @@ p{
   }
 
 
+  /* ==============================
+     DISPLAY BOOK
+  ============================== */
+
+
   container.innerHTML = `
+
+    ${imageHTML}
+
 
     <h1>
       ${book.title || "eBook"}
     </h1>
 
+
     <p>
       ${book.description || ""}
     </p>
 
+
     <p>
+
       <strong>
         Topics:
       </strong>
+
       <br>
+
       ${book.topics || "Not specified"}
+
     </p>
+
 
     <div class="price">
 
@@ -355,7 +467,7 @@ p{
         book.oldPrice
         ? `
           <span class="old-price">
-            ${book.oldPrice}
+            ₹${book.oldPrice}
           </span>
         `
         : ""
@@ -363,15 +475,48 @@ p{
 
     </div>
 
+
     ${actionButton}
 
   `;
+
+
+  /* ==============================
+     BUY BUTTON
+  ============================== */
+
+
+  const buyButton =
+    document.getElementById(
+      "buyButton"
+    );
+
+
+  if(buyButton){
+
+    buyButton.addEventListener(
+      "click",
+      function(){
+
+        buyNow(book.id);
+
+      }
+    );
+
+  }
+
 
 })();
 
 
 
+/* ==============================
+   BUY NOW
+============================== */
+
+
 function buyNow(id){
+
 
   const loggedIn =
     localStorage.getItem(
@@ -385,8 +530,10 @@ function buyNow(id){
       "Please login first to continue."
     );
 
+
     window.location.href =
       "login.html";
+
 
     return;
 
@@ -400,6 +547,7 @@ function buyNow(id){
 }
 
 </script>
+
 
 </body>
 
