@@ -1,216 +1,292 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">  <title>Dashboard | Road2Billionaire</title>  <link rel="stylesheet" href="style.css">  <style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Dashboard | Road2Billionaire</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background: #f5f5f5;
-      color: #111;
-    }
-
-    .dashboard {
-      max-width: 1000px;
-      margin: auto;
-      padding: 25px 18px;
+      background:
+        radial-gradient(circle at top, #292000 0%, #0b0b0b 45%, #000 100%);
+      color: white;
+      min-height: 100vh;
     }
 
     .topbar {
       background: #111;
-      color: white;
+      border-bottom: 1px solid rgba(255, 215, 0, 0.3);
       padding: 18px 20px;
-      border-radius: 16px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 15px;
-      flex-wrap: wrap;
     }
 
     .brand {
-      font-size: 22px;
+      color: #ffd700;
+      font-size: 21px;
       font-weight: bold;
     }
 
     .logout {
-      background: #fff;
-      color: #111;
+      background: #ffd700;
+      color: #000;
       border: none;
-      padding: 10px 18px;
+      padding: 9px 15px;
       border-radius: 8px;
       font-weight: bold;
       cursor: pointer;
     }
 
+    .container {
+      width: 100%;
+      max-width: 1000px;
+      margin: auto;
+      padding: 25px 18px 50px;
+    }
+
     .welcome {
-      margin: 25px 0;
+      background: linear-gradient(135deg, #181818, #0d0d0d);
+      border: 1px solid rgba(255, 215, 0, 0.25);
+      border-radius: 20px;
+      padding: 25px;
+      margin-bottom: 25px;
     }
 
     .welcome h1 {
-      margin-bottom: 8px;
+      margin: 0 0 8px;
+      color: #ffd700;
+      font-size: 27px;
     }
 
     .welcome p {
-      color: #666;
+      margin: 6px 0;
+      color: #aaa;
+    }
+
+    .email {
+      color: white !important;
+      font-size: 14px;
     }
 
     .cards {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 18px;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+      margin-bottom: 30px;
     }
 
     .card {
-      background: white;
-      padding: 22px;
+      background: #111;
+      border: 1px solid #292929;
       border-radius: 16px;
-      box-shadow: 0 6px 25px rgba(0,0,0,0.07);
+      padding: 20px;
+      text-align: center;
     }
 
-    .card h2 {
-      margin-top: 0;
-      font-size: 20px;
+    .card-icon {
+      font-size: 30px;
+      margin-bottom: 8px;
+    }
+
+    .card h3 {
+      margin: 5px 0;
+      color: #ffd700;
+      font-size: 17px;
     }
 
     .card p {
-      color: #666;
+      color: #888;
+      font-size: 13px;
+      margin: 5px 0;
+    }
+
+    .section-title {
+      color: #ffd700;
+      font-size: 22px;
+      margin: 10px 0 15px;
+    }
+
+    .ebook {
+      background: #111;
+      border: 1px solid rgba(255, 215, 0, 0.25);
+      border-radius: 18px;
+      padding: 20px;
+    }
+
+    .ebook h2 {
+      margin: 0 0 10px;
+      color: white;
+    }
+
+    .ebook p {
+      color: #aaa;
       line-height: 1.5;
+    }
+
+    .price {
+      color: #ffd700;
+      font-size: 24px;
+      font-weight: bold;
+      margin: 15px 0;
     }
 
     .btn {
       display: inline-block;
-      background: #111;
-      color: white;
+      background: linear-gradient(135deg, #ffd700, #ffb700);
+      color: #000;
       text-decoration: none;
-      padding: 11px 18px;
-      border-radius: 8px;
+      padding: 12px 20px;
+      border-radius: 9px;
       font-weight: bold;
-      margin-top: 8px;
     }
 
-    .ebook {
-      margin-top: 25px;
-      background: white;
-      padding: 25px;
-      border-radius: 16px;
-      box-shadow: 0 6px 25px rgba(0,0,0,0.07);
+    @media (max-width: 500px) {
+      .cards {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .welcome h1 {
+        font-size: 23px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="topbar">
+
+    <div class="brand">
+      Road2Billionaire
+    </div>
+
+    <button class="logout" onclick="logoutUser()">
+      Logout
+    </button>
+
+  </div>
+
+
+  <div class="container">
+
+    <div class="welcome">
+
+      <h1 id="welcomeName">
+        Welcome!
+      </h1>
+
+      <p>
+        Welcome to your personal dashboard.
+      </p>
+
+      <p id="userEmail" class="email"></p>
+
+    </div>
+
+
+    <div class="cards">
+
+      <div class="card">
+        <div class="card-icon">👤</div>
+        <h3>My Profile</h3>
+        <p>View your profile</p>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">📚</div>
+        <h3>My eBooks</h3>
+        <p>Your purchased books</p>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">🧾</div>
+        <h3>Orders</h3>
+        <p>Payment history</p>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">🛒</div>
+        <h3>Browse eBooks</h3>
+        <p>Explore our books</p>
+      </div>
+
+    </div>
+
+
+    <div class="section-title">
+      📚 Available eBook
+    </div>
+
+
+    <div class="ebook">
+
+      <h2>
+        Money Management eBook
+      </h2>
+
+      <p>
+        Learn the basics of money management,
+        budgeting, saving and financial planning.
+      </p>
+
+      <div class="price">
+        ₹99
+      </div>
+
+      <a href="Product.html" class="btn">
+        View Details
+      </a>
+
+    </div>
+
+  </div>
+
+
+  <script>
+
+    /* SHOW USER INFORMATION */
+
+    const userData =
+      localStorage.getItem("roadUser");
+
+    if (userData) {
+
+      const user =
+        JSON.parse(userData);
+
+      document.getElementById(
+        "welcomeName"
+      ).innerHTML =
+        "Welcome, " + user.name + "!";
+
+      document.getElementById(
+        "userEmail"
+      ).innerHTML =
+        user.email;
+
     }
 
-    .ebook h2 {
-      margin-top: 0;
-    }
 
-    .status {
-      display: inline-block;
-      background: #eee;
-      padding: 7px 12px;
-      border-radius: 20px;
-      font-size: 13px;
-      margin: 8px 0;
-    }
+    /* LOGOUT */
 
-    .footer {
-      text-align: center;
-      margin-top: 35px;
-      color: #777;
-      font-size: 14px;
-    }
-  </style></head><body>  <main class="dashboard"><header class="topbar">
-  <div class="brand">
-    Road2Billionaire
-  </div>
+    function logoutUser() {
 
-  <button class="logout" onclick="logout()">
-    Logout
-  </button>
-</header>
-
-<section class="welcome">
-  <h1>Welcome to Your Dashboard 👋</h1>
-  <p>
-    Learn. Manage. Grow.
-  </p>
-</section>
-
-<section class="cards">
-
-  <div class="card">
-    <h2>👤 My Profile</h2>
-    <p>
-      View and manage your account information.
-    </p>
-
-    <a href="#" class="btn">
-      View Profile
-    </a>
-  </div>
-
-  <div class="card">
-    <h2>📚 My eBooks</h2>
-    <p>
-      Access your purchased eBooks from your account.
-    </p>
-
-    <a href="#" class="btn">
-      My eBooks
-    </a>
-  </div>
-
-  <div class="card">
-    <h2>🛒 Orders</h2>
-    <p>
-      Your order and payment history will appear here.
-    </p>
-
-    <a href="#" class="btn">
-      View Orders
-    </a>
-  </div>
-
-  <div class="card">
-    <h2>📖 Browse eBooks</h2>
-    <p>
-      Explore available learning resources.
-    </p>
-
-    <a href="Product.html" class="btn">
-      View eBook
-    </a>
-  </div>
-
-</section>
-
-<section class="ebook">
-
-  <h2>📚 Money Management eBook</h2>
-
-  <p>
-    Learn practical money management concepts, budgeting,
-    saving, financial goals and smart money habits.
-  </p>
-
-  <span class="status">
-    🔒 Purchase Required
-  </span>
-
-  <br>
-
-  <a href="Product.html" class="btn">
-    View Product — ₹99
-  </a>
-
-</section>
-
-<div class="footer">
-  © 2026 Road2Billionaire. All Rights Reserved.
-</div>
-
-  </main>  <script>
-    function logout() {
       localStorage.removeItem("loggedIn");
       localStorage.removeItem("userEmail");
 
-      window.location.href = "Login.html";
+      window.location.href = "login.html";
+
     }
-  </script></body>
+
+  </script>
+
+</body>
 </html>
