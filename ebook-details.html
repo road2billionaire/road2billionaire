@@ -2,10 +2,10 @@
 <html lang="en">
 
 <head>
+
 <meta charset="UTF-8">
 
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>eBook Details | Road2Billionaire</title>
 
@@ -55,13 +55,11 @@ body{
   border:1px solid #333;
   border-radius:20px;
   padding:25px;
-  box-shadow:0 0 20px rgba(255,215,0,.08);
 }
 
 h1{
   color:#ffd700;
   margin-top:0;
-  line-height:1.3;
 }
 
 .description{
@@ -105,21 +103,6 @@ h1{
   font-size:18px;
   font-weight:bold;
   cursor:pointer;
-}
-
-.buy:hover{
-  background:#fff;
-}
-
-.message{
-  display:none;
-  margin-top:20px;
-  padding:15px;
-  border-radius:10px;
-  background:#162b16;
-  border:1px solid #2e8b2e;
-  color:#8cff8c;
-  text-align:center;
 }
 
 .home{
@@ -171,25 +154,35 @@ function loadBook(){
   const box =
     document.getElementById("ebookDetails");
 
+
   const params =
-    new URLSearchParams(window.location.search);
+    new URLSearchParams(
+      window.location.search
+    );
+
 
   const id =
     params.get("id");
+
 
   let books = JSON.parse(
     localStorage.getItem("ebooksData") || "[]"
   );
 
+
   if(books.length === 0){
 
     box.innerHTML = `
       <div class="card error">
+
         <h2>eBook Not Found</h2>
+
         <p>No eBook is available.</p>
+
         <a href="ebook.html" class="home">
           ← Back to eBooks
         </a>
+
       </div>
     `;
 
@@ -197,7 +190,8 @@ function loadBook(){
   }
 
 
-  let book;
+  let book = null;
+
 
   if(id){
 
@@ -225,10 +219,9 @@ function loadBook(){
         ${book.title}
       </h1>
 
+
       <div class="description">
-
         ${book.description}
-
       </div>
 
 
@@ -266,15 +259,6 @@ function loadBook(){
       >
         🛒 Buy Now
       </button>
-
-
-      <div
-        id="message"
-        class="message"
-      >
-        ✅ Buy Now selected.<br>
-        Payment system will be connected next.
-      </div>
 
 
       <a
@@ -316,18 +300,13 @@ function buyNow(){
       window.location.search
     );
 
+
   const id =
     params.get("id");
 
 
   window.location.href =
-    "payment.html?id=" + id;
-
-}
-
-  document.getElementById(
-    "message"
-  ).style.display = "block";
+    "payment.html?id=" + encodeURIComponent(id);
 
 }
 
