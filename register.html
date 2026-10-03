@@ -238,14 +238,14 @@
       );
 
       message.style.display = "block";
-      message.innerHTML =
-        "✅ Account created successfully!";
+message.style.background = "#e8f5e9";
+message.style.color = "#1b5e20";
+message.innerHTML =
+  "✅ Account created successfully! Redirecting to Login...";
 
-      setTimeout(function() {
-
-        window.location.href = "login.html";
-
-      }, 1000);
+setTimeout(function() {
+  window.location.replace("./login.html");
+}, 5000);
     }
 
   </script></body>
