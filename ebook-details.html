@@ -311,6 +311,20 @@ function buyNow(){
   }
 
 
+  const params =
+    new URLSearchParams(
+      window.location.search
+    );
+
+  const id =
+    params.get("id");
+
+
+  window.location.href =
+    "payment.html?id=" + id;
+
+}
+
   document.getElementById(
     "message"
   ).style.display = "block";
