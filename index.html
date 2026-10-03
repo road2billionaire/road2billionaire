@@ -1,14 +1,207 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Road2Billionaire</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Road2Billionaire | Learn. Manage. Grow.</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #0b0b0b;
+      color: white;
+    }
+
+    header {
+      padding: 20px;
+      background: #111;
+      border-bottom: 1px solid #333;
+    }
+
+    .header-box {
+      max-width: 1000px;
+      margin: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 22px;
+      font-weight: bold;
+    }
+
+    .logo span {
+      color: #e5b94f;
+    }
+
+    .login {
+      color: white;
+      text-decoration: none;
+      border: 1px solid #e5b94f;
+      padding: 9px 18px;
+      border-radius: 7px;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 80px 20px;
+      background: linear-gradient(135deg, #210909, #080808);
+    }
+
+    .hero h1 {
+      font-size: 48px;
+      margin: 0;
+    }
+
+    .hero h1 span {
+      color: #e5b94f;
+    }
+
+    .hero p {
+      max-width: 650px;
+      margin: 20px auto;
+      color: #ccc;
+      font-size: 18px;
+      line-height: 1.6;
+    }
+
+    .section {
+      max-width: 900px;
+      margin: auto;
+      padding: 60px 20px;
+    }
+
+    .title {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .card {
+      background: #151515;
+      border: 1px solid #333;
+      border-radius: 18px;
+      padding: 30px;
+      text-align: center;
+    }
+
+    .card h2 {
+      font-size: 28px;
+    }
+
+    .card p {
+      color: #ccc;
+      line-height: 1.7;
+    }
+
+    .price {
+      color: #e5b94f;
+      font-size: 32px;
+      font-weight: bold;
+      margin: 20px;
+    }
+
+    .button {
+      display: inline-block;
+      background: #e5b94f;
+      color: #111;
+      text-decoration: none;
+      padding: 13px 25px;
+      border-radius: 8px;
+      font-weight: bold;
+    }
+
+    footer {
+      text-align: center;
+      padding: 25px;
+      background: #050505;
+      color: #888;
+    }
+
+    @media (max-width: 600px) {
+      .hero h1 {
+        font-size: 36px;
+      }
+
+      .logo {
+        font-size: 17px;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-  <h1>ROAD2BILLIONAIRE</h1>
+  <header>
+    <div class="header-box">
 
-  <p>Website is working.</p>
+      <div class="logo">
+        ROAD<span>2</span>BILLIONAIRE
+      </div>
+
+      <a href="login.html" class="login">
+        Login
+      </a>
+
+    </div>
+  </header>
+
+
+  <section class="hero">
+
+    <h1>
+      Learn. <span>Manage.</span> Grow.
+    </h1>
+
+    <p>
+      Practical Hindi eBooks to help you learn,
+      manage your money and grow your knowledge.
+    </p>
+
+  </section>
+
+
+  <section class="section">
+
+    <div class="title">
+      <h2>Featured eBook</h2>
+      <p>Start your learning journey today.</p>
+    </div>
+
+    <div class="card">
+
+      <h2>
+        Money Management eBook
+      </h2>
+
+      <p>
+        पैसा कमाना ही नहीं, उसे सही तरीके से
+        Manage करना भी जरूरी है।
+      </p>
+
+      <p>
+        Beginners के लिए simple और practical
+        financial learning eBook.
+      </p>
+
+      <div class="price">
+        ₹99
+      </div>
+
+      <a href="product.html" class="button">
+        View Details →
+      </a>
+
+    </div>
+
+  </section>
+
+
+  <footer>
+    © 2026 Road2Billionaire. All Rights Reserved.
+  </footer>
 
 </body>
 </html>
