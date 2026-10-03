@@ -15,17 +15,24 @@
   box-sizing:border-box;
 }
 
+html,
 body{
   margin:0;
-  background:#000;
+  padding:0;
+  width:100%;
+  height:100%;
+  background:#111;
   color:#fff;
   font-family:Arial,sans-serif;
+  overflow:hidden;
 }
 
 .topbar{
+  height:58px;
   background:#111;
   border-bottom:1px solid #ffd700;
-  padding:15px;
+  padding:0 15px;
+
   display:flex;
   justify-content:space-between;
   align-items:center;
@@ -33,7 +40,7 @@ body{
 
 .logo{
   color:#ffd700;
-  font-size:20px;
+  font-size:19px;
   font-weight:bold;
 }
 
@@ -41,35 +48,57 @@ body{
   color:#ffd700;
   text-decoration:none;
   background:#222;
-  padding:9px 14px;
+  padding:8px 13px;
   border-radius:7px;
+  font-size:14px;
 }
 
 .title{
-  text-align:center;
+  height:52px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
   color:#ffd700;
-  padding:15px 10px;
-  font-size:20px;
+  background:#181818;
+
+  padding:5px 40px;
+
+  font-size:18px;
+  font-weight:bold;
+
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
 }
 
 .reader{
   width:100%;
-  height:calc(100vh - 125px);
-  background:#222;
-  position:relative;
-  overflow:hidden;
+  height:calc(100vh - 110px);
+  overflow:auto;
+  background:#333;
+  padding:15px 0;
 }
 
-iframe{
+#pdfContainer{
   width:100%;
-  height:100%;
-  border:0;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:15px;
+}
+
+.pdf-page{
+  display:block;
   background:#fff;
+  box-shadow:0 2px 10px #000;
+  max-width:96%;
+  height:auto;
 }
 
 .message{
   text-align:center;
-  padding:40px 20px;
+  padding:50px 20px;
 }
 
 .error{
@@ -78,6 +107,22 @@ iframe{
 
 .loading{
   color:#ffd700;
+}
+
+.notice{
+  color:#aaa;
+  font-size:13px;
+  margin-top:15px;
+}
+
+button{
+  padding:12px 20px;
+  border:0;
+  border-radius:8px;
+  background:#ffd700;
+  color:#000;
+  font-weight:bold;
+  cursor:pointer;
 }
 
 </style>
@@ -95,7 +140,7 @@ iframe{
   </div>
 
   <a
-    href="Dashboard.html?v=300001"
+    href="Dashboard.html"
     class="back"
   >
     ← Back
@@ -124,10 +169,22 @@ iframe{
 </div>
 
 
+<!-- PDF.JS -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+
+
 <script>
 
-
 (function(){
+
+
+  /* =========================
+     PDF.JS WORKER
+  ========================= */
+
+  pdfjsLib.GlobalWorkerOptions.workerSrc =
+    "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
 
 
   /* =========================
@@ -304,27 +361,21 @@ iframe{
       <div class="message">
 
         <h2>
-          🔒 यह eBook Purchased नहीं है
+          🔒 eBook Locked
         </h2>
 
         <p>
           पहले eBook खरीदें, उसके बाद इसे पढ़ सकते हैं।
         </p>
 
+        <br>
+
         <a
           href="ebook-details.html?id=${encodeURIComponent(book.id)}"
-          style="
-            display:inline-block;
-            margin-top:15px;
-            padding:12px 20px;
-            background:#ffd700;
-            color:#000;
-            text-decoration:none;
-            border-radius:8px;
-            font-weight:bold;
-          "
         >
-          🛒 Buy Now
+          <button>
+            🛒 Buy Now
+          </button>
         </a>
 
       </div>
@@ -337,7 +388,7 @@ iframe{
 
 
   /* =========================
-     CHECK PDF LINK
+     CHECK PDF
   ========================= */
 
   if(!book.pdfUrl){
@@ -362,17 +413,13 @@ iframe{
   }
 
 
-  /* =========================
-     TITLE
-  ========================= */
-
   title.textContent =
     "📖 " +
     (book.title || "Read eBook");
 
 
   /* =========================
-     GOOGLE DRIVE PDF
+     GET PDF URL
   ========================= */
 
   let pdfUrl =
@@ -380,15 +427,48 @@ iframe{
 
 
   /*
-    If Google Drive file ID is used,
-    convert it to preview URL.
+    Google Drive FILE URL
   */
 
-  const driveMatch =
+  let driveMatch =
     pdfUrl.match(
       /\/file\/d\/([^/]+)/
     );
 
+
+  /*
+    Google Drive UC URL
+  */
+
+  if(!driveMatch){
+
+    const downloadMatch =
+      pdfUrl.match(
+        /[?&]id=([^&]+)/
+      );
+
+    if(
+      pdfUrl.includes(
+        "drive.google.com"
+      )
+      &&
+      downloadMatch
+    ){
+
+      driveMatch = [
+        "",
+        downloadMatch[1]
+      ];
+
+    }
+
+  }
+
+
+  /*
+    Convert Google Drive
+    to downloadable PDF URL
+  */
 
   if(driveMatch){
 
@@ -396,57 +476,155 @@ iframe{
       driveMatch[1];
 
     pdfUrl =
-      "https://drive.google.com/file/d/" +
-      fileId +
-      "/preview";
-
-  }
-
-
-  /*
-    If direct Google Drive download
-    URL is being used.
-  */
-
-  const downloadMatch =
-    pdfUrl.match(
-      /[?&]id=([^&]+)/
-    );
-
-
-  if(
-    pdfUrl.includes(
-      "drive.google.com/uc"
-    )
-    &&
-    downloadMatch
-  ){
-
-    const fileId =
-      downloadMatch[1];
-
-    pdfUrl =
-      "https://drive.google.com/file/d/" +
-      fileId +
-      "/preview";
+      "https://drive.google.com/uc?export=download&id=" +
+      fileId;
 
   }
 
 
   /* =========================
-     PDF READER
+     START PDF
   ========================= */
 
-  reader.innerHTML = `
+  loadPDF(pdfUrl);
 
-    <iframe
-      src="${pdfUrl}"
-      allow="autoplay"
-      loading="eager"
-      title="eBook Reader"
-    ></iframe>
 
-  `;
+  async function loadPDF(url){
+
+    try{
+
+      reader.innerHTML = `
+
+        <div
+          class="message loading"
+          id="loading"
+        >
+          📖 PDF Loading...
+        </div>
+
+        <div id="pdfContainer"></div>
+
+      `;
+
+
+      const loadingTask =
+        pdfjsLib.getDocument({
+          url:url,
+          withCredentials:false
+        });
+
+
+      const pdf =
+        await loadingTask.promise;
+
+
+      const container =
+        document.getElementById(
+          "pdfContainer"
+        );
+
+
+      const loading =
+        document.getElementById(
+          "loading"
+        );
+
+
+      if(loading){
+
+        loading.remove();
+
+      }
+
+
+      /*
+        Render every page
+      */
+
+      for(
+        let pageNumber = 1;
+        pageNumber <= pdf.numPages;
+        pageNumber++
+      ){
+
+        const page =
+          await pdf.getPage(
+            pageNumber
+          );
+
+
+        const viewport =
+          page.getViewport({
+            scale:1.4
+          });
+
+
+        const canvas =
+          document.createElement(
+            "canvas"
+          );
+
+
+        canvas.className =
+          "pdf-page";
+
+
+        const context =
+          canvas.getContext(
+            "2d"
+          );
+
+
+        canvas.width =
+          viewport.width;
+
+
+        canvas.height =
+          viewport.height;
+
+
+        container.appendChild(
+          canvas
+        );
+
+
+        await page.render({
+          canvasContext:context,
+          viewport:viewport
+        }).promise;
+
+      }
+
+    }
+    catch(error){
+
+      console.error(error);
+
+
+      reader.innerHTML = `
+
+        <div class="message">
+
+          <h2>
+            ❌ PDF Open नहीं हो पाई
+          </h2>
+
+          <p class="error">
+            PDF link या Google Drive permission check करें।
+          </p>
+
+          <p class="notice">
+            Google Drive file को "Anyone with the link"
+            के लिए Viewer access देना जरूरी हो सकता है।
+          </p>
+
+        </div>
+
+      `;
+
+    }
+
+  }
 
 
 })();
@@ -467,6 +645,20 @@ document.addEventListener(
 
 
 /* =========================
+   DISABLE TEXT SELECTION
+========================= */
+
+document.addEventListener(
+  "selectstart",
+  function(event){
+
+    event.preventDefault();
+
+  }
+);
+
+
+/* =========================
    DISABLE SOME SHORTCUTS
 ========================= */
 
@@ -478,9 +670,9 @@ document.addEventListener(
       (event.ctrlKey || event.metaKey)
       &&
       (
-        event.key === "s" ||
-        event.key === "p" ||
-        event.key === "u"
+        event.key.toLowerCase() === "s" ||
+        event.key.toLowerCase() === "p" ||
+        event.key.toLowerCase() === "u"
       )
     ){
 
@@ -489,6 +681,25 @@ document.addEventListener(
     }
 
   }
+);
+
+
+/* =========================
+   BLOCK LONG PRESS MENU
+========================= */
+
+document.addEventListener(
+  "touchstart",
+  function(event){
+
+    if(event.touches.length > 1){
+
+      event.preventDefault();
+
+    }
+
+  },
+  {passive:false}
 );
 
 </script>
