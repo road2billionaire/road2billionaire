@@ -1,292 +1,355 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Dashboard | Road2Billionaire</title>
+<meta charset="UTF-8">
 
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background:
-        radial-gradient(circle at top, #292000 0%, #0b0b0b 45%, #000 100%);
-      color: white;
-      min-height: 100vh;
-    }
+<title>User Dashboard | Road2Billionaire</title>
 
-    .topbar {
-      background: #111;
-      border-bottom: 1px solid rgba(255, 215, 0, 0.3);
-      padding: 18px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
+<style>
 
-    .brand {
-      color: #ffd700;
-      font-size: 21px;
-      font-weight: bold;
-    }
+*{
+  box-sizing:border-box;
+}
 
-    .logout {
-      background: #ffd700;
-      color: #000;
-      border: none;
-      padding: 9px 15px;
-      border-radius: 8px;
-      font-weight: bold;
-      cursor: pointer;
-    }
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#000;
+  color:#fff;
+}
 
-    .container {
-      width: 100%;
-      max-width: 1000px;
-      margin: auto;
-      padding: 25px 18px 50px;
-    }
+.topbar{
+  background:#111;
+  padding:18px 20px;
+  border-bottom:1px solid #ffd700;
 
-    .welcome {
-      background: linear-gradient(135deg, #181818, #0d0d0d);
-      border: 1px solid rgba(255, 215, 0, 0.25);
-      border-radius: 20px;
-      padding: 25px;
-      margin-bottom: 25px;
-    }
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
 
-    .welcome h1 {
-      margin: 0 0 8px;
-      color: #ffd700;
-      font-size: 27px;
-    }
+.brand{
+  color:#ffd700;
+  font-size:21px;
+  font-weight:bold;
+}
 
-    .welcome p {
-      margin: 6px 0;
-      color: #aaa;
-    }
+.logout{
+  background:#dc2626;
+  color:#fff;
+  padding:9px 14px;
+  border-radius:8px;
+  text-decoration:none;
+  font-weight:bold;
+}
 
-    .email {
-      color: white !important;
-      font-size: 14px;
-    }
+.container{
+  max-width:900px;
+  margin:auto;
+  padding:30px 18px 60px;
+}
 
-    .cards {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 15px;
-      margin-bottom: 30px;
-    }
+.welcome{
+  background:#111;
+  border:1px solid #333;
+  border-radius:18px;
+  padding:22px;
+  margin-bottom:25px;
+}
 
-    .card {
-      background: #111;
-      border: 1px solid #292929;
-      border-radius: 16px;
-      padding: 20px;
-      text-align: center;
-    }
+.welcome h1{
+  color:#ffd700;
+  margin-top:0;
+}
 
-    .card-icon {
-      font-size: 30px;
-      margin-bottom: 8px;
-    }
+.welcome p{
+  color:#aaa;
+}
 
-    .card h3 {
-      margin: 5px 0;
-      color: #ffd700;
-      font-size: 17px;
-    }
+.section-title{
+  color:#ffd700;
+  margin-top:30px;
+}
 
-    .card p {
-      color: #888;
-      font-size: 13px;
-      margin: 5px 0;
-    }
+.card{
+  background:#111;
+  border:1px solid #333;
+  border-radius:18px;
+  padding:22px;
+  margin-bottom:18px;
+}
 
-    .section-title {
-      color: #ffd700;
-      font-size: 22px;
-      margin: 10px 0 15px;
-    }
+.card h2{
+  color:#ffd700;
+  margin-top:0;
+}
 
-    .ebook {
-      background: #111;
-      border: 1px solid rgba(255, 215, 0, 0.25);
-      border-radius: 18px;
-      padding: 20px;
-    }
+.card p{
+  color:#bbb;
+  line-height:1.6;
+}
 
-    .ebook h2 {
-      margin: 0 0 10px;
-      color: white;
-    }
+.price{
+  color:#ffd700;
+  font-size:24px;
+  font-weight:bold;
+  margin:15px 0;
+}
 
-    .ebook p {
-      color: #aaa;
-      line-height: 1.5;
-    }
+.btn{
+  display:inline-block;
+  padding:11px 16px;
+  border-radius:8px;
+  text-decoration:none;
+  font-weight:bold;
+  margin-top:8px;
+}
 
-    .price {
-      color: #ffd700;
-      font-size: 24px;
-      font-weight: bold;
-      margin: 15px 0;
-    }
+.view{
+  background:#16a34a;
+  color:#fff;
+}
 
-    .btn {
-      display: inline-block;
-      background: linear-gradient(135deg, #ffd700, #ffb700);
-      color: #000;
-      text-decoration: none;
-      padding: 12px 20px;
-      border-radius: 9px;
-      font-weight: bold;
-    }
+.browse{
+  background:#ffd700;
+  color:#000;
+}
 
-    @media (max-width: 500px) {
-      .cards {
-        grid-template-columns: 1fr 1fr;
-      }
+.empty{
+  text-align:center;
+  padding:35px 20px;
+  background:#111;
+  border:1px solid #333;
+  border-radius:18px;
+}
 
-      .welcome h1 {
-        font-size: 23px;
-      }
-    }
-  </style>
+.empty h2{
+  color:#ffd700;
+}
+
+</style>
+
 </head>
 
 <body>
 
-  <div class="topbar">
 
-    <div class="brand">
-      Road2Billionaire
-    </div>
+<div class="topbar">
 
-    <button class="logout" onclick="logoutUser()">
-      Logout
-    </button>
+  <div class="brand">
+    Road2Billionaire
+  </div>
+
+  <a
+    href="#"
+    class="logout"
+    onclick="logoutUser()"
+  >
+    Logout
+  </a>
+
+</div>
+
+
+<div class="container">
+
+
+  <div class="welcome">
+
+    <h1>
+      👋 Welcome, <span id="userName">User</span>
+    </h1>
+
+    <p>
+      Email:
+      <strong id="userEmail"></strong>
+    </p>
+
+    <p>
+      Welcome to your Road2Billionaire User Dashboard.
+    </p>
 
   </div>
 
 
-  <div class="container">
-
-    <div class="welcome">
-
-      <h1 id="welcomeName">
-        Welcome!
-      </h1>
-
-      <p>
-        Welcome to your personal dashboard.
-      </p>
-
-      <p id="userEmail" class="email"></p>
-
-    </div>
+  <h2 class="section-title">
+    📚 My eBooks
+  </h2>
 
 
-    <div class="cards">
-
-      <div class="card">
-        <div class="card-icon">👤</div>
-        <h3>My Profile</h3>
-        <p>View your profile</p>
-      </div>
-
-      <div class="card">
-        <div class="card-icon">📚</div>
-        <h3>My eBooks</h3>
-        <p>Your purchased books</p>
-      </div>
-
-      <div class="card">
-        <div class="card-icon">🧾</div>
-        <h3>Orders</h3>
-        <p>Payment history</p>
-      </div>
-
-      <div class="card">
-        <div class="card-icon">🛒</div>
-        <h3>Browse eBooks</h3>
-        <p>Explore our books</p>
-      </div>
-
-    </div>
+  <div id="myBooks"></div>
 
 
-    <div class="section-title">
-      📚 Available eBook
-    </div>
+  <h2 class="section-title">
+    🛍️ Browse eBooks
+  </h2>
 
 
-    <div class="ebook">
+  <div class="card">
 
-      <h2>
-        Money Management eBook
-      </h2>
+    <h2>
+      Explore eBooks
+    </h2>
 
-      <p>
-        Learn the basics of money management,
-        budgeting, saving and financial planning.
-      </p>
+    <p>
+      Browse our available eBooks and choose the one you want to purchase.
+    </p>
 
-      <div class="price">
-        ₹99
-      </div>
-
-      <a href="Product.html" class="btn">
-        View Details
-      </a>
-
-    </div>
+    <a
+      href="ebook.html"
+      class="btn browse"
+    >
+      📚 Browse All eBooks
+    </a>
 
   </div>
 
 
-  <script>
-
-    /* SHOW USER INFORMATION */
-
-    const userData =
-      localStorage.getItem("roadUser");
-
-    if (userData) {
-
-      const user =
-        JSON.parse(userData);
-
-      document.getElementById(
-        "welcomeName"
-      ).innerHTML =
-        "Welcome, " + user.name + "!";
-
-      document.getElementById(
-        "userEmail"
-      ).innerHTML =
-        user.email;
-
-    }
+</div>
 
 
-    /* LOGOUT */
+<script>
 
-    function logoutUser() {
 
-      localStorage.removeItem("loggedIn");
-      localStorage.removeItem("userEmail");
+function loadUser(){
 
-      window.location.href = "login.html";
+  const user =
+    JSON.parse(
+      localStorage.getItem("roadUser") || "null"
+    );
 
-    }
 
-  </script>
+  const email =
+    localStorage.getItem("userEmail");
+
+
+  if(user){
+
+    document.getElementById(
+      "userName"
+    ).textContent =
+      user.name || "User";
+
+    document.getElementById(
+      "userEmail"
+    ).textContent =
+      user.email || email || "";
+
+  }
+  else{
+
+    document.getElementById(
+      "userEmail"
+    ).textContent =
+      email || "";
+
+  }
+
+}
+
+
+function loadPurchasedBooks(){
+
+  const box =
+    document.getElementById("myBooks");
+
+
+  let purchases = JSON.parse(
+    localStorage.getItem("purchasedBooks") || "[]"
+  );
+
+
+  if(purchases.length === 0){
+
+    box.innerHTML = `
+
+      <div class="empty">
+
+        <h2>
+          No Purchased eBooks Yet
+        </h2>
+
+        <p>
+          आपकी खरीदी हुई eBooks यहाँ दिखाई देंगी।
+        </p>
+
+        <a
+          href="ebook.html"
+          class="btn browse"
+        >
+          🛒 Browse eBooks
+        </a>
+
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+
+  box.innerHTML = "";
+
+
+  purchases.forEach(function(book){
+
+    box.innerHTML += `
+
+      <div class="card">
+
+        <h2>
+          📖 ${book.title}
+        </h2>
+
+        <p>
+          Purchase Date:
+          ${book.purchaseDate}
+        </p>
+
+        <div class="price">
+          ₹${book.price}
+        </div>
+
+        <a
+          href="ebook-details.html?id=${book.bookId}"
+          class="btn view"
+        >
+          📖 View eBook
+        </a>
+
+      </div>
+
+    `;
+
+  });
+
+}
+
+
+function logoutUser(){
+
+  localStorage.removeItem("loggedIn");
+
+  localStorage.removeItem("userEmail");
+
+  window.location.href =
+    "login.html";
+
+}
+
+
+loadUser();
+
+loadPurchasedBooks();
+
+
+</script>
 
 </body>
+
 </html>
