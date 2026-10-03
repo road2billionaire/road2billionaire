@@ -1,1 +1,170 @@
-*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#0b0b0d;color:#fff}a{text-decoration:none;color:inherit}.container{max-width:1100px;margin:auto;padding:20px}.nav{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-bottom:1px solid #29292d;background:#101014;position:sticky;top:0;z-index:5}.brand{font-size:22px;font-weight:800;color:#f4c542}.btn{display:inline-block;background:#d71920;color:#fff;padding:12px 18px;border-radius:8px;font-weight:700;border:0;cursor:pointer}.btn.gold{background:#c99a2e;color:#111}.hero{padding:70px 20px;text-align:center;background:radial-gradient(circle at top,#3a1717,#0b0b0d 60%)}.hero h1{font-size:44px;margin:0 0 15px}.hero p{color:#d1d1d1;font-size:18px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px}.card{background:#151519;border:1px solid #2a2a30;border-radius:14px;overflow:hidden}.cover{height:260px;background:linear-gradient(135deg,#171717,#68151a);display:flex;align-items:center;justify-content:center;text-align:center;padding:20px}.cover h2{color:#f4c542}.card-body{padding:18px}.price{font-size:24px;font-weight:800;color:#f4c542}.muted{color:#aaa}.section{padding:45px 20px}.form{max-width:480px;margin:30px auto;background:#151519;padding:25px;border-radius:14px;border:1px solid #2a2a30}.input{width:100%;padding:13px;margin:8px 0 14px;background:#0e0e11;color:#fff;border:1px solid #34343a;border-radius:8px}.footer{text-align:center;padding:30px;color:#999;border-top:1px solid #29292d}.notice{padding:14px;background:#241b0b;border:1px solid #71551c;border-radius:10px;color:#f3d98a}.admin-nav{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:25px}.stat{padding:20px;background:#151519;border:1px solid #2a2a30;border-radius:12px}.stat b{font-size:28px;color:#f4c542}
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: #f5f5f5;
+  color: #111;
+}
+
+.container {
+  width: 90%;
+  max-width: 1100px;
+  margin: auto;
+}
+
+/* HEADER */
+
+header {
+  background: #111;
+  color: #fff;
+  padding: 18px 0;
+}
+
+header .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+header h2 {
+  margin: 0;
+  font-size: 22px;
+  letter-spacing: 1px;
+}
+
+header a {
+  color: #fff;
+  text-decoration: none;
+  border: 1px solid #fff;
+  padding: 9px 18px;
+  border-radius: 7px;
+}
+
+/* HERO */
+
+.hero {
+  padding: 75px 0;
+  background: linear-gradient(135deg, #111, #292929);
+  color: #fff;
+  text-align: center;
+}
+
+.hero h1 {
+  font-size: 45px;
+  margin: 0 0 15px;
+}
+
+.hero p {
+  max-width: 650px;
+  margin: auto;
+  font-size: 18px;
+  line-height: 1.6;
+  color: #ddd;
+}
+
+/* EBOOK SECTION */
+
+.ebooks {
+  padding: 55px 0;
+}
+
+.ebooks h2 {
+  text-align: center;
+  font-size: 30px;
+  margin-bottom: 30px;
+}
+
+.ebook-card {
+  max-width: 600px;
+  margin: auto;
+  background: #fff;
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+  text-align: center;
+}
+
+.ebook-card h3 {
+  font-size: 25px;
+  margin-top: 0;
+}
+
+.ebook-card p {
+  color: #555;
+  line-height: 1.6;
+}
+
+.ebook-card strong {
+  display: inline-block;
+  font-size: 30px;
+  margin-top: 10px;
+}
+
+/* BUTTON */
+
+.btn {
+  display: inline-block;
+  background: #111;
+  color: #fff;
+  text-decoration: none;
+  padding: 13px 25px;
+  border-radius: 8px;
+  font-weight: bold;
+}
+
+.btn:hover {
+  opacity: 0.85;
+}
+
+/* FOOTER */
+
+footer {
+  background: #111;
+  color: #ccc;
+  text-align: center;
+  padding: 25px 0;
+  margin-top: 30px;
+}
+
+footer p {
+  margin: 0;
+  font-size: 14px;
+}
+
+/* MOBILE */
+
+@media (max-width: 600px) {
+
+  header h2 {
+    font-size: 18px;
+  }
+
+  header a {
+    padding: 7px 13px;
+    font-size: 14px;
+  }
+
+  .hero {
+    padding: 55px 15px;
+  }
+
+  .hero h1 {
+    font-size: 34px;
+  }
+
+  .hero p {
+    font-size: 16px;
+  }
+
+  .ebooks {
+    padding: 40px 15px;
+  }
+
+  .ebook-card {
+    padding: 22px;
+  }
+
+}
