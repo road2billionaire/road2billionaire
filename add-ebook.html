@@ -3,9 +3,7 @@
 <head>
 
 <meta charset="UTF-8">
-
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Add eBook | Road2Billionaire</title>
 
@@ -104,7 +102,6 @@ textarea{
 
 <body>
 
-
 <div class="topbar">
 
   <div class="brand">
@@ -122,15 +119,11 @@ textarea{
 
 <h1>➕ Add New eBook</h1>
 
-
 <div class="form-card">
 
 <form onsubmit="addEbook(event)">
 
-
-<label>
-eBook Title
-</label>
+<label>eBook Title</label>
 
 <input
   type="text"
@@ -140,9 +133,7 @@ eBook Title
 >
 
 
-<label>
-Description
-</label>
+<label>Description</label>
 
 <textarea
   id="description"
@@ -151,9 +142,7 @@ Description
 ></textarea>
 
 
-<label>
-Topics / What You Will Learn
-</label>
+<label>Topics / What You Will Learn</label>
 
 <textarea
   id="topics"
@@ -162,9 +151,7 @@ Topics / What You Will Learn
 ></textarea>
 
 
-<label>
-Price (₹)
-</label>
+<label>Price (₹)</label>
 
 <input
   type="number"
@@ -174,9 +161,7 @@ Price (₹)
 >
 
 
-<label>
-Old Price (₹)
-</label>
+<label>Old Price (₹)</label>
 
 <input
   type="number"
@@ -185,9 +170,7 @@ Old Price (₹)
 >
 
 
-<label>
-eBook PDF / File Link
-</label>
+<label>eBook PDF / File Link</label>
 
 <input
   type="text"
@@ -203,7 +186,6 @@ eBook PDF / File Link
   💾 Add eBook
 </button>
 
-
 </form>
 
 </div>
@@ -217,83 +199,10 @@ function addEbook(event){
 
   event.preventDefault();
 
-
   const ebook = {
 
     id: Date.now(),
 
-    title:
-      document.getElementById("title")
-      .value.trim(),
-
-    description:
-      document.getElementById("description")
-      .value.trim(),
-
-    topics:
-      document.getElementById("topics")
-      .value.trim(),
-
-    price:
-      document.getElementById("price")
-      .value.trim(),
-
-    oldPrice:
-      document.getElementById("oldPrice")
-      .value.trim(),
-
-    fileLink:
-      document.getElementById("fileLink")
-      .value.trim()
-
-  };
-
-
-  /*
-    पुराने eBooks निकालें
-  */
-
-  let ebooks = JSON.parse(
-    localStorage.getItem("ebooksData")
-  ) || [];
-
-
-  /*
-    नई eBook list में जोड़ें
-  */
-
-  ebooks.push(ebook);
-
-
-  /*
-    सभी eBooks save करें
-  */
-
-  localStorage.setItem(
-    "ebooksData",
-    JSON.stringify(ebooks)
-  );
-
-
-  /*
-    पुराने single ebookData को हटाएँ
-  */
-
-  localStorage.removeItem("ebookData");
-
-
-  alert(
-    "✅ eBook Added Successfully!"
-  );
-
-
-  window.location.href =
-    "ebook.html";
-
-}
-
-</script>
-
-
-</body>
-</html>
+    title: document
+      .getElementById("title")
+      .
