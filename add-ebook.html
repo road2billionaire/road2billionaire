@@ -90,6 +90,39 @@ button{
   color:#000;
   font-size:16px;
   font-weight:bold;
+  cursor:pointer;
+}
+
+button:disabled{
+  opacity:.6;
+}
+
+.message{
+  margin-top:18px;
+  padding:12px;
+  border-radius:8px;
+  display:none;
+  text-align:center;
+}
+
+.success{
+  background:#123d1c;
+  color:#7dff91;
+}
+
+.error{
+  background:#3d1212;
+  color:#ff8b8b;
+}
+
+.note{
+  margin-top:15px;
+  padding:12px;
+  background:#181818;
+  border-radius:8px;
+  color:#aaa;
+  font-size:13px;
+  line-height:1.5;
 }
 </style>
 </head>
@@ -137,4 +170,174 @@ button{
 
 <textarea
   id="topics"
-  placeholder="Saving, Money Management, Investment
+  placeholder="Saving, Money Management, Investment"
+  required
+></textarea>
+
+<label>Price (₹)</label>
+
+<input
+  type="number"
+  id="price"
+  placeholder="99"
+  min="0"
+  required
+>
+
+<label>Book Image URL</label>
+
+<input
+  type="url"
+  id="image"
+  placeholder="https://example.com/book.jpg"
+>
+
+<label>PDF / eBook Link</label>
+
+<input
+  type="url"
+  id="pdfUrl"
+  placeholder="https://example.com/book.pdf"
+  required
+>
+
+<button type="submit" id="saveBtn">
+  💾 Save eBook
+</button>
+
+<div id="message" class="message"></div>
+
+<div class="note">
+  <b>Important:</b> PDF URL में आपकी actual PDF की direct link होनी चाहिए.
+  Example: https://example.com/book.pdf
+</div>
+
+</form>
+
+</div>
+</div>
+
+<script>
+
+/* ================================
+   SAVE EBOOK
+================================ */
+
+const form = document.getElementById("ebookForm");
+const saveBtn = document.getElementById("saveBtn");
+const message = document.getElementById("message");
+
+function showMessage(text, type){
+
+  message.textContent = text;
+
+  message.className = "message " + type;
+
+  message.style.display = "block";
+}
+
+
+form.addEventListener("submit", function(e){
+
+  e.preventDefault();
+
+  saveBtn.disabled = true;
+  saveBtn.textContent = "Saving...";
+
+  try{
+
+    const title =
+      document.getElementById("title").value.trim();
+
+    const description =
+      document.getElementById("description").value.trim();
+
+    const topics =
+      document.getElementById("topics").value.trim();
+
+    const price =
+      Number(document.getElementById("price").value);
+
+    const image =
+      document.getElementById("image").value.trim();
+
+    const pdfUrl =
+      document.getElementById("pdfUrl").value.trim();
+
+
+    if(!title || !description || !topics || !pdfUrl){
+
+      throw new Error("Please fill all required fields.");
+
+    }
+
+
+    const ebooks =
+      JSON.parse(localStorage.getItem("ebooks") || "[]");
+
+
+    const ebook = {
+
+      id: Date.now().toString(),
+
+      title: title,
+
+      description: description,
+
+      topics: topics,
+
+      price: price,
+
+      image: image,
+
+      pdfUrl: pdfUrl,
+
+      createdAt: new Date().toISOString()
+
+    };
+
+
+    ebooks.push(ebook);
+
+
+    localStorage.setItem(
+      "ebooks",
+      JSON.stringify(ebooks)
+    );
+
+
+    showMessage(
+      "✅ eBook successfully added!",
+      "success"
+    );
+
+
+    form.reset();
+
+
+    setTimeout(function(){
+
+      window.location.href = "admin.html";
+
+    },1200);
+
+
+  }catch(error){
+
+    showMessage(
+      "❌ " + error.message,
+      "error"
+    );
+
+  }
+
+
+  saveBtn.disabled = false;
+  saveBtn.textContent = "💾 Save eBook";
+
+});
+
+</script>
+
+</body>
+</html>
