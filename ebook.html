@@ -1,12 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Add eBook | Road2Billionaire</title>
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>eBook Management | Road2Billionaire</title>
 
 <style>
+
+*{
+  box-sizing:border-box;
+}
+
 body{
   margin:0;
   font-family:Arial,sans-serif;
@@ -14,129 +23,398 @@ body{
   color:white;
 }
 
+.topbar{
+  background:#111;
+  padding:18px 20px;
+  border-bottom:1px solid #ffd700;
+
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.brand{
+  color:#ffd700;
+  font-size:21px;
+  font-weight:bold;
+}
+
+.back{
+  color:#ffd700;
+  text-decoration:none;
+}
+
 .container{
-  max-width:700px;
+  max-width:900px;
   margin:auto;
-  padding:30px 18px;
+  padding:30px 18px 50px;
 }
 
 h1{
   text-align:center;
   color:#ffd700;
+  margin-bottom:25px;
 }
 
-.box{
+.card{
   background:#111;
-  padding:25px;
-  border-radius:15px;
   border:1px solid #333;
+  border-radius:18px;
+  padding:22px;
+  margin-bottom:20px;
 }
 
-label{
-  display:block;
-  margin-top:15px;
-  margin-bottom:6px;
+.card h2{
+  color:#ffd700;
+  margin-top:0;
 }
 
-input,textarea{
-  width:100%;
-  padding:13px;
-  background:#000;
-  color:white;
-  border:1px solid #444;
-  border-radius:8px;
-  box-sizing:border-box;
+.card p{
+  color:#bbb;
+  line-height:1.6;
 }
 
-textarea{
-  min-height:100px;
+.topics{
+  background:#191919;
+  padding:12px;
+  border-radius:10px;
 }
 
-button{
-  width:100%;
-  margin-top:25px;
-  padding:15px;
-  background:#ffd700;
-  color:#000;
+.price{
+  color:#ffd700;
+  font-size:26px;
+  font-weight:bold;
+  margin:18px 0;
+}
+
+.old-price{
+  color:#777;
+  text-decoration:line-through;
+  font-size:15px;
+  margin-left:8px;
+}
+
+button,
+a{
+  display:inline-block;
   border:0;
   border-radius:8px;
+  padding:11px 16px;
+  margin:5px 3px;
   font-weight:bold;
-  font-size:16px;
+  text-decoration:none;
+  cursor:pointer;
 }
+
+.add{
+  background:#ffd700;
+  color:#000;
+}
+
+.edit{
+  background:#2563eb;
+  color:white;
+}
+
+.delete{
+  background:#dc2626;
+  color:white;
+}
+
+.view{
+  background:#16a34a;
+  color:white;
+}
+
+.empty{
+  text-align:center;
+  padding:40px 20px;
+  background:#111;
+  border:1px solid #333;
+  border-radius:18px;
+}
+
+.empty h2{
+  color:#ffd700;
+}
+
 </style>
+
 </head>
 
 <body>
 
+
+<div class="topbar">
+
+  <div class="brand">
+    Road2Billionaire
+  </div>
+
+  <a href="admin.html" class="back">
+    ← Admin Panel
+  </a>
+
+</div>
+
+
 <div class="container">
 
-<h1>➕ Add New eBook</h1>
+<h1>📚 All eBooks</h1>
 
-<div class="box">
-
-<form id="ebookForm">
-
-<label>eBook Title</label>
-<input type="text" id="title" required>
-
-<label>Description</label>
-<textarea id="description" required></textarea>
-
-<label>Topics</label>
-<textarea id="topics" required></textarea>
-
-<label>Price (₹)</label>
-<input type="number" id="price" required>
-
-<label>Old Price (₹)</label>
-<input type="number" id="oldPrice">
-
-<label>PDF / File Link</label>
-<input type="text" id="fileLink">
-
-<button type="submit">
-💾 Add eBook
-</button>
-
-</form>
+<div id="ebookList"></div>
 
 </div>
-</div>
+
 
 <script>
 
-document.getElementById("ebookForm").addEventListener("submit", function(event){
 
-  event.preventDefault();
+function loadBooks(){
 
-  let newBook = {
-    id: Date.now(),
-    title: document.getElementById("title").value,
-    description: document.getElementById("description").value,
-    topics: document.getElementById("topics").value,
-    price: document.getElementById("price").value,
-    oldPrice: document.getElementById("oldPrice").value,
-    fileLink: document.getElementById("fileLink").value
-  };
+  const list =
+    document.getElementById("ebookList");
+
 
   let books = JSON.parse(
     localStorage.getItem("ebooksData") || "[]"
   );
 
-  books.push(newBook);
+
+  if(books.length === 0){
+
+    list.innerHTML = `
+
+      <div class="empty">
+
+        <h2>No eBook Added Yet</h2>
+
+        <p>
+          Please add an eBook from Admin Panel.
+        </p>
+
+        <a
+          href="add-ebook.html"
+          class="add"
+        >
+          ➕ Add New eBook
+        </a>
+
+      </div>
+
+    `;
+
+    return;
+  }
+
+
+  list.innerHTML = "";
+
+
+  books.forEach(function(book, index){
+
+    list.innerHTML += `
+
+      <div class="card">
+
+        <h2>
+          ${book.title}
+        </h2>
+
+        <p>
+          ${book.description}
+        </p>
+
+        <p class="topics">
+
+          <strong>Topics:</strong><br>
+
+          ${book.topics}
+
+        </p>
+
+
+        <div class="price">
+
+          ₹${book.price}
+
+          ${
+            book.oldPrice
+            ?
+            `<span class="old-price">
+              ₹${book.oldPrice}
+            </span>`
+            :
+            ""
+          }
+
+        </div>
+
+
+        <button
+          class="edit"
+          onclick="editBook(${index})"
+        >
+          ✏️ Edit
+        </button>
+
+
+        <button
+          class="delete"
+          onclick="deleteBook(${index})"
+        >
+          🗑️ Delete
+        </button>
+
+
+        <a
+          href="Product.html"
+          class="view"
+        >
+          👁️ View Product
+        </a>
+
+      </div>
+
+    `;
+
+  });
+
+
+  list.innerHTML += `
+
+    <div style="text-align:center;margin-top:25px;">
+
+      <a
+        href="add-ebook.html"
+        class="add"
+      >
+        ➕ Add New eBook
+      </a>
+
+    </div>
+
+  `;
+
+}
+
+
+function editBook(index){
+
+  let books = JSON.parse(
+    localStorage.getItem("ebooksData") || "[]"
+  );
+
+
+  let book = books[index];
+
+
+  let title = prompt(
+    "eBook Title:",
+    book.title
+  );
+
+  if(title === null) return;
+
+
+  let description = prompt(
+    "Description:",
+    book.description
+  );
+
+  if(description === null) return;
+
+
+  let topics = prompt(
+    "Topics:",
+    book.topics
+  );
+
+  if(topics === null) return;
+
+
+  let price = prompt(
+    "Price:",
+    book.price
+  );
+
+  if(price === null) return;
+
+
+  let oldPrice = prompt(
+    "Old Price:",
+    book.oldPrice || ""
+  );
+
+  if(oldPrice === null) return;
+
+
+  book.title = title;
+  book.description = description;
+  book.topics = topics;
+  book.price = price;
+  book.oldPrice = oldPrice;
+
+
+  books[index] = book;
+
 
   localStorage.setItem(
     "ebooksData",
     JSON.stringify(books)
   );
 
-  alert("✅ eBook Added Successfully!");
 
-  window.location.href = "ebook.html";
+  alert(
+    "✅ eBook Updated Successfully!"
+  );
 
-});
+
+  loadBooks();
+
+}
+
+
+function deleteBook(index){
+
+  let confirmDelete =
+    confirm(
+      "⚠️ Are you sure you want to delete this eBook?"
+    );
+
+
+  if(!confirmDelete) return;
+
+
+  let books = JSON.parse(
+    localStorage.getItem("ebooksData") || "[]"
+  );
+
+
+  books.splice(index, 1);
+
+
+  localStorage.setItem(
+    "ebooksData",
+    JSON.stringify(books)
+  );
+
+
+  alert(
+    "🗑️ eBook Deleted Successfully!"
+  );
+
+
+  loadBooks();
+
+}
+
+
+loadBooks();
 
 </script>
 
+
 </body>
+
 </html>
