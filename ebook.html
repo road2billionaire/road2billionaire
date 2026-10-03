@@ -179,7 +179,7 @@ function loadBooks(){
   let books = JSON.parse(
     localStorage.getItem("ebooksData") || "[]"
   );
-
+alert("Books found: " + books.length);
 
   if(books.length === 0){
 
