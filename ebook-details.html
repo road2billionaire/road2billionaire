@@ -25,6 +25,11 @@ body{
   color:#fff;
 }
 
+
+/* =========================
+   TOP BAR
+========================= */
+
 .topbar{
   background:#111;
   padding:18px 20px;
@@ -41,19 +46,38 @@ body{
   font-weight:bold;
 }
 
+
+/* =========================
+   BACK BUTTON
+========================= */
+
 .back{
   color:#ffd700;
   text-decoration:none;
   background:#222;
+
   padding:10px 15px;
+
   border-radius:8px;
+
+  font-size:14px;
 }
+
+
+/* =========================
+   CONTAINER
+========================= */
 
 .container{
   max-width:800px;
   margin:auto;
   padding:30px 18px;
 }
+
+
+/* =========================
+   CARD
+========================= */
 
 .card{
   background:#111;
@@ -62,14 +86,28 @@ body{
   padding:25px;
 }
 
+
+/* =========================
+   BOOK IMAGE
+========================= */
+
 .book-image{
   width:100%;
   max-height:350px;
+
   object-fit:contain;
+
   border-radius:12px;
+
   margin-bottom:20px;
+
   background:#222;
 }
+
+
+/* =========================
+   TEXT
+========================= */
 
 h1{
   color:#ffd700;
@@ -80,42 +118,106 @@ p{
   line-height:1.7;
 }
 
+
+/* =========================
+   PRICE
+========================= */
+
 .price{
   color:#00d084;
+
   font-size:26px;
+
   font-weight:bold;
+
   margin:20px 0;
 }
 
 .old-price{
   color:#777;
+
   text-decoration:line-through;
+
   font-size:15px;
+
   margin-left:8px;
 }
 
+
+/* =========================
+   NORMAL BUTTON
+========================= */
+
 .btn{
   display:inline-block;
+
   padding:13px 22px;
+
   border-radius:8px;
+
   text-decoration:none;
+
   font-weight:bold;
+
   border:0;
+
   cursor:pointer;
+
   font-size:16px;
+
   margin-right:8px;
+
   margin-top:8px;
 }
+
+
+/* =========================
+   BUY BUTTON
+========================= */
 
 .buy{
   background:#ffd700;
   color:#000;
 }
 
-.read{
+
+/* =========================
+   GOOGLE DRIVE BUTTON
+   SMALL
+========================= */
+
+.drive-btn{
+
+  display:inline-block;
+
   background:#16a34a;
+
   color:#fff;
+
+  text-decoration:none;
+
+  padding:7px 11px;
+
+  border-radius:6px;
+
+  font-size:12px;
+
+  font-weight:bold;
+
+  margin-top:8px;
+
+  border:1px solid #22c55e;
+
 }
+
+.drive-btn:hover{
+  background:#15803d;
+}
+
+
+/* =========================
+   ERROR
+========================= */
 
 .error{
   color:#ff5555;
@@ -126,13 +228,20 @@ p{
 
 </head>
 
+
 <body>
+
+
+<!-- =========================
+     TOP BAR
+========================= -->
 
 <div class="topbar">
 
   <div class="logo">
     Road2Billionaire
   </div>
+
 
   <a
     href="Dashboard.html?v=200001"
@@ -143,6 +252,11 @@ p{
 
 </div>
 
+
+
+<!-- =========================
+     MAIN
+========================= -->
 
 <div class="container">
 
@@ -160,17 +274,25 @@ p{
 </div>
 
 
+
 <script>
 
 (function(){
+
+
+  /* =========================
+     GET BOOK ID
+  ========================= */
 
   const params =
     new URLSearchParams(
       window.location.search
     );
 
+
   const id =
     params.get("id");
+
 
   const container =
     document.getElementById(
@@ -182,7 +304,9 @@ p{
 
     container.innerHTML = `
 
-      <h1>❌ eBook Not Found</h1>
+      <h1>
+        ❌ eBook Not Found
+      </h1>
 
       <p class="error">
         eBook ID नहीं मिला।
@@ -191,12 +315,17 @@ p{
     `;
 
     return;
+
   }
 
 
-  /* LOAD EBOOKS */
+
+  /* =========================
+     LOAD EBOOKS
+  ========================= */
 
   let ebooks = [];
+
 
   try{
 
@@ -204,6 +333,7 @@ p{
       localStorage.getItem(
         "ebooksData"
       );
+
 
     if(saved){
 
@@ -213,7 +343,10 @@ p{
     }
 
   }
+
   catch(error){
+
+    console.error(error);
 
     ebooks = [];
 
@@ -227,7 +360,10 @@ p{
   }
 
 
-  /* FIND BOOK */
+
+  /* =========================
+     FIND BOOK
+  ========================= */
 
   const book =
     ebooks.find(function(item){
@@ -242,7 +378,9 @@ p{
 
     container.innerHTML = `
 
-      <h1>❌ eBook Not Found</h1>
+      <h1>
+        ❌ eBook Not Found
+      </h1>
 
       <p class="error">
         यह eBook इस browser में उपलब्ध नहीं है।
@@ -258,12 +396,17 @@ p{
     `;
 
     return;
+
   }
 
 
-  /* CHECK PURCHASE */
+
+  /* =========================
+     CHECK PURCHASE
+  ========================= */
 
   let purchasedBooks = [];
+
 
   try{
 
@@ -271,6 +414,7 @@ p{
       localStorage.getItem(
         "purchasedBooks"
       );
+
 
     if(purchased){
 
@@ -280,6 +424,7 @@ p{
     }
 
   }
+
   catch(error){
 
     purchasedBooks = [];
@@ -303,9 +448,13 @@ p{
     });
 
 
-  /* IMAGE */
+
+  /* =========================
+     BOOK IMAGE
+  ========================= */
 
   let imageHTML = "";
+
 
   if(book.image){
 
@@ -314,7 +463,7 @@ p{
       <img
         src="${book.image}"
         class="book-image"
-        alt="${book.title || "eBook"}"
+        alt="${escapeHTML(book.title || "eBook")}"
         onerror="this.style.display='none'"
       >
 
@@ -323,7 +472,10 @@ p{
   }
 
 
-  /* ACTION BUTTON */
+
+  /* =========================
+     ACTION BUTTON
+  ========================= */
 
   let actionButton = "";
 
@@ -332,18 +484,31 @@ p{
 
     if(book.pdfUrl){
 
+      /*
+        Google Drive redirect button
+      */
+
+      const driveURL =
+        createGoogleDriveURL(
+          book.pdfUrl
+        );
+
+
       actionButton = `
 
         <a
-          href="read.html?id=${encodeURIComponent(book.id)}"
-          class="btn read"
+          href="${driveURL}"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="drive-btn"
         >
-          📖 Read eBook
+          📖 Open in Google Drive
         </a>
 
       `;
 
     }
+
     else{
 
       actionButton = `
@@ -357,6 +522,7 @@ p{
     }
 
   }
+
   else{
 
     actionButton = `
@@ -373,19 +539,29 @@ p{
   }
 
 
-  /* DISPLAY BOOK */
+
+  /* =========================
+     DISPLAY BOOK
+  ========================= */
 
   container.innerHTML = `
 
     ${imageHTML}
 
+
     <h1>
-      ${book.title || "eBook"}
+      ${escapeHTML(
+        book.title || "eBook"
+      )}
     </h1>
 
+
     <p>
-      ${book.description || ""}
+      ${escapeHTML(
+        book.description || ""
+      )}
     </p>
+
 
     <p>
 
@@ -395,19 +571,27 @@ p{
 
       <br>
 
-      ${book.topics || "Not specified"}
+      ${escapeHTML(
+        book.topics ||
+        "Not specified"
+      )}
 
     </p>
 
+
     <div class="price">
 
-      ₹${book.price || "0"}
+      ₹${escapeHTML(
+        String(book.price || "0")
+      )}
 
       ${
         book.oldPrice
         ? `
           <span class="old-price">
-            ₹${book.oldPrice}
+            ₹${escapeHTML(
+              String(book.oldPrice)
+            )}
           </span>
         `
         : ""
@@ -415,12 +599,16 @@ p{
 
     </div>
 
+
     ${actionButton}
 
   `;
 
 
-  /* BUY BUTTON */
+
+  /* =========================
+     BUY BUTTON
+  ========================= */
 
   const buyButton =
     document.getElementById(
@@ -441,10 +629,165 @@ p{
 
   }
 
+
 })();
 
 
-/* BUY NOW */
+
+/* =====================================================
+   GOOGLE DRIVE URL FUNCTION
+===================================================== */
+
+function createGoogleDriveURL(url){
+
+  if(!url){
+
+    return "#";
+
+  }
+
+
+  url = String(url).trim();
+
+
+  /*
+    Already a Google Drive viewer link
+  */
+
+  if(
+    url.includes(
+      "drive.google.com/file/d/"
+    )
+  ){
+
+    const match =
+      url.match(
+        /\/file\/d\/([^/]+)/
+      );
+
+
+    if(match && match[1]){
+
+      return (
+        "https://drive.google.com/file/d/" +
+        match[1] +
+        "/view"
+      );
+
+    }
+
+  }
+
+
+  /*
+    Google Drive open?id=FILE_ID
+  */
+
+  if(
+    url.includes(
+      "drive.google.com/open?id="
+    )
+  ){
+
+    const match =
+      url.match(
+        /[?&]id=([^&]+)/
+      );
+
+
+    if(match && match[1]){
+
+      return (
+        "https://drive.google.com/file/d/" +
+        match[1] +
+        "/view"
+      );
+
+    }
+
+  }
+
+
+  /*
+    Google Drive uc?id=FILE_ID
+  */
+
+  if(
+    url.includes(
+      "drive.google.com/uc?id="
+    )
+  ){
+
+    const match =
+      url.match(
+        /[?&]id=([^&]+)/
+      );
+
+
+    if(match && match[1]){
+
+      return (
+        "https://drive.google.com/file/d/" +
+        match[1] +
+        "/view"
+      );
+
+    }
+
+  }
+
+
+  /*
+    If already another valid URL,
+    open it directly.
+  */
+
+  return url;
+
+}
+
+
+
+/* =====================================================
+   ESCAPE HTML
+===================================================== */
+
+function escapeHTML(value){
+
+  return String(value)
+
+    .replace(
+      /&/g,
+      "&amp;"
+    )
+
+    .replace(
+      /</g,
+      "&lt;"
+    )
+
+    .replace(
+      />/g,
+      "&gt;"
+    )
+
+    .replace(
+      /"/g,
+      "&quot;"
+    )
+
+    .replace(
+      /'/g,
+      "&#039;"
+    );
+
+}
+
+
+
+/* =====================================================
+   BUY NOW
+===================================================== */
 
 function buyNow(id){
 
@@ -460,10 +803,13 @@ function buyNow(id){
       "Please login first to continue."
     );
 
+
     window.location.href =
       "login.html";
 
+
     return;
+
   }
 
 
@@ -474,6 +820,7 @@ function buyNow(id){
 }
 
 </script>
+
 
 </body>
 
