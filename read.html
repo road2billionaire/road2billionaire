@@ -20,7 +20,7 @@ body{
   margin:0;
   padding:0;
   width:100%;
-  height:100%;
+  min-height:100%;
 }
 
 body{
@@ -29,24 +29,26 @@ body{
   font-family:Arial,sans-serif;
 }
 
-/* =========================
+
+/* ============================
    TOP BAR
-========================= */
+============================ */
 
 .topbar{
-  height:58px;
   background:#000;
   border-bottom:1px solid #ffd700;
+
+  min-height:58px;
 
   display:flex;
   align-items:center;
   justify-content:space-between;
 
-  padding:0 15px;
+  padding:10px 15px;
 
   position:sticky;
   top:0;
-  z-index:999;
+  z-index:1000;
 }
 
 .logo{
@@ -58,63 +60,52 @@ body{
 .back{
   color:#ffd700;
   text-decoration:none;
-
   background:#222;
-
   padding:9px 14px;
-
   border-radius:7px;
-
   font-size:14px;
 }
 
-.back:hover{
-  background:#333;
-}
 
-/* =========================
-   BOOK TITLE
-========================= */
+/* ============================
+   TITLE
+============================ */
 
 #bookTitle{
-  min-height:45px;
-
-  display:flex;
-  align-items:center;
-  justify-content:center;
-
   text-align:center;
-
-  padding:10px 15px;
 
   background:#181818;
 
-  border-bottom:1px solid #333;
-
   color:#fff;
+
+  padding:14px 10px;
 
   font-size:17px;
 
   font-weight:bold;
+
+  border-bottom:1px solid #333;
 }
 
-/* =========================
+
+/* ============================
    LOADING
-========================= */
+============================ */
 
 #loading{
   text-align:center;
 
-  padding:35px 20px;
+  padding:40px 20px;
 
   color:#ffd700;
 
   font-size:17px;
 }
 
-/* =========================
+
+/* ============================
    ERROR
-========================= */
+============================ */
 
 #error{
   display:none;
@@ -127,50 +118,46 @@ body{
 
   text-align:center;
 
-  color:#ff6b6b;
-
   background:#181818;
 
   border:1px solid #333;
 
   border-radius:12px;
 
+  color:#ff6b6b;
+
   line-height:1.7;
 }
 
-/* =========================
-   PDF VIEWER
-========================= */
+
+/* ============================
+   PDF
+============================ */
 
 #reader{
   display:none;
 
   width:100%;
 
-  padding:8px;
-
-  background:#111;
+  padding:5px;
 }
 
-.pdf-frame{
+#pdfFrame{
   display:block;
 
   width:100%;
 
-  height:calc(100vh - 120px);
+  height:calc(100vh - 115px);
 
   min-height:600px;
 
   border:0;
 
-  border-radius:5px;
-
   background:#fff;
+
+  border-radius:4px;
 }
 
-/* =========================
-   BOTTOM NOTE
-========================= */
 
 .note{
   text-align:center;
@@ -179,41 +166,32 @@ body{
 
   font-size:11px;
 
-  padding:10px;
+  padding:8px;
 }
 
-/* =========================
+
+/* ============================
    MOBILE
-========================= */
+============================ */
 
 @media(max-width:600px){
-
-  .topbar{
-    height:55px;
-    padding:0 10px;
-  }
 
   .logo{
     font-size:17px;
   }
 
   .back{
-    padding:8px 11px;
     font-size:13px;
+    padding:8px 11px;
   }
 
   #bookTitle{
     font-size:15px;
   }
 
-  #reader{
-    padding:3px;
-  }
-
-  .pdf-frame{
+  #pdfFrame{
     height:calc(100vh - 105px);
     min-height:500px;
-    border-radius:3px;
   }
 
 }
@@ -225,9 +203,7 @@ body{
 <body>
 
 
-<!-- =========================
-     TOP BAR
-========================= -->
+<!-- TOP BAR -->
 
 <div class="topbar">
 
@@ -237,4 +213,433 @@ body{
 
   <a
     href="Dashboard.html"
-    class="back
+    class="back"
+  >
+    ← Back
+  </a>
+
+</div>
+
+
+<!-- BOOK TITLE -->
+
+<div id="bookTitle">
+  Loading eBook...
+</div>
+
+
+<!-- LOADING -->
+
+<div id="loading">
+  📖 PDF load ho rahi hai...
+</div>
+
+
+<!-- ERROR -->
+
+<div id="error">
+  ❌ PDF open nahi ho paayi.
+</div>
+
+
+<!-- READER -->
+
+<div id="reader">
+
+  <iframe
+    id="pdfFrame"
+    title="eBook PDF"
+  ></iframe>
+
+  <div class="note">
+    🔒 Purchased eBook • Road2Billionaire
+  </div>
+
+</div>
+
+
+<script>
+
+
+/* =================================
+   GET ID
+================================= */
+
+const params =
+  new URLSearchParams(
+    window.location.search
+  );
+
+const bookId =
+  params.get("id");
+
+
+const title =
+  document.getElementById("bookTitle");
+
+const loading =
+  document.getElementById("loading");
+
+const errorBox =
+  document.getElementById("error");
+
+const reader =
+  document.getElementById("reader");
+
+const pdfFrame =
+  document.getElementById("pdfFrame");
+
+
+/* =================================
+   ERROR
+================================= */
+
+function showError(message){
+
+  loading.style.display =
+    "none";
+
+  reader.style.display =
+    "none";
+
+  errorBox.style.display =
+    "block";
+
+  errorBox.innerHTML =
+    message;
+
+}
+
+
+/* =================================
+   GET BOOKS
+================================= */
+
+let books = [];
+
+
+try{
+
+  const saved =
+    localStorage.getItem("ebooksData");
+
+  if(saved){
+
+    books =
+      JSON.parse(saved);
+
+  }
+
+}catch(error){
+
+  console.error(
+    "ebooksData error:",
+    error
+  );
+
+  books = [];
+
+}
+
+
+if(!Array.isArray(books)){
+
+  books = [];
+
+}
+
+
+/* =================================
+   GET PURCHASES
+================================= */
+
+let purchases = [];
+
+
+try{
+
+  const saved =
+    localStorage.getItem(
+      "purchasedBooks"
+    );
+
+  if(saved){
+
+    purchases =
+      JSON.parse(saved);
+
+  }
+
+}catch(error){
+
+  console.error(
+    "purchasedBooks error:",
+    error
+  );
+
+  purchases = [];
+
+}
+
+
+if(!Array.isArray(purchases)){
+
+  purchases = [];
+
+}
+
+
+/* =================================
+   ID CHECK
+================================= */
+
+if(!bookId){
+
+  showError(
+    "❌ eBook ID नहीं मिला।<br><br>" +
+    "कृपया eBook को उसके Read button से खोलें।"
+  );
+
+}
+
+
+/* =================================
+   FIND BOOK
+================================= */
+
+else{
+
+  const book =
+    books.find(function(item){
+
+      return String(item.id) ===
+             String(bookId);
+
+    });
+
+
+  if(!book){
+
+    showError(
+      "❌ eBook नहीं मिली।<br><br>" +
+      "Book ID: " +
+      bookId +
+      "<br><br>" +
+      "संभव है कि eBook दूसरे browser में add की गई हो।"
+    );
+
+  }
+
+
+  else{
+
+    title.innerText =
+      book.title || "eBook";
+
+
+    /* =============================
+       PURCHASE CHECK
+    ============================= */
+
+    const purchased =
+      purchases.some(function(item){
+
+        if(
+          typeof item === "object" &&
+          item !== null
+        ){
+
+          return String(item.bookId) ===
+                 String(book.id);
+
+        }
+
+        return String(item) ===
+               String(book.id);
+
+      });
+
+
+    if(!purchased){
+
+      showError(
+        "🔒 यह eBook purchased नहीं है।<br><br>" +
+        "पहले eBook purchase करें।"
+      );
+
+    }
+
+
+    else if(!book.pdfUrl){
+
+      showError(
+        "❌ इस eBook का PDF link उपलब्ध नहीं है।<br><br>" +
+        "Admin panel में Google Drive link check करें।"
+      );
+
+    }
+
+
+    else{
+
+      openPDF(book.pdfUrl);
+
+    }
+
+  }
+
+}
+
+
+/* =================================
+   OPEN PDF
+================================= */
+
+function openPDF(url){
+
+  const fileId =
+    getDriveFileId(url);
+
+
+  if(!fileId){
+
+    showError(
+      "❌ Google Drive link सही नहीं है।<br><br>" +
+      "कृपया Admin panel में पूरा Google Drive PDF link डालें।"
+    );
+
+    return;
+
+  }
+
+
+  /*
+    Google Drive Preview
+  */
+
+  const previewURL =
+    "https://drive.google.com/file/d/" +
+    encodeURIComponent(fileId) +
+    "/preview";
+
+
+  console.log(
+    "PDF Preview URL:",
+    previewURL
+  );
+
+
+  pdfFrame.src =
+    previewURL;
+
+
+  /*
+    तुरंत reader दिखाएँ।
+    इससे Loading पर अटकने की
+    समस्या नहीं होगी।
+  */
+
+  loading.style.display =
+    "none";
+
+  reader.style.display =
+    "block";
+
+}
+
+
+/* =================================
+   GET DRIVE FILE ID
+================================= */
+
+function getDriveFileId(url){
+
+  try{
+
+    let text =
+      String(url).trim();
+
+
+    /*
+      /file/d/FILE_ID/view
+    */
+
+    let match =
+      text.match(
+        /drive\.google\.com\/file\/d\/([^\/?#]+)/
+      );
+
+
+    if(
+      match &&
+      match[1]
+    ){
+
+      return match[1];
+
+    }
+
+
+    /*
+      /open?id=FILE_ID
+    */
+
+    if(
+      text.includes(
+        "drive.google.com"
+      )
+    ){
+
+      const parsed =
+        new URL(text);
+
+
+      const id =
+        parsed.searchParams.get("id");
+
+
+      if(id){
+
+        return id;
+
+      }
+
+    }
+
+
+    return null;
+
+  }
+
+  catch(error){
+
+    console.error(
+      "Drive ID error:",
+      error
+    );
+
+    return null;
+
+  }
+
+}
+
+
+/* =================================
+   BASIC PROTECTION
+================================= */
+
+document.addEventListener(
+  "contextmenu",
+  function(e){
+
+    e.preventDefault();
+
+  }
+);
+
+</script>
+
+</body>
+
+</html>
