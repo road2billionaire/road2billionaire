@@ -61,11 +61,8 @@ body{
   color:#ffd700;
   text-decoration:none;
   background:#222;
-
   padding:9px 14px;
-
   border-radius:7px;
-
   font-size:14px;
 }
 
@@ -85,71 +82,13 @@ body{
 
   color:#fff;
 
-  padding:13px 10px;
+  padding:14px 10px;
 
   font-size:17px;
 
   font-weight:bold;
 
   border-bottom:1px solid #333;
-}
-
-
-/* =========================
-   CUSTOM BUTTON AREA
-========================= */
-
-.custom-actions{
-
-  display:flex;
-
-  justify-content:center;
-
-  align-items:center;
-
-  gap:10px;
-
-  padding:10px;
-
-  background:#111;
-
-  border-bottom:1px solid #333;
-
-}
-
-
-/* =========================
-   CUSTOM DRIVE BUTTON
-========================= */
-
-.drive-button{
-
-  display:inline-block;
-
-  background:#ffd700;
-
-  color:#000;
-
-  text-decoration:none;
-
-  padding:8px 14px;
-
-  border-radius:7px;
-
-  font-size:13px;
-
-  font-weight:bold;
-
-  border:1px solid #ffd700;
-
-  cursor:pointer;
-
-}
-
-.drive-button:hover{
-
-  background:#e6c200;
-
 }
 
 
@@ -158,7 +97,6 @@ body{
 ========================= */
 
 #loading{
-
   text-align:center;
 
   padding:40px 20px;
@@ -166,7 +104,6 @@ body{
   color:#ffd700;
 
   font-size:17px;
-
 }
 
 
@@ -219,7 +156,7 @@ body{
 
   width:100%;
 
-  height:calc(100vh - 165px);
+  height:calc(100vh - 115px);
 
   min-height:600px;
 
@@ -285,23 +222,9 @@ body{
 
   }
 
-  .custom-actions{
-
-    padding:8px;
-
-  }
-
-  .drive-button{
-
-    padding:7px 12px;
-
-    font-size:12px;
-
-  }
-
   #pdfFrame{
 
-    height:calc(100vh - 150px);
+    height:calc(100vh - 105px);
 
     min-height:500px;
 
@@ -323,19 +246,14 @@ body{
 <div class="topbar">
 
   <div class="logo">
-
     📚 Road2Billionaire
-
   </div>
-
 
   <a
     href="Dashboard.html"
     class="back"
   >
-
     ← Back
-
   </a>
 
 </div>
@@ -346,34 +264,7 @@ body{
 ========================= -->
 
 <div id="bookTitle">
-
   Loading eBook...
-
-</div>
-
-
-<!-- =========================
-     CUSTOM BUTTON
-========================= -->
-
-<div
-  id="customActions"
-  class="custom-actions"
-  style="display:none;"
->
-
-  <a
-    id="driveButton"
-    class="drive-button"
-    href="#"
-    target="_blank"
-    rel="noopener noreferrer"
-  >
-
-    ↗ Open PDF
-
-  </a>
-
 </div>
 
 
@@ -382,9 +273,7 @@ body{
 ========================= -->
 
 <div id="loading">
-
   📖 PDF load ho rahi hai...
-
 </div>
 
 
@@ -393,9 +282,7 @@ body{
 ========================= -->
 
 <div id="error">
-
   ❌ PDF open nahi ho paayi.
-
 </div>
 
 
@@ -410,11 +297,8 @@ body{
     title="eBook PDF"
   ></iframe>
 
-
   <div class="note">
-
     🔒 Purchased eBook • Road2Billionaire
-
   </div>
 
 </div>
@@ -424,14 +308,13 @@ body{
 
 
 /* =================================
-   GET URL ID
+   GET BOOK ID
 ================================= */
 
 const params =
   new URLSearchParams(
     window.location.search
   );
-
 
 const bookId =
   params.get("id");
@@ -446,40 +329,24 @@ const title =
     "bookTitle"
   );
 
-
 const loading =
   document.getElementById(
     "loading"
   );
-
 
 const errorBox =
   document.getElementById(
     "error"
   );
 
-
 const reader =
   document.getElementById(
     "reader"
   );
 
-
 const pdfFrame =
   document.getElementById(
     "pdfFrame"
-  );
-
-
-const customActions =
-  document.getElementById(
-    "customActions"
-  );
-
-
-const driveButton =
-  document.getElementById(
-    "driveButton"
   );
 
 
@@ -493,9 +360,6 @@ function showError(message){
     "none";
 
   reader.style.display =
-    "none";
-
-  customActions.style.display =
     "none";
 
   errorBox.style.display =
@@ -513,14 +377,12 @@ function showError(message){
 
 let books = [];
 
-
 try{
 
   const saved =
     localStorage.getItem(
       "ebooksData"
     );
-
 
   if(saved){
 
@@ -530,7 +392,6 @@ try{
   }
 
 }
-
 catch(error){
 
   console.error(
@@ -556,14 +417,12 @@ if(!Array.isArray(books)){
 
 let purchases = [];
 
-
 try{
 
   const saved =
     localStorage.getItem(
       "purchasedBooks"
     );
-
 
   if(saved){
 
@@ -573,7 +432,6 @@ try{
   }
 
 }
-
 catch(error){
 
   console.error(
@@ -656,7 +514,7 @@ else{
 
 
     /* =============================
-       CHECK PURCHASE
+       PURCHASE CHECK
     ============================= */
 
     const purchased =
@@ -674,7 +532,6 @@ else{
                  String(book.id);
 
         }
-
 
         return String(item) ===
                String(book.id);
@@ -734,7 +591,7 @@ else{
 
 
 /* =================================
-   OPEN PDF
+   OPEN GOOGLE DRIVE PDF
 ================================= */
 
 function openPDF(url){
@@ -758,9 +615,9 @@ function openPDF(url){
   }
 
 
-  /* =============================
-     GOOGLE DRIVE PREVIEW
-  ============================= */
+  /*
+    Google Drive Preview URL
+  */
 
   const previewURL =
 
@@ -771,37 +628,18 @@ function openPDF(url){
     "/preview";
 
 
-  /* =============================
-     GOOGLE DRIVE NORMAL LINK
-  ============================= */
-
-  const driveURL =
-
-    "https://drive.google.com/file/d/" +
-
-    encodeURIComponent(fileId) +
-
-    "/view";
+  console.log(
+    "PDF Preview:",
+    previewURL
+  );
 
 
   /* =============================
-     SET IFRAME
+     SET PDF
   ============================= */
 
   pdfFrame.src =
     previewURL;
-
-
-  /* =============================
-     CUSTOM BUTTON
-  ============================= */
-
-  driveButton.href =
-    driveURL;
-
-
-  customActions.style.display =
-    "flex";
 
 
   /* =============================
@@ -811,7 +649,6 @@ function openPDF(url){
   loading.style.display =
     "none";
 
-
   reader.style.display =
     "block";
 
@@ -819,7 +656,7 @@ function openPDF(url){
 
 
 /* =================================
-   GET DRIVE FILE ID
+   GET GOOGLE DRIVE FILE ID
 ================================= */
 
 function getDriveFileId(url){
@@ -831,16 +668,14 @@ function getDriveFileId(url){
 
 
     /* =============================
-       FORMAT:
+       FORMAT 1
 
        /file/d/FILE_ID/view
     ============================= */
 
     let match =
       text.match(
-
         /drive\.google\.com\/file\/d\/([^\/?#]+)/
-
       );
 
 
@@ -855,7 +690,7 @@ function getDriveFileId(url){
 
 
     /* =============================
-       FORMAT:
+       FORMAT 2
 
        /open?id=FILE_ID
     ============================= */
@@ -908,15 +743,12 @@ function getDriveFileId(url){
 ================================= */
 
 document.addEventListener(
-
   "contextmenu",
-
   function(e){
 
     e.preventDefault();
 
   }
-
 );
 
 </script>
