@@ -106,10 +106,16 @@ body{
   text-decoration:none;
   font-weight:bold;
   margin-top:8px;
+  margin-right:8px;
 }
 
 .view{
   background:#16a34a;
+  color:#fff;
+}
+
+.details{
+  background:#2563eb;
   color:#fff;
 }
 
@@ -152,7 +158,11 @@ body{
 
 </div>
 
+
 <div class="container">
+
+
+  <!-- WELCOME -->
 
   <div class="welcome">
 
@@ -172,12 +182,16 @@ body{
   </div>
 
 
+  <!-- MY EBOOKS -->
+
   <h2 class="section-title">
     📚 My eBooks
   </h2>
 
   <div id="myBooks"></div>
 
+
+  <!-- BROWSE -->
 
   <h2 class="section-title">
     🛍️ Browse eBooks
@@ -207,6 +221,10 @@ body{
 
 <script>
 
+
+/* =========================
+   LOAD USER
+========================= */
 
 function loadUser(){
 
@@ -247,12 +265,16 @@ function loadUser(){
 
 
 
+/* =========================
+   LOAD PURCHASED BOOKS
+========================= */
+
 function loadMyBooks(){
 
   const container =
     document.getElementById("myBooks");
 
-  let books = [];
+  let purchases = [];
 
 
   try{
@@ -263,15 +285,15 @@ function loadMyBooks(){
 
     if(saved){
 
-      books =
+      purchases =
         JSON.parse(saved);
 
     }
 
 
-    if(!Array.isArray(books)){
+    if(!Array.isArray(purchases)){
 
-      books = [];
+      purchases = [];
 
     }
 
@@ -279,13 +301,20 @@ function loadMyBooks(){
 
   catch(error){
 
-    books = [];
+    console.log(
+      "Purchased books error:",
+      error
+    );
+
+    purchases = [];
 
   }
 
 
 
-  if(books.length === 0){
+  /* NO PURCHASE */
+
+  if(purchases.length === 0){
 
     container.innerHTML = `
 
@@ -320,36 +349,101 @@ function loadMyBooks(){
 
 
 
-  books.forEach(function(book){
+  /* LOAD CURRENT EBOOK DATA */
+
+  let allBooks = [];
+
+  try{
+
+    const savedBooks =
+      localStorage.getItem("ebooksData");
+
+    if(savedBooks){
+
+      allBooks =
+        JSON.parse(savedBooks);
+
+    }
+
+    if(!Array.isArray(allBooks)){
+
+      allBooks = [];
+
+    }
+
+  }
+
+  catch(error){
+
+    allBooks = [];
+
+  }
+
+
+
+  /* DISPLAY PURCHASES */
+
+  purchases.forEach(function(purchase){
 
     const card =
       document.createElement("div");
-
 
     card.className =
       "card";
 
 
+    /* Find original book */
+
+    const originalBook =
+      allBooks.find(function(book){
+
+        return String(book.id) ===
+               String(purchase.bookId);
+
+      });
+
+
+    const title =
+      originalBook?.title ||
+      purchase.title ||
+      "Purchased eBook";
+
+
+    const price =
+      originalBook?.price ||
+      purchase.price ||
+      "0";
+
+
     card.innerHTML = `
 
       <h2>
-        📖 ${book.title || "Purchased eBook"}
+        📖 ${escapeHTML(title)}
       </h2>
 
       <p>
         Purchase Date:
-        ${book.purchaseDate || "N/A"}
+        ${escapeHTML(
+          purchase.purchaseDate || "N/A"
+        )}
       </p>
 
       <div class="price">
-        ₹${book.price || "0"}
+        ₹${escapeHTML(String(price))}
       </div>
 
       <a
-        href="ebook-details.html?id=${encodeURIComponent(book.bookId)}&from=dashboard"
+        href="read.html?id=${encodeURIComponent(purchase.bookId)}"
         class="btn view"
       >
-        📖 View eBook
+        📖 Read eBook
+      </a>
+
+      <a
+        href="ebook-details.html?id=${encodeURIComponent(purchase.bookId)}&from=dashboard"
+        class="btn details"
+      >
+        ℹ️ View Details
       </a>
 
     `;
@@ -363,6 +457,27 @@ function loadMyBooks(){
 
 
 
+/* =========================
+   BASIC HTML ESCAPE
+========================= */
+
+function escapeHTML(value){
+
+  return String(value)
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
+}
+
+
+
+/* =========================
+   LOGOUT
+========================= */
+
 function logoutUser(){
 
   localStorage.removeItem("loggedIn");
@@ -375,6 +490,10 @@ function logoutUser(){
 }
 
 
+
+/* =========================
+   START
+========================= */
 
 loadUser();
 
