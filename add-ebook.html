@@ -5,7 +5,10 @@
 
 <meta charset="UTF-8">
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0"
+>
 
 <title>Add eBook | Road2Billionaire</title>
 
@@ -98,7 +101,7 @@ textarea{
   font-weight:bold;
   font-size:16px;
   cursor:pointer;
-  margin-top:5px;
+  margin-top:8px;
 }
 
 .upload-btn:disabled{
@@ -156,6 +159,14 @@ textarea{
   color:#777;
   font-size:12px;
   margin-top:6px;
+}
+
+.pdf-link{
+  display:none;
+  margin-top:10px;
+  color:#ffd700;
+  word-break:break-all;
+  font-size:12px;
 }
 
 </style>
@@ -306,7 +317,7 @@ textarea{
 <input
   type="file"
   id="pdfFile"
-  accept="application/pdf"
+  accept="application/pdf,.pdf"
 >
 
 <button
@@ -324,6 +335,12 @@ textarea{
   PDF अभी upload नहीं हुई है।
 </div>
 
+<div
+  id="pdfLink"
+  class="pdf-link"
+>
+</div>
+
 
 <!-- HIDDEN URL FIELDS -->
 
@@ -337,6 +354,8 @@ textarea{
   id="pdfUrl"
 >
 
+
+<!-- SAVE -->
 
 <button
   type="submit"
@@ -357,29 +376,56 @@ textarea{
 <script>
 
 
-/* =====================================
+/* =====================================================
    CLOUDINARY SETTINGS
-===================================== */
+===================================================== */
 
+
+/*
+  आपका Cloudinary Cloud Name
+*/
 
 const CLOUD_NAME =
   "z2kzpgl3";
 
 
+/*
+  आपका unsigned upload preset
+*/
+
 const UPLOAD_PRESET =
   "road2billionaire";
 
 
-const UPLOAD_URL =
+/*
+  IMAGE upload URL
+
+  Images:
+  /image/upload
+*/
+
+const IMAGE_UPLOAD_URL =
   "https://api.cloudinary.com/v1_1/" +
   CLOUD_NAME +
-  "/upload";
+  "/image/upload";
 
 
-/* =====================================
+/*
+  PDF upload URL
+
+  PDFs:
+  /raw/upload
+*/
+
+const PDF_UPLOAD_URL =
+  "https://api.cloudinary.com/v1_1/" +
+  CLOUD_NAME +
+  "/raw/upload";
+
+
+/* =====================================================
    ELEMENTS
-===================================== */
-
+===================================================== */
 
 const imageFile =
   document.getElementById(
@@ -435,20 +481,25 @@ const imagePreview =
   );
 
 
+const pdfLink =
+  document.getElementById(
+    "pdfLink"
+  );
+
+
 const saveBtn =
   document.getElementById(
     "saveBtn"
   );
 
 
-/* =====================================
-   UPLOAD FUNCTION
-===================================== */
-
+/* =====================================================
+   GENERIC CLOUDINARY UPLOAD
+===================================================== */
 
 async function uploadToCloudinary(
   file,
-  type
+  uploadURL
 ){
 
   const formData =
@@ -467,25 +518,9 @@ async function uploadToCloudinary(
   );
 
 
-  /*
-    PDFs should be uploaded as raw
-    files so their original format
-    is preserved.
-  */
-
-  if(type === "pdf"){
-
-    formData.append(
-      "resource_type",
-      "raw"
-    );
-
-  }
-
-
   const response =
     await fetch(
-      UPLOAD_URL,
+      uploadURL,
       {
         method:"POST",
         body:formData
@@ -501,7 +536,16 @@ async function uploadToCloudinary(
 
     throw new Error(
       data.error?.message ||
-      "Upload failed"
+      "Cloudinary upload failed."
+    );
+
+  }
+
+
+  if(!data.secure_url){
+
+    throw new Error(
+      "Cloudinary URL नहीं मिला।"
     );
 
   }
@@ -512,10 +556,9 @@ async function uploadToCloudinary(
 }
 
 
-/* =====================================
+/* =====================================================
    IMAGE UPLOAD
-===================================== */
-
+===================================================== */
 
 imageUploadBtn.addEventListener(
   "click",
@@ -549,13 +592,21 @@ imageUploadBtn.addEventListener(
       const url =
         await uploadToCloudinary(
           file,
-          "image"
+          IMAGE_UPLOAD_URL
         );
 
+
+      /*
+        Save Cloudinary image URL
+      */
 
       imageUrl.value =
         url;
 
+
+      /*
+        Preview
+      */
 
       imagePreview.src =
         url;
@@ -566,17 +617,23 @@ imageUploadBtn.addEventListener(
 
 
       imageStatus.innerHTML =
-        '<span class="success">✅ Image uploaded successfully.</span>';
+        '<span class="success">' +
+        '✅ Image uploaded successfully.' +
+        '</span>';
 
 
     }
     catch(error){
 
-      console.error(error);
+      console.error(
+        "IMAGE UPLOAD ERROR:",
+        error
+      );
 
 
       imageStatus.innerHTML =
-        '<span class="error">❌ Image upload failed: ' +
+        '<span class="error">' +
+        '❌ Image upload failed: ' +
         error.message +
         '</span>';
 
@@ -590,10 +647,9 @@ imageUploadBtn.addEventListener(
 );
 
 
-/* =====================================
+/* =====================================================
    PDF UPLOAD
-===================================== */
-
+===================================================== */
 
 pdfUploadBtn.addEventListener(
   "click",
@@ -614,13 +670,40 @@ pdfUploadBtn.addEventListener(
     }
 
 
-    if(
-      file.type !==
-      "application/pdf"
-    ){
+    /*
+      Check PDF
+    */
+
+    const isPDF =
+      file.type === "application/pdf" ||
+      file.name.toLowerCase().endsWith(".pdf");
+
+
+    if(!isPDF){
 
       alert(
         "कृपया सिर्फ PDF file select करें।"
+      );
+
+      return;
+
+    }
+
+
+    /*
+      File size check
+
+      50 MB तक allow
+    */
+
+    const maxSize =
+      50 * 1024 * 1024;
+
+
+    if(file.size > maxSize){
+
+      alert(
+        "PDF 50 MB से छोटी होनी चाहिए।"
       );
 
       return;
@@ -637,35 +720,83 @@ pdfUploadBtn.addEventListener(
 
 
     pdfStatus.innerHTML =
-      "⏳ PDF uploading...";
+      "⏳ PDF Cloudinary पर upload हो रही है...";
+
+
+    pdfLink.style.display =
+      "none";
 
 
     try{
 
+      /*
+        IMPORTANT:
+
+        PDF अब सीधे
+        /raw/upload
+        endpoint पर जाएगी.
+      */
+
       const url =
         await uploadToCloudinary(
           file,
-          "pdf"
+          PDF_UPLOAD_URL
         );
 
+
+      /*
+        Save URL
+      */
 
       pdfUrl.value =
         url;
 
 
+      /*
+        Show success
+      */
+
       pdfStatus.innerHTML =
-        '<span class="success">✅ PDF uploaded successfully.</span><br>' +
-        '<span class="small">PDF website में save होने के लिए ready है.</span>';
+        '<span class="success">' +
+        '✅ PDF uploaded successfully!' +
+        '</span>';
+
+
+      /*
+        Show URL for checking
+      */
+
+      pdfLink.innerHTML =
+        "PDF URL:<br>" +
+        url;
+
+
+      pdfLink.style.display =
+        "block";
+
+
+      console.log(
+        "PDF URL:",
+        url
+      );
 
 
     }
     catch(error){
 
-      console.error(error);
+      console.error(
+        "PDF UPLOAD ERROR:",
+        error
+      );
+
+
+      pdfUrl.value =
+        "";
 
 
       pdfStatus.innerHTML =
-        '<span class="error">❌ PDF upload failed: ' +
+        '<span class="error">' +
+        '❌ PDF upload failed:<br>' +
         error.message +
         '</span>';
 
@@ -683,10 +814,9 @@ pdfUploadBtn.addEventListener(
 );
 
 
-/* =====================================
-   SAVE BOOK
-===================================== */
-
+/* =====================================================
+   SAVE EBOOK
+===================================================== */
 
 document
   .getElementById("bookForm")
@@ -735,10 +865,25 @@ document
         imageUrl.value.trim();
 
 
+      /* =========================
+         VALIDATION
+      ========================= */
+
       if(!title){
 
         alert(
           "Book title डालें।"
+        );
+
+        return;
+
+      }
+
+
+      if(!description){
+
+        alert(
+          "Book description डालें।"
         );
 
         return;
@@ -768,6 +913,10 @@ document
       }
 
 
+      /* =========================
+         LOAD EXISTING BOOKS
+      ========================= */
+
       let ebooks = [];
 
 
@@ -789,6 +938,11 @@ document
       }
       catch(error){
 
+        console.error(
+          "ebooksData error:",
+          error
+        );
+
         ebooks = [];
 
       }
@@ -800,6 +954,10 @@ document
 
       }
 
+
+      /* =========================
+         CREATE BOOK
+      ========================= */
 
       const newBook = {
 
@@ -833,16 +991,43 @@ document
       };
 
 
+      /* =========================
+         ADD BOOK
+      ========================= */
+
       ebooks.push(
         newBook
       );
 
 
-      localStorage.setItem(
-        "ebooksData",
-        JSON.stringify(ebooks)
-      );
+      /* =========================
+         SAVE
+      ========================= */
 
+      try{
+
+        localStorage.setItem(
+          "ebooksData",
+          JSON.stringify(ebooks)
+        );
+
+      }
+      catch(error){
+
+        alert(
+          "❌ eBook save नहीं हो पाई।"
+        );
+
+        console.error(error);
+
+        return;
+
+      }
+
+
+      /* =========================
+         SUCCESS
+      ========================= */
 
       alert(
         "✅ eBook successfully saved!"
@@ -857,7 +1042,6 @@ document
 
 
 </script>
-
 
 </body>
 
