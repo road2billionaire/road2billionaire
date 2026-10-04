@@ -30,9 +30,9 @@ body{
 }
 
 
-/* ============================
+/* =========================
    TOP BAR
-============================ */
+========================= */
 
 .topbar{
   background:#000;
@@ -61,15 +61,22 @@ body{
   color:#ffd700;
   text-decoration:none;
   background:#222;
+
   padding:9px 14px;
+
   border-radius:7px;
+
   font-size:14px;
 }
 
+.back:hover{
+  background:#333;
+}
 
-/* ============================
-   TITLE
-============================ */
+
+/* =========================
+   BOOK TITLE
+========================= */
 
 #bookTitle{
   text-align:center;
@@ -78,7 +85,7 @@ body{
 
   color:#fff;
 
-  padding:14px 10px;
+  padding:13px 10px;
 
   font-size:17px;
 
@@ -88,11 +95,70 @@ body{
 }
 
 
-/* ============================
+/* =========================
+   CUSTOM BUTTON AREA
+========================= */
+
+.custom-actions{
+
+  display:flex;
+
+  justify-content:center;
+
+  align-items:center;
+
+  gap:10px;
+
+  padding:10px;
+
+  background:#111;
+
+  border-bottom:1px solid #333;
+
+}
+
+
+/* =========================
+   CUSTOM DRIVE BUTTON
+========================= */
+
+.drive-button{
+
+  display:inline-block;
+
+  background:#ffd700;
+
+  color:#000;
+
+  text-decoration:none;
+
+  padding:8px 14px;
+
+  border-radius:7px;
+
+  font-size:13px;
+
+  font-weight:bold;
+
+  border:1px solid #ffd700;
+
+  cursor:pointer;
+
+}
+
+.drive-button:hover{
+
+  background:#e6c200;
+
+}
+
+
+/* =========================
    LOADING
-============================ */
+========================= */
 
 #loading{
+
   text-align:center;
 
   padding:40px 20px;
@@ -100,14 +166,16 @@ body{
   color:#ffd700;
 
   font-size:17px;
+
 }
 
 
-/* ============================
+/* =========================
    ERROR
-============================ */
+========================= */
 
 #error{
+
   display:none;
 
   max-width:600px;
@@ -127,27 +195,31 @@ body{
   color:#ff6b6b;
 
   line-height:1.7;
+
 }
 
 
-/* ============================
-   PDF
-============================ */
+/* =========================
+   PDF READER
+========================= */
 
 #reader{
+
   display:none;
 
   width:100%;
 
   padding:5px;
+
 }
 
 #pdfFrame{
+
   display:block;
 
   width:100%;
 
-  height:calc(100vh - 115px);
+  height:calc(100vh - 165px);
 
   min-height:600px;
 
@@ -156,10 +228,16 @@ body{
   background:#fff;
 
   border-radius:4px;
+
 }
 
 
+/* =========================
+   NOTE
+========================= */
+
 .note{
+
   text-align:center;
 
   color:#777;
@@ -167,31 +245,66 @@ body{
   font-size:11px;
 
   padding:8px;
+
 }
 
 
-/* ============================
+/* =========================
    MOBILE
-============================ */
+========================= */
 
 @media(max-width:600px){
 
+  .topbar{
+
+    min-height:55px;
+
+    padding:8px 10px;
+
+  }
+
   .logo{
+
     font-size:17px;
+
   }
 
   .back{
+
     font-size:13px;
+
     padding:8px 11px;
+
   }
 
   #bookTitle{
+
     font-size:15px;
+
+    padding:12px 8px;
+
+  }
+
+  .custom-actions{
+
+    padding:8px;
+
+  }
+
+  .drive-button{
+
+    padding:7px 12px;
+
+    font-size:12px;
+
   }
 
   #pdfFrame{
-    height:calc(100vh - 105px);
+
+    height:calc(100vh - 150px);
+
     min-height:500px;
+
   }
 
 }
@@ -203,46 +316,92 @@ body{
 <body>
 
 
-<!-- TOP BAR -->
+<!-- =========================
+     TOP BAR
+========================= -->
 
 <div class="topbar">
 
   <div class="logo">
+
     📚 Road2Billionaire
+
   </div>
+
 
   <a
     href="Dashboard.html"
     class="back"
   >
+
     ← Back
+
   </a>
 
 </div>
 
 
-<!-- BOOK TITLE -->
+<!-- =========================
+     BOOK TITLE
+========================= -->
 
 <div id="bookTitle">
+
   Loading eBook...
+
 </div>
 
 
-<!-- LOADING -->
+<!-- =========================
+     CUSTOM BUTTON
+========================= -->
+
+<div
+  id="customActions"
+  class="custom-actions"
+  style="display:none;"
+>
+
+  <a
+    id="driveButton"
+    class="drive-button"
+    href="#"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+
+    ↗ Open PDF
+
+  </a>
+
+</div>
+
+
+<!-- =========================
+     LOADING
+========================= -->
 
 <div id="loading">
+
   📖 PDF load ho rahi hai...
+
 </div>
 
 
-<!-- ERROR -->
+<!-- =========================
+     ERROR
+========================= -->
 
 <div id="error">
+
   ❌ PDF open nahi ho paayi.
+
 </div>
 
 
-<!-- READER -->
+<!-- =========================
+     PDF READER
+========================= -->
 
 <div id="reader">
 
@@ -251,8 +410,11 @@ body{
     title="eBook PDF"
   ></iframe>
 
+
   <div class="note">
+
     🔒 Purchased eBook • Road2Billionaire
+
   </div>
 
 </div>
@@ -262,7 +424,7 @@ body{
 
 
 /* =================================
-   GET ID
+   GET URL ID
 ================================= */
 
 const params =
@@ -270,28 +432,59 @@ const params =
     window.location.search
   );
 
+
 const bookId =
   params.get("id");
 
 
+/* =================================
+   ELEMENTS
+================================= */
+
 const title =
-  document.getElementById("bookTitle");
+  document.getElementById(
+    "bookTitle"
+  );
+
 
 const loading =
-  document.getElementById("loading");
+  document.getElementById(
+    "loading"
+  );
+
 
 const errorBox =
-  document.getElementById("error");
+  document.getElementById(
+    "error"
+  );
+
 
 const reader =
-  document.getElementById("reader");
+  document.getElementById(
+    "reader"
+  );
+
 
 const pdfFrame =
-  document.getElementById("pdfFrame");
+  document.getElementById(
+    "pdfFrame"
+  );
+
+
+const customActions =
+  document.getElementById(
+    "customActions"
+  );
+
+
+const driveButton =
+  document.getElementById(
+    "driveButton"
+  );
 
 
 /* =================================
-   ERROR
+   SHOW ERROR
 ================================= */
 
 function showError(message){
@@ -300,6 +493,9 @@ function showError(message){
     "none";
 
   reader.style.display =
+    "none";
+
+  customActions.style.display =
     "none";
 
   errorBox.style.display =
@@ -312,7 +508,7 @@ function showError(message){
 
 
 /* =================================
-   GET BOOKS
+   LOAD EBOOK DATA
 ================================= */
 
 let books = [];
@@ -321,7 +517,10 @@ let books = [];
 try{
 
   const saved =
-    localStorage.getItem("ebooksData");
+    localStorage.getItem(
+      "ebooksData"
+    );
+
 
   if(saved){
 
@@ -330,7 +529,9 @@ try{
 
   }
 
-}catch(error){
+}
+
+catch(error){
 
   console.error(
     "ebooksData error:",
@@ -350,7 +551,7 @@ if(!Array.isArray(books)){
 
 
 /* =================================
-   GET PURCHASES
+   LOAD PURCHASE DATA
 ================================= */
 
 let purchases = [];
@@ -363,6 +564,7 @@ try{
       "purchasedBooks"
     );
 
+
   if(saved){
 
     purchases =
@@ -370,7 +572,9 @@ try{
 
   }
 
-}catch(error){
+}
+
+catch(error){
 
   console.error(
     "purchasedBooks error:",
@@ -390,14 +594,17 @@ if(!Array.isArray(purchases)){
 
 
 /* =================================
-   ID CHECK
+   CHECK BOOK ID
 ================================= */
 
 if(!bookId){
 
   showError(
+
     "❌ eBook ID नहीं मिला।<br><br>" +
-    "कृपया eBook को उसके Read button से खोलें।"
+
+    "कृपया eBook को Read button से खोलें।"
+
   );
 
 }
@@ -418,35 +625,49 @@ else{
     });
 
 
+  /* ===============================
+     BOOK NOT FOUND
+  =============================== */
+
   if(!book){
 
     showError(
+
       "❌ eBook नहीं मिली।<br><br>" +
+
       "Book ID: " +
-      bookId +
-      "<br><br>" +
-      "संभव है कि eBook दूसरे browser में add की गई हो।"
+
+      bookId
+
     );
 
   }
 
 
+  /* ===============================
+     BOOK FOUND
+  =============================== */
+
   else{
 
     title.innerText =
-      book.title || "eBook";
+      book.title ||
+      "eBook";
 
 
     /* =============================
-       PURCHASE CHECK
+       CHECK PURCHASE
     ============================= */
 
     const purchased =
       purchases.some(function(item){
 
         if(
+
           typeof item === "object" &&
+
           item !== null
+
         ){
 
           return String(item.bookId) ===
@@ -454,35 +675,56 @@ else{
 
         }
 
+
         return String(item) ===
                String(book.id);
 
       });
 
 
+    /* =============================
+       NOT PURCHASED
+    ============================= */
+
     if(!purchased){
 
       showError(
+
         "🔒 यह eBook purchased नहीं है।<br><br>" +
+
         "पहले eBook purchase करें।"
+
       );
 
     }
 
+
+    /* =============================
+       PDF LINK MISSING
+    ============================= */
 
     else if(!book.pdfUrl){
 
       showError(
+
         "❌ इस eBook का PDF link उपलब्ध नहीं है।<br><br>" +
+
         "Admin panel में Google Drive link check करें।"
+
       );
 
     }
 
 
+    /* =============================
+       OPEN PDF
+    ============================= */
+
     else{
 
-      openPDF(book.pdfUrl);
+      openPDF(
+        book.pdfUrl
+      );
 
     }
 
@@ -504,8 +746,11 @@ function openPDF(url){
   if(!fileId){
 
     showError(
+
       "❌ Google Drive link सही नहीं है।<br><br>" +
-      "कृपया Admin panel में पूरा Google Drive PDF link डालें।"
+
+      "Admin panel में पूरा Google Drive PDF link डालें।"
+
     );
 
     return;
@@ -513,34 +758,59 @@ function openPDF(url){
   }
 
 
-  /*
-    Google Drive Preview
-  */
+  /* =============================
+     GOOGLE DRIVE PREVIEW
+  ============================= */
 
   const previewURL =
+
     "https://drive.google.com/file/d/" +
+
     encodeURIComponent(fileId) +
+
     "/preview";
 
 
-  console.log(
-    "PDF Preview URL:",
-    previewURL
-  );
+  /* =============================
+     GOOGLE DRIVE NORMAL LINK
+  ============================= */
 
+  const driveURL =
+
+    "https://drive.google.com/file/d/" +
+
+    encodeURIComponent(fileId) +
+
+    "/view";
+
+
+  /* =============================
+     SET IFRAME
+  ============================= */
 
   pdfFrame.src =
     previewURL;
 
 
-  /*
-    तुरंत reader दिखाएँ।
-    इससे Loading पर अटकने की
-    समस्या नहीं होगी।
-  */
+  /* =============================
+     CUSTOM BUTTON
+  ============================= */
+
+  driveButton.href =
+    driveURL;
+
+
+  customActions.style.display =
+    "flex";
+
+
+  /* =============================
+     SHOW READER
+  ============================= */
 
   loading.style.display =
     "none";
+
 
   reader.style.display =
     "block";
@@ -556,17 +826,21 @@ function getDriveFileId(url){
 
   try{
 
-    let text =
+    const text =
       String(url).trim();
 
 
-    /*
-      /file/d/FILE_ID/view
-    */
+    /* =============================
+       FORMAT:
+
+       /file/d/FILE_ID/view
+    ============================= */
 
     let match =
       text.match(
+
         /drive\.google\.com\/file\/d\/([^\/?#]+)/
+
       );
 
 
@@ -580,9 +854,11 @@ function getDriveFileId(url){
     }
 
 
-    /*
-      /open?id=FILE_ID
-    */
+    /* =============================
+       FORMAT:
+
+       /open?id=FILE_ID
+    ============================= */
 
     if(
       text.includes(
@@ -595,7 +871,9 @@ function getDriveFileId(url){
 
 
       const id =
-        parsed.searchParams.get("id");
+        parsed.searchParams.get(
+          "id"
+        );
 
 
       if(id){
@@ -614,7 +892,7 @@ function getDriveFileId(url){
   catch(error){
 
     console.error(
-      "Drive ID error:",
+      "Drive ID Error:",
       error
     );
 
@@ -630,12 +908,15 @@ function getDriveFileId(url){
 ================================= */
 
 document.addEventListener(
+
   "contextmenu",
+
   function(e){
 
     e.preventDefault();
 
   }
+
 );
 
 </script>
