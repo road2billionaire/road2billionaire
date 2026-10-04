@@ -25,97 +25,188 @@ body{
   color:#fff;
 }
 
+
+/* =========================
+   TOP BAR
+========================= */
+
 .topbar{
   background:#111;
+
   border-bottom:1px solid #ffd700;
+
   padding:16px 18px;
 
   display:flex;
+
   justify-content:space-between;
+
   align-items:center;
 }
 
 .logo{
   color:#ffd700;
+
   font-size:21px;
+
   font-weight:bold;
 }
 
 .back{
   color:#ffd700;
+
   background:#222;
+
   text-decoration:none;
+
   padding:9px 14px;
+
   border-radius:7px;
+
+  font-size:14px;
 }
+
+
+/* =========================
+   CONTAINER
+========================= */
 
 .container{
   max-width:700px;
+
   margin:auto;
+
   padding:25px 18px;
 }
 
+
+/* =========================
+   CARD
+========================= */
+
 .card{
   background:#111;
+
   border:1px solid #333;
+
   border-radius:18px;
+
   padding:25px;
 }
 
 h1{
   color:#ffd700;
+
   margin-top:0;
 }
 
+
+/* =========================
+   FORM
+========================= */
+
 label{
   display:block;
+
   margin-top:18px;
+
   margin-bottom:7px;
+
   color:#ddd;
+
   font-weight:bold;
 }
 
 input,
 textarea{
+
   width:100%;
+
   padding:13px;
+
   border-radius:8px;
+
   border:1px solid #444;
+
   background:#222;
+
   color:#fff;
+
   font-size:15px;
+
+}
+
+input:focus,
+textarea:focus{
+
+  outline:none;
+
+  border-color:#ffd700;
+
 }
 
 textarea{
+
   min-height:100px;
+
   resize:vertical;
+
 }
 
+
+/* =========================
+   UPLOAD BUTTON
+========================= */
+
 .upload-btn{
+
   width:100%;
+
   padding:14px;
+
   border:0;
+
   border-radius:8px;
+
   background:#ffd700;
+
   color:#000;
+
   font-weight:bold;
+
   font-size:16px;
+
   cursor:pointer;
+
   margin-top:8px;
 }
 
 .upload-btn:disabled{
+
   opacity:.5;
+
   cursor:not-allowed;
 }
 
+
+/* =========================
+   STATUS
+========================= */
+
 .status{
+
   margin-top:10px;
+
   padding:10px;
+
   border-radius:7px;
+
   background:#181818;
+
   color:#aaa;
+
   font-size:14px;
+
   word-break:break-word;
 }
 
@@ -127,46 +218,122 @@ textarea{
   color:#ff5555;
 }
 
+
+/* =========================
+   IMAGE PREVIEW
+========================= */
+
 .preview{
+
   width:100%;
+
   max-height:220px;
+
   object-fit:contain;
+
   background:#222;
+
   border-radius:10px;
+
   margin-top:12px;
+
   display:none;
 }
 
-.save-btn{
-  width:100%;
-  padding:15px;
-  margin-top:25px;
-  border:0;
-  border-radius:9px;
-  background:#16a34a;
-  color:#fff;
-  font-size:17px;
+
+/* =========================
+   SMALL TEXT
+========================= */
+
+.small{
+
+  color:#777;
+
+  font-size:12px;
+
+  margin-top:6px;
+
+  line-height:1.5;
+}
+
+
+/* =========================
+   GOOGLE DRIVE BOX
+========================= */
+
+.drive-box{
+
+  background:#181818;
+
+  border:1px solid #333;
+
+  border-radius:10px;
+
+  padding:14px;
+
+  margin-top:10px;
+}
+
+.drive-title{
+
+  color:#ffd700;
+
   font-weight:bold;
+
+  margin-bottom:6px;
+}
+
+
+/* =========================
+   PDF LINK
+========================= */
+
+.pdf-link{
+
+  display:none;
+
+  margin-top:10px;
+
+  color:#ffd700;
+
+  word-break:break-all;
+
+  font-size:12px;
+}
+
+
+/* =========================
+   SAVE BUTTON
+========================= */
+
+.save-btn{
+
+  width:100%;
+
+  padding:15px;
+
+  margin-top:25px;
+
+  border:0;
+
+  border-radius:9px;
+
+  background:#16a34a;
+
+  color:#fff;
+
+  font-size:17px;
+
+  font-weight:bold;
+
   cursor:pointer;
 }
 
 .save-btn:disabled{
+
   opacity:.5;
+
   cursor:not-allowed;
-}
-
-.small{
-  color:#777;
-  font-size:12px;
-  margin-top:6px;
-}
-
-.pdf-link{
-  display:none;
-  margin-top:10px;
-  color:#ffd700;
-  word-break:break-all;
-  font-size:12px;
 }
 
 </style>
@@ -177,11 +344,16 @@ textarea{
 <body>
 
 
+<!-- =========================
+     TOP BAR
+========================= -->
+
 <div class="topbar">
 
   <div class="logo">
     Road2Billionaire
   </div>
+
 
   <a
     href="ebook.html"
@@ -193,19 +365,28 @@ textarea{
 </div>
 
 
+
+<!-- =========================
+     CONTAINER
+========================= -->
+
 <div class="container">
 
 <div class="card">
+
 
 <h1>
   📚 Add New eBook
 </h1>
 
 
+
 <form id="bookForm">
 
 
-<!-- BOOK TITLE -->
+<!-- =========================
+     BOOK TITLE
+========================= -->
 
 <label>
   Book Title
@@ -219,7 +400,10 @@ textarea{
 >
 
 
-<!-- DESCRIPTION -->
+
+<!-- =========================
+     DESCRIPTION
+========================= -->
 
 <label>
   Description
@@ -232,7 +416,10 @@ textarea{
 ></textarea>
 
 
-<!-- TOPICS -->
+
+<!-- =========================
+     TOPICS
+========================= -->
 
 <label>
   Topics
@@ -245,7 +432,10 @@ textarea{
 >
 
 
-<!-- PRICE -->
+
+<!-- =========================
+     PRICE
+========================= -->
 
 <label>
   Price (₹)
@@ -260,7 +450,10 @@ textarea{
 >
 
 
-<!-- OLD PRICE -->
+
+<!-- =========================
+     OLD PRICE
+========================= -->
 
 <label>
   Old Price (₹)
@@ -274,7 +467,10 @@ textarea{
 >
 
 
-<!-- BOOK IMAGE -->
+
+<!-- =========================
+     BOOK IMAGE
+========================= -->
 
 <label>
   🖼️ Book Image
@@ -286,6 +482,7 @@ textarea{
   accept="image/*"
 >
 
+
 <button
   type="button"
   class="upload-btn"
@@ -294,12 +491,14 @@ textarea{
   🖼️ Upload Book Image
 </button>
 
+
 <div
   class="status"
   id="imageStatus"
 >
   Image अभी upload नहीं हुई है।
 </div>
+
 
 <img
   id="imagePreview"
@@ -308,32 +507,65 @@ textarea{
 >
 
 
-<!-- PDF -->
+
+<!-- =========================
+     GOOGLE DRIVE PDF
+========================= -->
 
 <label>
   📖 eBook PDF
 </label>
 
+
+<div class="drive-box">
+
+  <div class="drive-title">
+    📁 Google Drive PDF
+  </div>
+
+  <div class="small">
+
+    पहले PDF को Google Drive में upload करें।
+
+    <br>
+
+    फिर:
+
+    <strong>
+      Share → General access → Anyone with the link → Viewer
+    </strong>
+
+    करें और नीचे उसका link paste करें।
+
+  </div>
+
+</div>
+
+
 <input
-  type="file"
-  id="pdfFile"
-  accept="application/pdf,.pdf"
+  type="url"
+  id="pdfUrl"
+  placeholder="Paste Google Drive PDF link here"
+  required
 >
+
 
 <button
   type="button"
   class="upload-btn"
-  id="pdfUploadBtn"
+  id="checkPdfBtn"
 >
-  📤 Upload PDF
+  🔗 Check Google Drive Link
 </button>
+
 
 <div
   class="status"
   id="pdfStatus"
 >
-  PDF अभी upload नहीं हुई है।
+  अभी कोई PDF link नहीं दिया गया है।
 </div>
+
 
 <div
   id="pdfLink"
@@ -342,20 +574,10 @@ textarea{
 </div>
 
 
-<!-- HIDDEN URL FIELDS -->
 
-<input
-  type="hidden"
-  id="imageUrl"
->
-
-<input
-  type="hidden"
-  id="pdfUrl"
->
-
-
-<!-- SAVE -->
+<!-- =========================
+     SAVE
+========================= -->
 
 <button
   type="submit"
@@ -373,54 +595,28 @@ textarea{
 </div>
 
 
+
 <script>
 
 
 /* =====================================================
    CLOUDINARY SETTINGS
+   केवल BOOK IMAGE के लिए
 ===================================================== */
-
-
-/*
-  आपका Cloudinary Cloud Name
-*/
 
 const CLOUD_NAME =
   "z2kzpgl3";
 
 
-/*
-  आपका unsigned upload preset
-*/
-
 const UPLOAD_PRESET =
   "road2billionaire";
 
-
-/*
-  IMAGE upload URL
-
-  Images:
-  /image/upload
-*/
 
 const IMAGE_UPLOAD_URL =
   "https://api.cloudinary.com/v1_1/" +
   CLOUD_NAME +
   "/image/upload";
 
-
-/*
-  PDF upload URL
-
-  PDFs:
-  /raw/upload
-*/
-
-const PDF_UPLOAD_URL =
-  "https://api.cloudinary.com/v1_1/" +
-  CLOUD_NAME +
-  "/raw/upload";
 
 
 /* =====================================================
@@ -433,9 +629,9 @@ const imageFile =
   );
 
 
-const pdfFile =
+const pdfUrl =
   document.getElementById(
-    "pdfFile"
+    "pdfUrl"
   );
 
 
@@ -445,9 +641,9 @@ const imageUploadBtn =
   );
 
 
-const pdfUploadBtn =
+const checkPdfBtn =
   document.getElementById(
-    "pdfUploadBtn"
+    "checkPdfBtn"
   );
 
 
@@ -469,12 +665,6 @@ const imageUrl =
   );
 
 
-const pdfUrl =
-  document.getElementById(
-    "pdfUrl"
-  );
-
-
 const imagePreview =
   document.getElementById(
     "imagePreview"
@@ -493,13 +683,39 @@ const saveBtn =
   );
 
 
+
 /* =====================================================
-   GENERIC CLOUDINARY UPLOAD
+   IMAGE URL FIELD
 ===================================================== */
 
-async function uploadToCloudinary(
-  file,
-  uploadURL
+const hiddenImageUrl =
+  document.createElement(
+    "input"
+  );
+
+
+hiddenImageUrl.type =
+  "hidden";
+
+
+hiddenImageUrl.id =
+  "imageUrl";
+
+
+document
+  .getElementById("bookForm")
+  .appendChild(
+    hiddenImageUrl
+  );
+
+
+
+/* =====================================================
+   CLOUDINARY IMAGE UPLOAD
+===================================================== */
+
+async function uploadImageToCloudinary(
+  file
 ){
 
   const formData =
@@ -520,23 +736,38 @@ async function uploadToCloudinary(
 
   const response =
     await fetch(
-      uploadURL,
+      IMAGE_UPLOAD_URL,
       {
         method:"POST",
+
         body:formData
       }
     );
 
 
-  const data =
-    await response.json();
+  let data = {};
+
+  try{
+
+    data =
+      await response.json();
+
+  }
+
+  catch(error){
+
+    throw new Error(
+      "Cloudinary ने valid response नहीं दिया।"
+    );
+
+  }
 
 
   if(!response.ok){
 
     throw new Error(
       data.error?.message ||
-      "Cloudinary upload failed."
+      "Image upload failed."
     );
 
   }
@@ -545,7 +776,7 @@ async function uploadToCloudinary(
   if(!data.secure_url){
 
     throw new Error(
-      "Cloudinary URL नहीं मिला।"
+      "Cloudinary image URL नहीं मिला।"
     );
 
   }
@@ -556,8 +787,9 @@ async function uploadToCloudinary(
 }
 
 
+
 /* =====================================================
-   IMAGE UPLOAD
+   IMAGE UPLOAD BUTTON
 ===================================================== */
 
 imageUploadBtn.addEventListener(
@@ -579,6 +811,21 @@ imageUploadBtn.addEventListener(
     }
 
 
+    if(
+      !file.type.startsWith(
+        "image/"
+      )
+    ){
+
+      alert(
+        "कृपया valid image select करें।"
+      );
+
+      return;
+
+    }
+
+
     imageUploadBtn.disabled =
       true;
 
@@ -590,23 +837,14 @@ imageUploadBtn.addEventListener(
     try{
 
       const url =
-        await uploadToCloudinary(
-          file,
-          IMAGE_UPLOAD_URL
+        await uploadImageToCloudinary(
+          file
         );
 
 
-      /*
-        Save Cloudinary image URL
-      */
-
-      imageUrl.value =
+      hiddenImageUrl.value =
         url;
 
-
-      /*
-        Preview
-      */
 
       imagePreview.src =
         url;
@@ -621,8 +859,8 @@ imageUploadBtn.addEventListener(
         '✅ Image uploaded successfully.' +
         '</span>';
 
-
     }
+
     catch(error){
 
       console.error(
@@ -631,10 +869,16 @@ imageUploadBtn.addEventListener(
       );
 
 
+      hiddenImageUrl.value =
+        "";
+
+
       imageStatus.innerHTML =
         '<span class="error">' +
-        '❌ Image upload failed: ' +
-        error.message +
+        '❌ Image upload failed:<br>' +
+        escapeHTML(
+          error.message
+        ) +
         '</span>';
 
     }
@@ -647,171 +891,180 @@ imageUploadBtn.addEventListener(
 );
 
 
+
 /* =====================================================
-   PDF UPLOAD
+   GOOGLE DRIVE LINK CHECK
 ===================================================== */
 
-pdfUploadBtn.addEventListener(
+checkPdfBtn.addEventListener(
   "click",
-  async function(){
+  function(){
 
-    const file =
-      pdfFile.files[0];
-
-
-    if(!file){
-
-      alert(
-        "पहले PDF select करें।"
-      );
-
-      return;
-
-    }
+    const url =
+      pdfUrl.value.trim();
 
 
-    /*
-      Check PDF
-    */
-
-    const isPDF =
-      file.type === "application/pdf" ||
-      file.name.toLowerCase().endsWith(".pdf");
-
-
-    if(!isPDF){
-
-      alert(
-        "कृपया सिर्फ PDF file select करें।"
-      );
-
-      return;
-
-    }
-
-
-    /*
-      File size check
-
-      50 MB तक allow
-    */
-
-    const maxSize =
-      50 * 1024 * 1024;
-
-
-    if(file.size > maxSize){
-
-      alert(
-        "PDF 50 MB से छोटी होनी चाहिए।"
-      );
-
-      return;
-
-    }
-
-
-    pdfUploadBtn.disabled =
-      true;
-
-
-    saveBtn.disabled =
-      true;
-
-
-    pdfStatus.innerHTML =
-      "⏳ PDF Cloudinary पर upload हो रही है...";
-
-
-    pdfLink.style.display =
-      "none";
-
-
-    try{
-
-      /*
-        IMPORTANT:
-
-        PDF अब सीधे
-        /raw/upload
-        endpoint पर जाएगी.
-      */
-
-      const url =
-        await uploadToCloudinary(
-          file,
-          PDF_UPLOAD_URL
-        );
-
-
-      /*
-        Save URL
-      */
-
-      pdfUrl.value =
-        url;
-
-
-      /*
-        Show success
-      */
+    if(!url){
 
       pdfStatus.innerHTML =
-        '<span class="success">' +
-        '✅ PDF uploaded successfully!' +
+        '<span class="error">' +
+        '❌ पहले Google Drive PDF link डालें।' +
         '</span>';
 
+      return;
 
-      /*
-        Show URL for checking
-      */
+    }
 
-      pdfLink.innerHTML =
-        "PDF URL:<br>" +
-        url;
 
+    if(!isGoogleDriveLink(url)){
+
+      pdfStatus.innerHTML =
+        '<span class="error">' +
+        '❌ यह Google Drive link नहीं लग रहा है।' +
+        '</span>';
 
       pdfLink.style.display =
-        "block";
+        "none";
+
+      return;
+
+    }
 
 
-      console.log(
-        "PDF URL:",
+    const driveViewURL =
+      createGoogleDriveURL(
         url
       );
 
 
-    }
-    catch(error){
+    pdfStatus.innerHTML =
+      '<span class="success">' +
+      '✅ Google Drive PDF link सही है।' +
+      '</span>';
 
-      console.error(
-        "PDF UPLOAD ERROR:",
-        error
+
+    pdfLink.innerHTML =
+      "PDF Link:<br>" +
+      escapeHTML(
+        driveViewURL
       );
 
 
-      pdfUrl.value =
-        "";
-
-
-      pdfStatus.innerHTML =
-        '<span class="error">' +
-        '❌ PDF upload failed:<br>' +
-        error.message +
-        '</span>';
-
-    }
-
-
-    pdfUploadBtn.disabled =
-      false;
-
-
-    saveBtn.disabled =
-      false;
+    pdfLink.style.display =
+      "block";
 
   }
 );
+
+
+
+/* =====================================================
+   GOOGLE DRIVE LINK VALIDATION
+===================================================== */
+
+function isGoogleDriveLink(url){
+
+  try{
+
+    const parsed =
+      new URL(url);
+
+
+    return (
+      parsed.hostname ===
+        "drive.google.com" ||
+
+      parsed.hostname ===
+        "www.drive.google.com" ||
+
+      parsed.hostname ===
+        "docs.google.com"
+    );
+
+  }
+
+  catch(error){
+
+    return false;
+
+  }
+
+}
+
+
+
+/* =====================================================
+   CREATE GOOGLE DRIVE VIEW URL
+===================================================== */
+
+function createGoogleDriveURL(
+  url
+){
+
+  url =
+    String(url).trim();
+
+
+  /*
+    Format:
+
+    drive.google.com/file/d/FILE_ID/view
+  */
+
+  const fileMatch =
+    url.match(
+      /\/file\/d\/([^/]+)/
+    );
+
+
+  if(
+    fileMatch &&
+    fileMatch[1]
+  ){
+
+    return (
+      "https://drive.google.com/file/d/" +
+      fileMatch[1] +
+      "/view"
+    );
+
+  }
+
+
+  /*
+    Format:
+
+    drive.google.com/open?id=FILE_ID
+  */
+
+  const openMatch =
+    url.match(
+      /[?&]id=([^&]+)/
+    );
+
+
+  if(
+    openMatch &&
+    openMatch[1]
+  ){
+
+    return (
+      "https://drive.google.com/file/d/" +
+      openMatch[1] +
+      "/view"
+    );
+
+  }
+
+
+  /*
+    If already usable
+  */
+
+  return url;
+
+}
+
 
 
 /* =====================================================
@@ -826,6 +1079,10 @@ document
 
       event.preventDefault();
 
+
+      /* =========================
+         GET VALUES
+      ========================= */
 
       const title =
         document.getElementById(
@@ -862,7 +1119,8 @@ document
 
 
       const uploadedImage =
-        imageUrl.value.trim();
+        hiddenImageUrl.value.trim();
+
 
 
       /* =========================
@@ -905,12 +1163,26 @@ document
       if(!uploadedPDF){
 
         alert(
-          "पहले PDF upload करें।"
+          "Google Drive PDF link डालें।"
         );
 
         return;
 
       }
+
+
+      if(!isGoogleDriveLink(
+        uploadedPDF
+      )){
+
+        alert(
+          "कृपया valid Google Drive PDF link डालें।"
+        );
+
+        return;
+
+      }
+
 
 
       /* =========================
@@ -936,6 +1208,7 @@ document
         }
 
       }
+
       catch(error){
 
         console.error(
@@ -948,11 +1221,14 @@ document
       }
 
 
-      if(!Array.isArray(ebooks)){
+      if(!Array.isArray(
+        ebooks
+      )){
 
         ebooks = [];
 
       }
+
 
 
       /* =========================
@@ -982,13 +1258,23 @@ document
         image:
           uploadedImage,
 
+        /*
+          Google Drive PDF link
+        */
+
         pdfUrl:
-          uploadedPDF,
+          createGoogleDriveURL(
+            uploadedPDF
+          ),
+
+        pdfSource:
+          "google-drive",
 
         createdAt:
           new Date().toISOString()
 
       };
+
 
 
       /* =========================
@@ -1000,6 +1286,7 @@ document
       );
 
 
+
       /* =========================
          SAVE
       ========================= */
@@ -1008,21 +1295,27 @@ document
 
         localStorage.setItem(
           "ebooksData",
-          JSON.stringify(ebooks)
+          JSON.stringify(
+            ebooks
+          )
         );
 
       }
+
       catch(error){
+
+        console.error(
+          error
+        );
 
         alert(
           "❌ eBook save नहीं हो पाई।"
         );
 
-        console.error(error);
-
         return;
 
       }
+
 
 
       /* =========================
@@ -1040,6 +1333,44 @@ document
     }
   );
 
+
+
+/* =====================================================
+   ESCAPE HTML
+===================================================== */
+
+function escapeHTML(
+  value
+){
+
+  return String(value)
+
+    .replace(
+      /&/g,
+      "&amp;"
+    )
+
+    .replace(
+      /</g,
+      "&lt;"
+    )
+
+    .replace(
+      />/g,
+      "&gt;"
+    )
+
+    .replace(
+      /"/g,
+      "&quot;"
+    )
+
+    .replace(
+      /'/g,
+      "&#039;"
+    );
+
+}
 
 </script>
 
