@@ -1,261 +1,454 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Read eBook - Road2Billionaire</title>
+<meta charset="UTF-8">
 
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    body {
-      margin: 0;
-      background: #111;
-      color: white;
-      font-family: Arial, sans-serif;
-    }
+<title>Read eBook - Road2Billionaire</title>
 
-    .topbar {
-      background: #000;
-      padding: 15px;
-      text-align: center;
-      font-size: 22px;
-      font-weight: bold;
-      color: #ffd700;
-      position: sticky;
-      top: 0;
-      z-index: 999;
-    }
+<style>
 
-    #bookTitle {
-      text-align: center;
-      padding: 12px;
-      font-size: 18px;
-      background: #181818;
-    }
+*{
+  box-sizing:border-box;
+}
 
-    #loading {
-      text-align: center;
-      padding: 30px;
-      font-size: 18px;
-    }
+body{
+  margin:0;
+  background:#111;
+  color:#fff;
+  font-family:Arial,sans-serif;
+}
 
-    #error {
-      display: none;
-      text-align: center;
-      padding: 30px 20px;
-      color: #ff6b6b;
-      font-size: 17px;
-    }
+.topbar{
+  background:#000;
+  padding:15px;
+  text-align:center;
+  font-size:22px;
+  font-weight:bold;
+  color:#ffd700;
+  position:sticky;
+  top:0;
+  z-index:999;
+}
 
-    .page {
-      display: block;
-      width: 100%;
-      max-width: 900px;
-      height: auto;
-      margin: 15px auto;
-      background: white;
-    }
+#bookTitle{
+  text-align:center;
+  padding:12px;
+  font-size:18px;
+  background:#181818;
+  color:#fff;
+}
 
-    #viewer {
-      padding-bottom: 30px;
-    }
+#loading{
+  text-align:center;
+  padding:30px;
+  font-size:18px;
+}
 
-    .back {
-      display: block;
-      width: fit-content;
-      margin: 15px auto;
-      padding: 10px 18px;
-      background: #ffd700;
-      color: #000;
-      text-decoration: none;
-      border-radius: 6px;
-      font-weight: bold;
-    }
-  </style>
+#error{
+  display:none;
+  text-align:center;
+  padding:30px 20px;
+  color:#ff6b6b;
+  font-size:17px;
+}
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+#viewer{
+  padding:10px 10px 40px;
+}
+
+.page{
+  display:block;
+  width:100%;
+  max-width:900px;
+  height:auto;
+  margin:15px auto;
+  background:#fff;
+  box-shadow:0 2px 10px rgba(0,0,0,.5);
+}
+
+.back{
+  display:block;
+  width:max-content;
+  margin:15px auto 30px;
+  padding:10px 18px;
+  background:#ffd700;
+  color:#000;
+  text-decoration:none;
+  border-radius:6px;
+  font-weight:bold;
+}
+
+</style>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+
 </head>
 
 <body>
 
-  <div class="topbar">
-    📚 Road2Billionaire
-  </div>
+<div class="topbar">
+  📚 Road2Billionaire
+</div>
 
-  <div id="bookTitle">
-    Loading eBook...
-  </div>
+<div id="bookTitle">
+  Loading eBook...
+</div>
 
-  <div id="loading">
-    📖 PDF load ho rahi hai...
-  </div>
+<div id="loading">
+  📖 PDF load ho rahi hai...
+</div>
 
-  <div id="error">
-    ❌ PDF open nahi ho paayi.<br><br>
-    Please PDF ko dobara upload karke try karein.
-  </div>
+<div id="error">
+  ❌ PDF open nahi ho paayi.
+</div>
 
-  <div id="viewer"></div>
+<div id="viewer"></div>
 
-  <a href="ebook.html" class="back">
-    ← Back to eBooks
-  </a>
+<a href="Dashboard.html" class="back">
+  ← Back to Dashboard
+</a>
 
-  <script>
 
-    pdfjsLib.GlobalWorkerOptions.workerSrc =
-      "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+<script>
 
-    const params = new URLSearchParams(window.location.search);
-    const bookId = params.get("id");
+pdfjsLib.GlobalWorkerOptions.workerSrc =
+"https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
 
-    const books = JSON.parse(
-      localStorage.getItem("ebooksData") || "[]"
-    );
 
-    const purchases = JSON.parse(
-      localStorage.getItem("purchasedBooks") || "[]"
-    );
+/* GET BOOK ID */
 
-    const book = books.find(
-      b => String(b.id) === String(bookId)
-    );
+const params =
+new URLSearchParams(window.location.search);
 
-    // Book check
-    if (!book) {
+const bookId =
+params.get("id");
 
-      document.getElementById("loading").style.display = "none";
 
-      document.getElementById("error").style.display = "block";
+const loading =
+document.getElementById("loading");
 
-      document.getElementById("error").innerHTML =
-        "❌ eBook nahi mili.";
+const errorBox =
+document.getElementById("error");
+
+const viewer =
+document.getElementById("viewer");
+
+const title =
+document.getElementById("bookTitle");
+
+
+/* LOAD BOOK DATA */
+
+let books = [];
+
+try{
+
+  books =
+  JSON.parse(
+    localStorage.getItem("ebooksData") || "[]"
+  );
+
+}
+catch(e){
+
+  books = [];
+
+}
+
+
+/* LOAD PURCHASE DATA */
+
+let purchases = [];
+
+try{
+
+  purchases =
+  JSON.parse(
+    localStorage.getItem("purchasedBooks") || "[]"
+  );
+
+}
+catch(e){
+
+  purchases = [];
+
+}
+
+
+/* FIND BOOK */
+
+const book =
+books.find(function(item){
+
+  return String(item.id) ===
+         String(bookId);
+
+});
+
+
+/* SHOW ERROR */
+
+function showError(message){
+
+  loading.style.display = "none";
+
+  errorBox.style.display = "block";
+
+  errorBox.innerHTML = message;
+
+}
+
+
+/* BOOK NOT FOUND */
+
+if(!book){
+
+  showError(
+    "❌ eBook nahi mili.<br><br>" +
+    "Book ID: " + bookId
+  );
+
+}
+
+
+/* CHECK PURCHASE */
+
+else{
+
+  title.innerText =
+    book.title || "eBook";
+
+
+  /*
+    PURCHASE CHECK
+
+    Format 1:
+    { bookId: 123 }
+
+    Format 2:
+    { bookId: "123" }
+
+    Format 3:
+    "123"
+  */
+
+  const isPurchased =
+  purchases.some(function(item){
+
+    if(
+      typeof item === "object" &&
+      item !== null
+    ){
+
+      return String(item.bookId) ===
+             String(book.id);
 
     }
 
-    // Purchase check
-    else if (!purchases.includes(String(bookId)) &&
-             !purchases.includes(bookId)) {
+    return String(item) ===
+           String(book.id);
 
-      document.getElementById("loading").style.display = "none";
+  });
 
-      document.getElementById("error").style.display = "block";
 
-      document.getElementById("error").innerHTML =
-        "🔒 Ye eBook purchased nahi hai.<br><br>" +
-        "Pehle eBook purchase karein.";
+  if(!isPurchased){
+
+    showError(
+      "🔒 Ye eBook purchased nahi hai.<br><br>" +
+      "Pehle eBook purchase karein."
+    );
+
+  }
+
+  else{
+
+    const pdfUrl =
+      book.pdfUrl;
+
+
+    if(!pdfUrl){
+
+      showError(
+        "❌ Is eBook ka PDF URL nahi mila.<br><br>" +
+        "Admin panel se PDF link check karein."
+      );
 
     }
 
-    else {
+    else{
 
-      document.getElementById("bookTitle").innerText =
-        book.title || "eBook";
+      console.log(
+        "BOOK:",
+        book
+      );
 
-      const pdfUrl = book.pdfUrl;
+      console.log(
+        "PDF URL:",
+        pdfUrl
+      );
 
-      if (!pdfUrl) {
+      loadPDF(pdfUrl);
 
-        document.getElementById("loading").style.display = "none";
-
-        document.getElementById("error").style.display = "block";
-
-        document.getElementById("error").innerHTML =
-          "❌ Is eBook ka PDF URL nahi mila.";
-
-      } else {
-
-        console.log("PDF URL:", pdfUrl);
-
-        loadPDF(pdfUrl);
-      }
     }
 
+  }
 
-    async function loadPDF(url) {
+}
 
-      try {
 
-        const loadingTask = pdfjsLib.getDocument({
-          url: url,
-          withCredentials: false
+/* LOAD PDF */
+
+async function loadPDF(url){
+
+  try{
+
+    loading.innerText =
+      "📖 PDF load ho rahi hai...";
+
+
+    const loadingTask =
+      pdfjsLib.getDocument({
+
+        url:url,
+
+        withCredentials:false
+
+      });
+
+
+    const pdf =
+      await loadingTask.promise;
+
+
+    loading.style.display =
+      "none";
+
+
+    viewer.innerHTML = "";
+
+
+    console.log(
+      "Total Pages:",
+      pdf.numPages
+    );
+
+
+    for(
+      let pageNumber = 1;
+      pageNumber <= pdf.numPages;
+      pageNumber++
+    ){
+
+      const page =
+        await pdf.getPage(pageNumber);
+
+
+      const viewport =
+        page.getViewport({
+          scale:1.5
         });
 
-        const pdf = await loadingTask.promise;
 
-        document.getElementById("loading").style.display = "none";
+      const canvas =
+        document.createElement("canvas");
 
-        const viewer = document.getElementById("viewer");
 
-        for (let pageNumber = 1; pageNumber <= pdf.numPages; pageNumber++) {
+      canvas.className =
+        "page";
 
-          const page = await pdf.getPage(pageNumber);
 
-          const viewport = page.getViewport({
-            scale: 1.5
-          });
+      const context =
+        canvas.getContext("2d");
 
-          const canvas = document.createElement("canvas");
 
-          canvas.className = "page";
+      canvas.width =
+        viewport.width;
 
-          const context = canvas.getContext("2d");
 
-          canvas.width = viewport.width;
-          canvas.height = viewport.height;
+      canvas.height =
+        viewport.height;
 
-          viewer.appendChild(canvas);
 
-          await page.render({
-            canvasContext: context,
-            viewport: viewport
-          }).promise;
-        }
+      viewer.appendChild(canvas);
 
-      } catch (error) {
 
-        console.error("PDF ERROR:", error);
+      await page.render({
 
-        document.getElementById("loading").style.display = "none";
+        canvasContext:context,
 
-        document.getElementById("error").style.display = "block";
+        viewport:viewport
 
-        document.getElementById("error").innerHTML =
-          "❌ PDF open nahi ho paayi.<br><br>" +
-          "Cloudinary PDF loading error.";
-      }
+      }).promise;
+
     }
 
+  }
 
-    // Right click disable
-    document.addEventListener("contextmenu", function(e) {
-      e.preventDefault();
-    });
+  catch(error){
 
-
-    // Text selection disable
-    document.addEventListener("selectstart", function(e) {
-      e.preventDefault();
-    });
+    console.error(
+      "PDF ERROR:",
+      error
+    );
 
 
-    // Keyboard shortcuts block
-    document.addEventListener("keydown", function(e) {
+    showError(
+      "❌ PDF open nahi ho paayi.<br><br>" +
+      "PDF link ya Cloudinary CORS setting check karni hogi."
+    );
 
-      if (
-        (e.ctrlKey || e.metaKey) &&
-        ["s", "p", "u", "c"].includes(e.key.toLowerCase())
-      ) {
-        e.preventDefault();
-      }
+  }
 
-    });
+}
 
-  </script>
+
+/* DISABLE RIGHT CLICK */
+
+document.addEventListener(
+"contextmenu",
+function(e){
+
+  e.preventDefault();
+
+});
+
+
+/* DISABLE SELECTION */
+
+document.addEventListener(
+"selectstart",
+function(e){
+
+  e.preventDefault();
+
+});
+
+
+/* BLOCK BASIC SHORTCUTS */
+
+document.addEventListener(
+"keydown",
+function(e){
+
+  if(
+    (e.ctrlKey || e.metaKey) &&
+    ["s","p","u","c"].includes(
+      e.key.toLowerCase()
+    )
+  ){
+
+    e.preventDefault();
+
+  }
+
+});
+
+</script>
 
 </body>
+
 </html>
