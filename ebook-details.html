@@ -2,18 +2,13 @@
 <html lang="en">
 
 <head>
-
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>eBook Details | Road2Billionaire</title>
 
 <style>
-
-*{
-  box-sizing:border-box;
-}
+*{box-sizing:border-box;}
 
 body{
   margin:0;
@@ -26,7 +21,6 @@ body{
   background:#111;
   padding:18px 20px;
   border-bottom:1px solid #ffd700;
-
   display:flex;
   justify-content:space-between;
   align-items:center;
@@ -101,7 +95,6 @@ p{
   border:0;
   cursor:pointer;
   font-size:16px;
-  margin-right:8px;
   margin-top:8px;
 }
 
@@ -115,32 +108,23 @@ p{
   color:#fff;
 }
 
-.read:hover{
-  background:#15803d;
-}
-
 .error{
   color:#ff5555;
   text-align:center;
 }
 
 .info{
-  margin-top:20px;
+  margin-top:15px;
   padding:12px;
   background:#191919;
   border-radius:8px;
   color:#888;
   font-size:13px;
 }
-
 </style>
-
 </head>
 
 <body>
-
-
-<!-- TOP BAR -->
 
 <div class="topbar">
 
@@ -148,94 +132,313 @@ p{
     Road2Billionaire
   </div>
 
-  <a
-    href="Dashboard.html"
-    class="back"
-    id="backButton"
-  >
+  <a href="ebook.html" class="back">
     ← Back
   </a>
 
 </div>
 
-
-<!-- CONTENT -->
-
 <div class="container">
 
-  <div
-    class="card"
-    id="bookDetails"
-  >
+  <div class="card" id="bookDetails">
 
-    <h1>
-      📖 Loading eBook...
-    </h1>
+    <h1>📖 Loading eBook...</h1>
 
   </div>
 
 </div>
 
-
 <script>
 
-
-/* =================================
-   GET URL PARAMETERS
-================================= */
-
 const params =
-  new URLSearchParams(
-    window.location.search
-  );
-
+  new URLSearchParams(window.location.search);
 
 const id =
   params.get("id");
 
-
-const from =
-  params.get("from");
-
-
 const container =
-  document.getElementById(
-    "bookDetails"
-  );
+  document.getElementById("bookDetails");
 
-
-const backButton =
-  document.getElementById(
-    "backButton"
-  );
-
-
-/* =================================
-   BACK BUTTON
-================================= */
-
-if(from === "dashboard"){
-
-  backButton.href =
-    "Dashboard.html";
-
-}
-
-else{
-
-  backButton.href =
-    "ebook.html";
-
-}
-
-
-/* =================================
-   ESCAPE HTML
-================================= */
 
 function escapeHTML(value){
 
   return String(value || "")
     .replace(/&/g,"&amp;")
     .replace(/</g,"&lt;")
-    .
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
+}
+
+
+/* ============================
+   CHECK ID
+============================ */
+
+if(!id){
+
+  container.innerHTML = `
+    <h1>❌ eBook Not Found</h1>
+
+    <p class="error">
+      eBook ID नहीं मिला।
+    </p>
+
+    <a href="ebook.html" class="btn buy">
+      📚 Back to eBooks
+    </a>
+  `;
+
+}
+
+
+/* ============================
+   LOAD BOOKS
+============================ */
+
+else{
+
+  let books = [];
+
+  try{
+
+    const saved =
+      localStorage.getItem("ebooksData");
+
+    if(saved){
+      books = JSON.parse(saved);
+    }
+
+  }catch(error){
+
+    console.error(error);
+    books = [];
+
+  }
+
+
+  if(!Array.isArray(books)){
+    books = [];
+  }
+
+
+  const book =
+    books.find(function(item){
+
+      return String(item.id) === String(id);
+
+    });
+
+
+  /* ============================
+     BOOK NOT FOUND
+  ============================ */
+
+  if(!book){
+
+    container.innerHTML = `
+      <h1>❌ eBook Not Found</h1>
+
+      <p class="error">
+        यह eBook इस browser में नहीं मिली।
+      </p>
+
+      <p>
+        Book ID:
+        ${escapeHTML(id)}
+      </p>
+
+      <a href="ebook.html" class="btn buy">
+        📚 Back to eBooks
+      </a>
+    `;
+
+  }
+
+
+  /* ============================
+     BOOK FOUND
+  ============================ */
+
+  else{
+
+    let purchases = [];
+
+    try{
+
+      const saved =
+        localStorage.getItem("purchasedBooks");
+
+      if(saved){
+        purchases = JSON.parse(saved);
+      }
+
+    }catch(error){
+
+      purchases = [];
+
+    }
+
+
+    if(!Array.isArray(purchases)){
+      purchases = [];
+    }
+
+
+    const purchased =
+      purchases.some(function(item){
+
+        if(
+          typeof item === "object" &&
+          item !== null
+        ){
+
+          return String(item.bookId) ===
+                 String(book.id);
+
+        }
+
+        return String(item) ===
+               String(book.id);
+
+      });
+
+
+    let imageHTML = "";
+
+    if(book.image){
+
+      imageHTML = `
+        <img
+          src="${escapeHTML(book.image)}"
+          class="book-image"
+          alt="${escapeHTML(book.title)}"
+        >
+      `;
+
+    }
+
+
+    let actionHTML = "";
+
+
+    if(purchased){
+
+      if(book.pdfUrl){
+
+        actionHTML = `
+          <a
+            href="read.html?id=${encodeURIComponent(book.id)}"
+            class="btn read"
+          >
+            📖 Read eBook
+          </a>
+
+          <div class="info">
+            🔒 Purchased eBook
+          </div>
+        `;
+
+      }else{
+
+        actionHTML = `
+          <p class="error">
+            ❌ इस eBook का PDF link नहीं मिला।
+          </p>
+        `;
+
+      }
+
+    }else{
+
+      actionHTML = `
+        <button
+          class="btn buy"
+          id="buyButton"
+        >
+          🛒 Buy Now
+        </button>
+      `;
+
+    }
+
+
+    container.innerHTML = `
+
+      ${imageHTML}
+
+      <h1>
+        ${escapeHTML(book.title || "eBook")}
+      </h1>
+
+      <p>
+        ${escapeHTML(book.description || "")}
+      </p>
+
+      <p>
+        <strong>Topics:</strong><br>
+        ${escapeHTML(book.topics || "Not specified")}
+      </p>
+
+      <div class="price">
+
+        ₹${escapeHTML(book.price || "0")}
+
+        ${
+          book.oldPrice
+          ?
+          `<span class="old-price">
+            ₹${escapeHTML(book.oldPrice)}
+          </span>`
+          :
+          ""
+        }
+
+      </div>
+
+      ${actionHTML}
+
+    `;
+
+
+    const buyButton =
+      document.getElementById("buyButton");
+
+
+    if(buyButton){
+
+      buyButton.onclick = function(){
+
+        const loggedIn =
+          localStorage.getItem("loggedIn");
+
+
+        if(loggedIn !== "true"){
+
+          alert("Please login first.");
+
+          window.location.href =
+            "login.html";
+
+          return;
+
+        }
+
+
+        window.location.href =
+          "payment.html?id=" +
+          encodeURIComponent(book.id);
+
+      };
+
+    }
+
+  }
+
+}
+
+</script>
+
+</body>
+</html>
