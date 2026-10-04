@@ -5,10 +5,7 @@
 
 <meta charset="UTF-8">
 
-<meta
-  name="viewport"
-  content="width=device-width, initial-scale=1.0"
->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>eBook Details | Road2Billionaire</title>
 
@@ -24,11 +21,6 @@ body{
   background:#000;
   color:#fff;
 }
-
-
-/* =========================
-   TOP BAR
-========================= */
 
 .topbar{
   background:#111;
@@ -46,38 +38,20 @@ body{
   font-weight:bold;
 }
 
-
-/* =========================
-   BACK BUTTON
-========================= */
-
 .back{
   color:#ffd700;
   text-decoration:none;
   background:#222;
-
   padding:10px 15px;
-
   border-radius:8px;
-
   font-size:14px;
 }
-
-
-/* =========================
-   CONTAINER
-========================= */
 
 .container{
   max-width:800px;
   margin:auto;
   padding:30px 18px;
 }
-
-
-/* =========================
-   CARD
-========================= */
 
 .card{
   background:#111;
@@ -86,28 +60,14 @@ body{
   padding:25px;
 }
 
-
-/* =========================
-   BOOK IMAGE
-========================= */
-
 .book-image{
   width:100%;
   max-height:350px;
-
   object-fit:contain;
-
   border-radius:12px;
-
   margin-bottom:20px;
-
   background:#222;
 }
-
-
-/* =========================
-   TEXT
-========================= */
 
 h1{
   color:#ffd700;
@@ -118,123 +78,69 @@ p{
   line-height:1.7;
 }
 
-
-/* =========================
-   PRICE
-========================= */
-
 .price{
   color:#00d084;
-
   font-size:26px;
-
   font-weight:bold;
-
   margin:20px 0;
 }
 
 .old-price{
   color:#777;
-
   text-decoration:line-through;
-
   font-size:15px;
-
   margin-left:8px;
 }
 
-
-/* =========================
-   NORMAL BUTTON
-========================= */
-
 .btn{
   display:inline-block;
-
   padding:13px 22px;
-
   border-radius:8px;
-
   text-decoration:none;
-
   font-weight:bold;
-
   border:0;
-
   cursor:pointer;
-
   font-size:16px;
-
   margin-right:8px;
-
   margin-top:8px;
 }
-
-
-/* =========================
-   BUY BUTTON
-========================= */
 
 .buy{
   background:#ffd700;
   color:#000;
 }
 
-
-/* =========================
-   GOOGLE DRIVE BUTTON
-   SMALL
-========================= */
-
-.drive-btn{
-
-  display:inline-block;
-
+.read{
   background:#16a34a;
-
   color:#fff;
-
-  text-decoration:none;
-
-  padding:7px 11px;
-
-  border-radius:6px;
-
-  font-size:12px;
-
-  font-weight:bold;
-
-  margin-top:8px;
-
-  border:1px solid #22c55e;
-
 }
 
-.drive-btn:hover{
+.read:hover{
   background:#15803d;
 }
-
-
-/* =========================
-   ERROR
-========================= */
 
 .error{
   color:#ff5555;
   text-align:center;
 }
 
+.info{
+  margin-top:20px;
+  padding:12px;
+  background:#191919;
+  border-radius:8px;
+  color:#888;
+  font-size:13px;
+}
+
 </style>
 
 </head>
 
-
 <body>
 
 
-<!-- =========================
-     TOP BAR
-========================= -->
+<!-- TOP BAR -->
 
 <div class="topbar">
 
@@ -242,10 +148,10 @@ p{
     Road2Billionaire
   </div>
 
-
   <a
-    href="Dashboard.html?v=200001"
+    href="Dashboard.html"
     class="back"
+    id="backButton"
   >
     ← Back
   </a>
@@ -253,10 +159,7 @@ p{
 </div>
 
 
-
-<!-- =========================
-     MAIN
-========================= -->
+<!-- CONTENT -->
 
 <div class="container">
 
@@ -274,554 +177,65 @@ p{
 </div>
 
 
-
 <script>
 
-(function(){
 
+/* =================================
+   GET URL PARAMETERS
+================================= */
 
-  /* =========================
-     GET BOOK ID
-  ========================= */
+const params =
+  new URLSearchParams(
+    window.location.search
+  );
 
-  const params =
-    new URLSearchParams(
-      window.location.search
-    );
 
+const id =
+  params.get("id");
 
-  const id =
-    params.get("id");
 
+const from =
+  params.get("from");
 
-  const container =
-    document.getElementById(
-      "bookDetails"
-    );
 
+const container =
+  document.getElementById(
+    "bookDetails"
+  );
 
-  if(!id){
 
-    container.innerHTML = `
+const backButton =
+  document.getElementById(
+    "backButton"
+  );
 
-      <h1>
-        ❌ eBook Not Found
-      </h1>
 
-      <p class="error">
-        eBook ID नहीं मिला।
-      </p>
+/* =================================
+   BACK BUTTON
+================================= */
 
-    `;
+if(from === "dashboard"){
 
-    return;
+  backButton.href =
+    "Dashboard.html";
 
-  }
+}
 
+else{
 
-
-  /* =========================
-     LOAD EBOOKS
-  ========================= */
-
-  let ebooks = [];
-
-
-  try{
-
-    const saved =
-      localStorage.getItem(
-        "ebooksData"
-      );
-
-
-    if(saved){
-
-      ebooks =
-        JSON.parse(saved);
-
-    }
-
-  }
-
-  catch(error){
-
-    console.error(error);
-
-    ebooks = [];
-
-  }
-
-
-  if(!Array.isArray(ebooks)){
-
-    ebooks = [];
-
-  }
-
-
-
-  /* =========================
-     FIND BOOK
-  ========================= */
-
-  const book =
-    ebooks.find(function(item){
-
-      return String(item.id) ===
-             String(id);
-
-    });
-
-
-  if(!book){
-
-    container.innerHTML = `
-
-      <h1>
-        ❌ eBook Not Found
-      </h1>
-
-      <p class="error">
-        यह eBook इस browser में उपलब्ध नहीं है।
-      </p>
-
-      <a
-        href="ebook.html"
-        class="btn buy"
-      >
-        📚 Back to eBooks
-      </a>
-
-    `;
-
-    return;
-
-  }
-
-
-
-  /* =========================
-     CHECK PURCHASE
-  ========================= */
-
-  let purchasedBooks = [];
-
-
-  try{
-
-    const purchased =
-      localStorage.getItem(
-        "purchasedBooks"
-      );
-
-
-    if(purchased){
-
-      purchasedBooks =
-        JSON.parse(purchased);
-
-    }
-
-  }
-
-  catch(error){
-
-    purchasedBooks = [];
-
-  }
-
-
-  if(!Array.isArray(purchasedBooks)){
-
-    purchasedBooks = [];
-
-  }
-
-
-  const purchased =
-    purchasedBooks.some(function(item){
-
-      return String(item.bookId) ===
-             String(book.id);
-
-    });
-
-
-
-  /* =========================
-     BOOK IMAGE
-  ========================= */
-
-  let imageHTML = "";
-
-
-  if(book.image){
-
-    imageHTML = `
-
-      <img
-        src="${book.image}"
-        class="book-image"
-        alt="${escapeHTML(book.title || "eBook")}"
-        onerror="this.style.display='none'"
-      >
-
-    `;
-
-  }
-
-
-
-  /* =========================
-     ACTION BUTTON
-  ========================= */
-
-  let actionButton = "";
-
-
-  if(purchased){
-
-    if(book.pdfUrl){
-
-      /*
-        Google Drive redirect button
-      */
-
-      const driveURL =
-        createGoogleDriveURL(
-          book.pdfUrl
-        );
-
-
-      actionButton = `
-
-        <a
-          href="${driveURL}"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="drive-btn"
-        >
-          📖 Open in Google Drive
-        </a>
-
-      `;
-
-    }
-
-    else{
-
-      actionButton = `
-
-        <p class="error">
-          ❌ PDF link उपलब्ध नहीं है।
-        </p>
-
-      `;
-
-    }
-
-  }
-
-  else{
-
-    actionButton = `
-
-      <button
-        class="btn buy"
-        id="buyButton"
-      >
-        🛒 Buy Now
-      </button>
-
-    `;
-
-  }
-
-
-
-  /* =========================
-     DISPLAY BOOK
-  ========================= */
-
-  container.innerHTML = `
-
-    ${imageHTML}
-
-
-    <h1>
-      ${escapeHTML(
-        book.title || "eBook"
-      )}
-    </h1>
-
-
-    <p>
-      ${escapeHTML(
-        book.description || ""
-      )}
-    </p>
-
-
-    <p>
-
-      <strong>
-        Topics:
-      </strong>
-
-      <br>
-
-      ${escapeHTML(
-        book.topics ||
-        "Not specified"
-      )}
-
-    </p>
-
-
-    <div class="price">
-
-      ₹${escapeHTML(
-        String(book.price || "0")
-      )}
-
-      ${
-        book.oldPrice
-        ? `
-          <span class="old-price">
-            ₹${escapeHTML(
-              String(book.oldPrice)
-            )}
-          </span>
-        `
-        : ""
-      }
-
-    </div>
-
-
-    ${actionButton}
-
-  `;
-
-
-
-  /* =========================
-     BUY BUTTON
-  ========================= */
-
-  const buyButton =
-    document.getElementById(
-      "buyButton"
-    );
-
-
-  if(buyButton){
-
-    buyButton.addEventListener(
-      "click",
-      function(){
-
-        buyNow(book.id);
-
-      }
-    );
-
-  }
-
-
-})();
-
-
-
-/* =====================================================
-   GOOGLE DRIVE URL FUNCTION
-===================================================== */
-
-function createGoogleDriveURL(url){
-
-  if(!url){
-
-    return "#";
-
-  }
-
-
-  url = String(url).trim();
-
-
-  /*
-    Already a Google Drive viewer link
-  */
-
-  if(
-    url.includes(
-      "drive.google.com/file/d/"
-    )
-  ){
-
-    const match =
-      url.match(
-        /\/file\/d\/([^/]+)/
-      );
-
-
-    if(match && match[1]){
-
-      return (
-        "https://drive.google.com/file/d/" +
-        match[1] +
-        "/view"
-      );
-
-    }
-
-  }
-
-
-  /*
-    Google Drive open?id=FILE_ID
-  */
-
-  if(
-    url.includes(
-      "drive.google.com/open?id="
-    )
-  ){
-
-    const match =
-      url.match(
-        /[?&]id=([^&]+)/
-      );
-
-
-    if(match && match[1]){
-
-      return (
-        "https://drive.google.com/file/d/" +
-        match[1] +
-        "/view"
-      );
-
-    }
-
-  }
-
-
-  /*
-    Google Drive uc?id=FILE_ID
-  */
-
-  if(
-    url.includes(
-      "drive.google.com/uc?id="
-    )
-  ){
-
-    const match =
-      url.match(
-        /[?&]id=([^&]+)/
-      );
-
-
-    if(match && match[1]){
-
-      return (
-        "https://drive.google.com/file/d/" +
-        match[1] +
-        "/view"
-      );
-
-    }
-
-  }
-
-
-  /*
-    If already another valid URL,
-    open it directly.
-  */
-
-  return url;
+  backButton.href =
+    "ebook.html";
 
 }
 
 
-
-/* =====================================================
+/* =================================
    ESCAPE HTML
-===================================================== */
+================================= */
 
 function escapeHTML(value){
 
-  return String(value)
-
-    .replace(
-      /&/g,
-      "&amp;"
-    )
-
-    .replace(
-      /</g,
-      "&lt;"
-    )
-
-    .replace(
-      />/g,
-      "&gt;"
-    )
-
-    .replace(
-      /"/g,
-      "&quot;"
-    )
-
-    .replace(
-      /'/g,
-      "&#039;"
-    );
-
-}
-
-
-
-/* =====================================================
-   BUY NOW
-===================================================== */
-
-function buyNow(id){
-
-  const loggedIn =
-    localStorage.getItem(
-      "loggedIn"
-    );
-
-
-  if(loggedIn !== "true"){
-
-    alert(
-      "Please login first to continue."
-    );
-
-
-    window.location.href =
-      "login.html";
-
-
-    return;
-
-  }
-
-
-  window.location.href =
-    "payment.html?id=" +
-    encodeURIComponent(id);
-
-}
-
-</script>
-
-
-</body>
-
-</html>
+  return String(value || "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .
