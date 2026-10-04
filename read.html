@@ -7,7 +7,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Read eBook - Road2Billionaire</title>
+<title>Read eBook | Road2Billionaire</title>
 
 <style>
 
@@ -15,21 +15,34 @@
   box-sizing:border-box;
 }
 
+html,
 body{
   margin:0;
+  padding:0;
+  width:100%;
+  height:100%;
+}
+
+body{
   background:#111;
   color:#fff;
   font-family:Arial,sans-serif;
 }
 
+/* =========================
+   TOP BAR
+========================= */
+
 .topbar{
+  height:58px;
   background:#000;
-  padding:15px 18px;
   border-bottom:1px solid #ffd700;
 
   display:flex;
-  justify-content:space-between;
   align-items:center;
+  justify-content:space-between;
+
+  padding:0 15px;
 
   position:sticky;
   top:0;
@@ -45,59 +58,164 @@ body{
 .back{
   color:#ffd700;
   text-decoration:none;
+
   background:#222;
-  padding:10px 15px;
-  border-radius:8px;
+
+  padding:9px 14px;
+
+  border-radius:7px;
+
   font-size:14px;
 }
 
-#bookTitle{
-  text-align:center;
-  padding:14px 10px;
-  font-size:18px;
-  font-weight:bold;
-  background:#181818;
-  color:#fff;
-  border-bottom:1px solid #333;
+.back:hover{
+  background:#333;
 }
+
+/* =========================
+   BOOK TITLE
+========================= */
+
+#bookTitle{
+  min-height:45px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  text-align:center;
+
+  padding:10px 15px;
+
+  background:#181818;
+
+  border-bottom:1px solid #333;
+
+  color:#fff;
+
+  font-size:17px;
+
+  font-weight:bold;
+}
+
+/* =========================
+   LOADING
+========================= */
 
 #loading{
   text-align:center;
+
   padding:35px 20px;
-  font-size:17px;
+
   color:#ffd700;
+
+  font-size:17px;
 }
+
+/* =========================
+   ERROR
+========================= */
 
 #error{
   display:none;
+
+  max-width:600px;
+
+  margin:30px auto;
+
+  padding:25px 20px;
+
   text-align:center;
-  padding:35px 20px;
+
   color:#ff6b6b;
-  font-size:17px;
+
+  background:#181818;
+
+  border:1px solid #333;
+
+  border-radius:12px;
+
   line-height:1.7;
 }
 
+/* =========================
+   PDF VIEWER
+========================= */
+
 #reader{
   display:none;
+
   width:100%;
-  padding:10px;
+
+  padding:8px;
+
+  background:#111;
 }
 
 .pdf-frame{
-  width:100%;
-  height:calc(100vh - 125px);
-  min-height:600px;
-  border:none;
-  background:#fff;
   display:block;
-  border-radius:6px;
+
+  width:100%;
+
+  height:calc(100vh - 120px);
+
+  min-height:600px;
+
+  border:0;
+
+  border-radius:5px;
+
+  background:#fff;
 }
+
+/* =========================
+   BOTTOM NOTE
+========================= */
 
 .note{
   text-align:center;
-  color:#888;
-  font-size:12px;
-  padding:12px;
+
+  color:#777;
+
+  font-size:11px;
+
+  padding:10px;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:600px){
+
+  .topbar{
+    height:55px;
+    padding:0 10px;
+  }
+
+  .logo{
+    font-size:17px;
+  }
+
+  .back{
+    padding:8px 11px;
+    font-size:13px;
+  }
+
+  #bookTitle{
+    font-size:15px;
+  }
+
+  #reader{
+    padding:3px;
+  }
+
+  .pdf-frame{
+    height:calc(100vh - 105px);
+    min-height:500px;
+    border-radius:3px;
+  }
+
 }
 
 </style>
@@ -107,423 +225,16 @@ body{
 <body>
 
 
+<!-- =========================
+     TOP BAR
+========================= -->
+
 <div class="topbar">
 
   <div class="logo">
     📚 Road2Billionaire
   </div>
 
-  <a href="Dashboard.html" class="back">
-    ← Back
-  </a>
-
-</div>
-
-
-<div id="bookTitle">
-  Loading eBook...
-</div>
-
-
-<div id="loading">
-  📖 PDF load ho rahi hai...
-</div>
-
-
-<div id="error">
-  ❌ PDF open nahi ho paayi.
-</div>
-
-
-<div id="reader">
-
-  <iframe
-    id="pdfFrame"
-    class="pdf-frame"
-    allow="autoplay"
-  ></iframe>
-
-  <div class="note">
-    🔒 Purchased eBook • Road2Billionaire
-  </div>
-
-</div>
-
-
-<script>
-
-
-/* ==============================
-   GET BOOK ID
-============================== */
-
-const params =
-new URLSearchParams(
-  window.location.search
-);
-
-const bookId =
-params.get("id");
-
-
-const loading =
-document.getElementById("loading");
-
-const errorBox =
-document.getElementById("error");
-
-const reader =
-document.getElementById("reader");
-
-const title =
-document.getElementById("bookTitle");
-
-const pdfFrame =
-document.getElementById("pdfFrame");
-
-
-/* ==============================
-   SHOW ERROR
-============================== */
-
-function showError(message){
-
-  loading.style.display = "none";
-
-  reader.style.display = "none";
-
-  errorBox.style.display = "block";
-
-  errorBox.innerHTML = message;
-
-}
-
-
-/* ==============================
-   LOAD BOOKS
-============================== */
-
-let books = [];
-
-try{
-
-  books =
-    JSON.parse(
-      localStorage.getItem("ebooksData") || "[]"
-    );
-
-}
-catch(error){
-
-  books = [];
-
-}
-
-
-/* ==============================
-   LOAD PURCHASES
-============================== */
-
-let purchases = [];
-
-try{
-
-  purchases =
-    JSON.parse(
-      localStorage.getItem("purchasedBooks") || "[]"
-    );
-
-}
-catch(error){
-
-  purchases = [];
-
-}
-
-
-/* ==============================
-   FIND BOOK
-============================== */
-
-const book =
-books.find(function(item){
-
-  return String(item.id) ===
-         String(bookId);
-
-});
-
-
-/* ==============================
-   BOOK NOT FOUND
-============================== */
-
-if(!book){
-
-  showError(
-    "❌ eBook nahi mili.<br><br>" +
-    "Book ID: " +
-    (bookId || "Not found")
-  );
-
-}
-
-
-/* ==============================
-   CHECK PURCHASE
-============================== */
-
-else{
-
-  title.innerText =
-    book.title || "eBook";
-
-
-  const isPurchased =
-    purchases.some(function(item){
-
-      if(
-        typeof item === "object" &&
-        item !== null
-      ){
-
-        return String(item.bookId) ===
-               String(book.id);
-
-      }
-
-      return String(item) ===
-             String(book.id);
-
-    });
-
-
-  if(!isPurchased){
-
-    showError(
-      "🔒 Ye eBook purchased nahi hai.<br><br>" +
-      "Pehle eBook purchase karein."
-    );
-
-  }
-
-  else{
-
-    if(!book.pdfUrl){
-
-      showError(
-        "❌ Is eBook ka Google Drive PDF link nahi mila.<br><br>" +
-        "Admin panel se PDF link check karein."
-      );
-
-    }
-
-    else{
-
-      loadGoogleDrivePDF(book.pdfUrl);
-
-    }
-
-  }
-
-}
-
-
-/* ==============================
-   GOOGLE DRIVE PDF
-============================== */
-
-function loadGoogleDrivePDF(url){
-
-  try{
-
-    const fileId =
-      getGoogleDriveFileId(url);
-
-
-    if(!fileId){
-
-      showError(
-        "❌ Google Drive PDF link valid nahi hai.<br><br>" +
-        "Please admin panel me correct Drive link add karein."
-      );
-
-      return;
-
-    }
-
-
-    /*
-      Google Drive Preview URL
-
-      PDF website ke andar iframe
-      me open hogi.
-    */
-
-    const previewURL =
-      "https://drive.google.com/file/d/" +
-      encodeURIComponent(fileId) +
-      "/preview";
-
-
-    pdfFrame.src = previewURL;
-
-
-    pdfFrame.onload =
-      function(){
-
-        loading.style.display =
-          "none";
-
-        reader.style.display =
-          "block";
-
-      };
-
-
-  }
-  catch(error){
-
-    console.error(
-      "Google Drive Error:",
-      error
-    );
-
-
-    showError(
-      "❌ PDF open nahi ho paayi.<br><br>" +
-      "Google Drive link check karein."
-    );
-
-  }
-
-}
-
-
-/* ==============================
-   EXTRACT GOOGLE DRIVE FILE ID
-============================== */
-
-function getGoogleDriveFileId(url){
-
-  try{
-
-    const text =
-      String(url).trim();
-
-
-    /*
-      Format:
-
-      https://drive.google.com/file/d/FILE_ID/view
-    */
-
-    let match =
-      text.match(
-        /\/file\/d\/([^\/?#]+)/
-      );
-
-
-    if(match && match[1]){
-
-      return match[1];
-
-    }
-
-
-    /*
-      Format:
-
-      https://drive.google.com/open?id=FILE_ID
-    */
-
-    const parsed =
-      new URL(text);
-
-
-    const id =
-      parsed.searchParams.get("id");
-
-
-    if(id){
-
-      return id;
-
-    }
-
-
-    /*
-      Already file ID
-    */
-
-    if(
-      !text.includes("/") &&
-      !text.includes(".")
-    ){
-
-      return text;
-
-    }
-
-
-    return null;
-
-  }
-  catch(error){
-
-    return null;
-
-  }
-
-}
-
-
-/* ==============================
-   BASIC PROTECTION
-============================== */
-
-document.addEventListener(
-  "contextmenu",
-  function(e){
-
-    e.preventDefault();
-
-  }
-);
-
-
-document.addEventListener(
-  "selectstart",
-  function(e){
-
-    e.preventDefault();
-
-  }
-);
-
-
-document.addEventListener(
-  "keydown",
-  function(e){
-
-    const key =
-      e.key.toLowerCase();
-
-
-    if(
-      (e.ctrlKey || e.metaKey) &&
-      ["s","p","u","c"].includes(key)
-    ){
-
-      e.preventDefault();
-
-    }
-
-  }
-);
-
-</script>
-
-</body>
-
-</html>
+  <a
+    href="Dashboard.html"
+    class="back
